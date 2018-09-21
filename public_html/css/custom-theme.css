@@ -1,0 +1,14 @@
+.navbar {
+	border-radius: 0px;
+	background-color: #333;
+}
+
+body {
+	background-image: url("../images/bg-azul.jpg");
+	background-repeat: no-repeat;
+	background-size: auto;
+}
+
+.container {
+	background-color: #fff;
+}

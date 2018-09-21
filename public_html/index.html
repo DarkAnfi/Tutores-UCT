@@ -7,16 +7,19 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="-1">
     <!-- Bootstrap 3.3.7 CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <!-- Bootstrap 3.3.7 JS -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-    <!-- Custom Scrollbars -->
-    <link rel="stylesheet" href="./css/scrollbars.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <!-- jQuery 3.3.1 -->
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <!-- Bootstrap 3.3.7 JS -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <!-- Custom Theme CSS -->
+    <link rel="stylesheet" href="./css/custom-theme.css">
+    <!-- Custom Scrollbars CSS -->
+    <link rel="stylesheet" href="./css/scrollbars.css">
+    
 </head>
 <body>
-    <nav class="navbar navbar-default">
+    <nav class="navbar navbar-inverse">
         <div class="container-fluid">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
@@ -28,7 +31,7 @@
             </div>
             <div class="collapse navbar-collapse" id="myNavbar">
                 <ul class="nav navbar-nav">
-                    <li class="nav-widget"><a href="#home">Inicio</a></li>
+                    <li class="nav-widget"><a href="#home"><span class="glyphicon glyphicon-home"></span> Inicio</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href="#login"><span class="glyphicon glyphicon-log-in"></span> Entrar</a></li>
@@ -36,7 +39,13 @@
             </div>
         </div>
     </nav>
-    <main>
+    <main>  
+        <div class="container" style="background-color: #01568e">
+            <div class="row">
+                <img class="col-lg-4 col-md-5 col-sm-6 col-xs-6" src="./images/UCT_logo.png">
+                <img class="col-lg-offset-4 col-md-offset-2 col-lg-4 col-md-5 col-sm-6 col-xs-6" src="./images/wf.png">
+            </div>
+        </div>
         <div class="container" id="home-container" style="display: none;"></div>
         <div class="container" id="login-container" style="display: none"></div>
     </main>
