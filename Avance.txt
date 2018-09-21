@@ -1,0 +1,4 @@
+Dia 1: Total 1 hora
+    Instalacion jQuery SPA: 10 minutos
+    Preparacion Diseno: 50 minutos 
+
