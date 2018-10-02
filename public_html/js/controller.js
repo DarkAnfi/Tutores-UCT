@@ -24,7 +24,7 @@ function Controller () {
 	}
 
 	self.onhashchange = function () {
-		self.args = window.location.href.split("#")[1]
+		self.args = window.location.href.split("#")[1];
 		if (self.args != undefined && self.args != "") {
 			self.args = self.args.split(".");
 			self.page = self.args.splice(0, 1)[0];
@@ -37,3 +37,4 @@ function Controller () {
 
 	return self;
 }
+

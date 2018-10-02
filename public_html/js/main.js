@@ -3,13 +3,31 @@ function Main () {
 	self.main_page = "home";
 
 	self.setPages = function () {
-		self.components.home = new Home(self);
+		self.components.login = new Login(self)
+		self.components.home  = new Home(self);
 	}
 
-	self.setEvents = function () {}
+	self.setEvents = function () {
+		$("#logout").click(self.logout);
+	}
+
+	self.logout = function(event) {
+		self.app.logout(self.onLogout,self.onLogoutException);
+	}
+
+	self.onLogout = function (data) {
+		$("#logout").css("display","none");
+		$("#user-name").text("");
+	}
+
+	self.onLogoutException = function (data) {
+		$("#logout").css("display","none");
+		$("#user-name").text("");
+	}
 
 	self.document.ready(self.init);
 	return self;
 }
 
 main = new Main();
+

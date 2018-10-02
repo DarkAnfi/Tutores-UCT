@@ -1,13 +1,15 @@
 function App () {
 	var self = this;
 
-	self.post = function (type,tag,dict,callback) {
+	self.post = function (type,tag,dict,callback,error) {
 		dict.type = type;
 		$.post("./php/app.php",dict,function (data,status) {
 			if (status == "success") {
 				data = JSON.parse(data);
 				if (data.type == tag) {
-					callback(data);
+					callback(data.value);
+				} else if (data.type == "error") {
+					error(data.value);
 				} else {
 					console.log(data);
 				}
@@ -25,21 +27,50 @@ function App () {
 		if (name != undefined) {
 			self.get("./data/"+name+".html", function (data) {
 				if (callback != undefined) {
-					callback(name,data)
+					callback(name,data);
 				}
 			});
 		}
 	}
 
-	self.postExample = function (args, callback) {
-		if (name != undefined && comment != undefined) {
-			self.post("example","success",{}, function (data) {
+	self.getSession = function (callback, error) {
+		self.post("session_get","user",{}, function (data) {
+			if (callback != undefined) {
+				callback(data);
+			}
+		}, function (data) {
+			if (error != undefined) {
+				error(data);
+			}
+		});
+	}
+
+	self.login = function (user, pass, callback, error) {
+		if (user != undefined, pass != undefined) {
+			self.post("login","user",{"user":user,"pass":pass}, function (data) {
 				if (callback != undefined) {
-					callback(args,data)
+					callback(data);
+				}
+			}, function (data) {
+				if (error != undefined) {
+					error(data);
 				}
 			});
 		}
+	}
+
+	self.logout = function (callback, error) {
+		self.post("logout","success",{}, function (data) {
+			if (callback != undefined) {
+				callback(data);
+			}
+		}, function (data) {
+			if (error != undefined) {
+				error(data);
+			}
+		});
 	}
 
 	return self;
 }
+

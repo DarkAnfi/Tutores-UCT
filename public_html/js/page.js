@@ -44,16 +44,19 @@ function Page (c, name) {
 		if (self.updated) {
 			for (var c in self.controller.components) {
 				self.controller.components[c].content.css("display","none");
+				self.controller.components[c].updated = false;
 			}
-			self.updated = false;
 			self.content.css("display","block");
 			self.onShow();
 		}
-		else if (self.waiting.show == undefined) {
-			self.waiting.show = self.show;
+		else {
+			if (self.waiting.show == undefined) {
+				self.waiting.show = self.show;
+			}
 			self.__update__();
 		}
 	}
 
 	return self;
 }
+

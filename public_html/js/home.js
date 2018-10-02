@@ -6,7 +6,18 @@ function Home (c) {
 	}
 
 	self.update = function () {
+		self.controller.app.getSession(self.setSession,self.errorSession);
+	}
+
+	self.setSession = function (data) {
+		$("#user-name").text("~"+data.user);
+		$("#logout").css("display","block");
 		self.event.onUpdate();
+	}
+
+	self.errorSession = function (data) {
+		console.log(data);
+		window.location.href = "#login";
 	}
 
 	self.setPage = function (name, data) {
@@ -23,3 +34,4 @@ function Home (c) {
 	self.init();
 	return self;
 }
+

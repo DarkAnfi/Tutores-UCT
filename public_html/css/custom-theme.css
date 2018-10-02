@@ -1,14 +1,33 @@
 .navbar {
 	border-radius: 0px;
+	border-width: 0px;
 	background-color: #333;
+	min-height: 30px;
+	height: 30px;
+	max-height: 30px;
+	border-bottom-width: 5px;
+	border-color: #222;
 }
 
-body {
-	background-image: url("../images/bg-azul.jpg");
-	background-repeat: no-repeat;
-	background-size: auto;
+.navbar-brand,.navbar-nav{
+	height: 30px;
+	padding-top: 5px;
+	padding-bottom: 5px;
 }
 
-.container {
-	background-color: #fff;
+html, body {
+	background: url("../images/bg-azul.jpg") no-repeat center center fixed;
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
+}
+
+#favicon {
+	height:20px;
+	display:inline;
+}
+
+.float-right {
+	float: right;
 }
