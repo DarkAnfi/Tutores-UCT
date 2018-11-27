@@ -71,7 +71,7 @@
 
 .scrollbar-default::-webkit-scrollbar-thumb {
     border-radius: 10px;
-    background-color: #2BBBAD;
+    background-color: #888888;
 }
 
 .scrollbar-secondary::-webkit-scrollbar {

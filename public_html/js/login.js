@@ -6,18 +6,13 @@ function Login (c) {
 	}
 
 	self.update = function () {
-		self.controller.app.getSession(self.setSession);
+		self.controller.logout();
 		self.event.onUpdate();
 	}
 
 	self.setPage = function (name, data) {
 		self.content.html(data);
 		self.event.onReady();
-	}
-
-	self.setSession = function (data) {
-		$("#user-name").text(data.user);
-		window.location.href = "#home";
 	}
 
 	self.onUpdate = function () {}

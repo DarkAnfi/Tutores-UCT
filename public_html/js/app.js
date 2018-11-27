@@ -8,8 +8,9 @@ function App () {
 				data = JSON.parse(data);
 				if (data.type == tag) {
 					callback(data.value);
-				} else if (data.type == "error") {
+				} else if (data.type == "Error") {
 					error(data.value);
+					console.log(data.value)
 				} else {
 					console.log(data);
 				}
@@ -34,7 +35,7 @@ function App () {
 	}
 
 	self.getSession = function (callback, error) {
-		self.post("session_get","user",{}, function (data) {
+		self.post("session_get","User",{}, function (data) {
 			if (callback != undefined) {
 				callback(data);
 			}
@@ -47,7 +48,7 @@ function App () {
 
 	self.login = function (user, pass, callback, error) {
 		if (user != undefined, pass != undefined) {
-			self.post("login","user",{"user":user,"pass":pass}, function (data) {
+			self.post("login","User",{"user":user,"pass":pass}, function (data) {
 				if (callback != undefined) {
 					callback(data);
 				}
@@ -60,7 +61,7 @@ function App () {
 	}
 
 	self.logout = function (callback, error) {
-		self.post("logout","success",{}, function (data) {
+		self.post("logout","bool",{}, function (data) {
 			if (callback != undefined) {
 				callback(data);
 			}
@@ -69,6 +70,86 @@ function App () {
 				error(data);
 			}
 		});
+	}
+
+	self.updateTutoria = function (callback, error) {
+		self.post("tutoria_update","bool",{}, function (data) {
+			if (callback != undefined) {
+				callback(data);
+			}
+		}, function (data) {
+			if (error != undefined) {
+				error(data);
+			}
+		});
+	}
+
+	self.getTutoria = function (callback, error) {
+		self.post("tutoria_read","List(Tutoria)",{}, function (data) {
+			if (callback != undefined) {
+				callback(data);
+			}
+		}, function (data) {
+			if (error != undefined) {
+				error(data);
+			}
+		});
+	}
+
+	self.getTutoriaById = function (id, callback, error) {
+		if (id != undefined) {
+			self.post("tutoria_read_id","Tutoria",{"id":id}, function (data) {
+				if (callback != undefined) {
+					callback(id, data);
+				}
+			}, function (data) {
+				if (error != undefined) {
+					error(data);
+				}
+			});
+		}
+	}
+
+	self.getSessionsById = function (id, callback, error) {
+		if (id != undefined) {
+			self.post("sessions_read_id","List(Session)",{"id":id}, function (data) {
+				if (callback != undefined) {
+					callback(id, data);
+				}
+			}, function (data) {
+				if (error != undefined) {
+					error(data);
+				}
+			});
+		}
+	}
+
+	self.getAsistenciaBySesion = function (id, callback, error) {
+		if (id != undefined) {
+			self.post("asistencia_read_sesion","List(Asistencia)",{"id":id}, function (data) {
+				if (callback != undefined) {
+					callback(id, data);
+				}
+			}, function (data) {
+				if (error != undefined) {
+					error(data)
+				}
+			});
+		}
+	}
+
+	self.addSessionById = function (id, date, callback, error) {
+		if (id != undefined) {
+			self.post("session_add_id","bool",{"id":id,"date":date}, function (data) {
+				if (callback != undefined) {
+					callback(id, date, data);
+				}
+			}, function (data) {
+				if (error != undefined) {
+					error(data);
+				}
+			});
+		}
 	}
 
 	return self;

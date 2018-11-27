@@ -1,30 +1,55 @@
 <?php
-session_start();
-require_once "actions.php";
 
-try {
-	if (isset($_POST["type"])) {
-		switch ($_POST["type"]) {
-			case "session_get":
-				echo session_get();
-				break;
-			case "login":
-				echo login($_POST["user"],$_POST["pass"]);
-				break;
-			case "logout":
-				echo logout();
-				break;
-			default:
-				echo "{\"type\":\"error\",\"value\":\"unexpected type\"}";
-				break;
-		}
-	}
-	else {
-		echo "{\"type\":\"error\",\"value\":\"type is not especified\"}";
-	}
+include_once 'conf.php';
+
+include_once 'response.class.php';
+include_once 'error.class.php';
+include_once 'user.class.php';
+include_once 'list.class.php';
+include_once 'tutoria.class.php';
+include_once 'session.class.php';
+include_once 'inscrito.class.php';
+include_once 'asistencia.class.php';
+include_once 'estudiante.class.php';
+
+session_start();
+include_once 'error_handler.php';
+include_once "actions.php";
+
+switch ($_POST["type"]) {
+	case "session_get":
+		session_get();
+		break;
+	case "login":
+		login($_POST["user"],$_POST["pass"]);
+		break;
+	case "logout":
+		logout();
+		break;
+	case "tutoria_read":
+		tutoria_read();
+		break;
+	case "tutoria_update":
+		tutoria_update();
+		break;
+	case 'tutoria_read_id':
+		tutoria_read_id($_POST["id"]);
+		break;
+	case 'sessions_read_id':
+		sessions_read_id($_POST["id"]);
+		break;
+	case 'asistencia_read_sesion':
+		asistencia_read_sesion($_POST["id"]);
+		break;
+	case 'session_add_id':
+		session_add_id($_POST["id"],$_POST["date"]);
+		break;
+	default:
+		default_action();
+		break;
 }
-catch (Exception $error) {
-	echo "{\"type\":\"error\",\"value\":\"$error\"}";
-}
+
+die(new Response("Error",Error::getInstance(0)));
+
 ?>
 
