@@ -79,24 +79,42 @@ function Servicio (c) {
 	}
 
 	self.setAsistenciaBySesion = function (id, data) {
-		console.log(id,data)
 		self.content.find("#reg-modal").find("tbody").html("");
 		for (var i = 0; i < data.length; i++) {
-			console.log(data[i]);
-			self.content.find("#reg-modal").find("tbody").append($(document.createElement("tr"))
-				.append($(document.createElement("td"))
-					.attr("class","text-center")
-					.append($(document.createElement("input"))
-						.attr("type","checkbox")
+			if (data[i].presente) {
+				self.content.find("#reg-modal").find("tbody").append($(document.createElement("tr"))
+					.append($(document.createElement("td"))
+						.attr("class","text-center")
+						.append($(document.createElement("input"))
+							.attr("type","checkbox")
+							.attr("id",data[i].estudiante.rut)
+							.attr("checked","checked")
+						)
 					)
-				)
-				.append($(document.createElement("td"))
-					.text(data[i].estudiante.rut+"-"+data[i].estudiante.dv)
-				)
-				.append($(document.createElement("td"))
-					.text(data[i].estudiante.nombre.capitalize())
-				)
-			);
+					.append($(document.createElement("td"))
+						.text(data[i].estudiante.rut+"-"+data[i].estudiante.dv)
+					)
+					.append($(document.createElement("td"))
+						.text(data[i].estudiante.nombre.capitalize())
+					)
+				);
+			} else {
+				self.content.find("#reg-modal").find("tbody").append($(document.createElement("tr"))
+					.append($(document.createElement("td"))
+						.attr("class","text-center")
+						.append($(document.createElement("input"))
+							.attr("type","checkbox")
+							.attr("id",data[i].estudiante.rut)
+						)
+					)
+					.append($(document.createElement("td"))
+						.text(data[i].estudiante.rut+"-"+data[i].estudiante.dv)
+					)
+					.append($(document.createElement("td"))
+						.text(data[i].estudiante.nombre.capitalize())
+					)
+				);
+			}
 		}
 	}
 
@@ -153,7 +171,21 @@ function Servicio (c) {
 		}
 	}
 
-	self.regSessionById = function (event) {}
+	self.regSessionById = function (event) {
+		var reg = self.content.find("#reg-modal form");
+		var estudiantes = ""
+		for (var i = reg.find("input[type='checkbox']").length - 1; i >= 0; i--) {
+			var estudiante = $(reg.find("input[type='checkbox']")[i]);
+			estudiantes = estudiantes + estudiante.attr("id")+ "-" + estudiante.is(":checked")
+			if (i) {
+				estudiante = estudiante + ","
+			}
+		}
+		self.controller.app.updateSesion(reg.find("#reg-modal-sesion").val(),reg.find("#reg-modal-lugar").val(),reg.find("#reg-modal-contenidos").val(),estudiantes,reg.find("#reg-modal-observaciones").val(),function (i,l,c,o,e,data){
+				self.controller.app.getSessionsById(self.servicio.id,self.setSessionsById)
+				self.content.find("#reg-modal").modal("hide");
+			});
+	}
 
 	self.errorSession = function (data) {
 		window.location.href = "#login";

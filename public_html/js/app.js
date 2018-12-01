@@ -47,7 +47,7 @@ function App () {
 	}
 
 	self.login = function (user, pass, callback, error) {
-		if (user != undefined, pass != undefined) {
+		if (user != undefined && pass != undefined) {
 			self.post("login","User",{"user":user,"pass":pass}, function (data) {
 				if (callback != undefined) {
 					callback(data);
@@ -139,10 +139,24 @@ function App () {
 	}
 
 	self.addSessionById = function (id, date, callback, error) {
-		if (id != undefined) {
+		if (id != undefined && date != undefined) {
 			self.post("session_add_id","bool",{"id":id,"date":date}, function (data) {
 				if (callback != undefined) {
 					callback(id, date, data);
+				}
+			}, function (data) {
+				if (error != undefined) {
+					error(data);
+				}
+			});
+		}
+	}
+
+	self.updateSesion = function (i,l,c,e,o, callback, error) {
+		if (i != undefined && l != undefined && c != undefined && e != undefined && o != undefined) {
+			self.post("session_update","bool",{'id':i,'lugar':l,'contenidos':c,'estudiantes':e,'observaciones':o}, function (data) {
+				if (callback != undefined) {
+					callback(i,l,c,e,o,data);
 				}
 			}, function (data) {
 				if (error != undefined) {

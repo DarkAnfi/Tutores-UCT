@@ -143,6 +143,26 @@ function asistencia_read_sesion($i)
 	}
 }
 
+function session_update($i,$l,$c,$e,$o)
+{
+	if (isset($_SESSION["user"])) {
+		if ($sesion = crud_get_sesion_id(array($i))) {
+			$tuto = $sesion->tutoria;
+			$user = User::fromJSON($_SESSION["user"]);
+			if ($user->user == $tuto->tutor->user or $user->level >= 4 or $user->user == $tuto->profesional->user) {
+				$bool = crud_update_sesion(array($i,$l,$c,$e,$o));
+				die(new Response("bool",$bool));
+			} else {
+				die(new Response("Error",Error::getInstance(4)));
+			}
+		} else {
+			die(new Response("Error",Error::getInstance(0)));
+		}
+	} else {
+		die(new Response("Error",Error::getInstance(2)));
+	}
+}
+
 function default_action()
 {
 	die(new Response("Error",Error::getInstance(5)));

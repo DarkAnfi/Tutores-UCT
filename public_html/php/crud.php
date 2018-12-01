@@ -339,14 +339,71 @@ function crud_add_session($args)
         $sql = "INSERT INTO sesion VALUES(NULL,?,\"\",\"\",\"\",?)";
         if ($stmt = mysqli_prepare($link,$sql)) {
             mysqli_stmt_bind_param($stmt,"ss",$args[0],$args[1]);
-            mysqli_stmt_execute($stmt);
+            $bool = mysqli_stmt_execute($stmt);
             mysqli_stmt_close($stmt);
-            return true;
         } else {
-            return false;
+            $bool = false;
         }
+        return $bool;
+    };
+    if ($bool = execute_query($query, $args)) {
+        if ($sesion = crud_get_sesion_fecha_tutoria($args)) {
+            if ($list = crud_get_inscrito_tutoria(array($sesion->tutoria->id))) {
+                for ($i=0; $i < count($list->content); $i++) { 
+                    $inscrito = $list->content[$i];
+                    if(!($bool = crud_add_asistencia(array($inscrito->estudiante->rut,'0',$sesion->id)))) {
+                        break;
+                    }
+                }
+            } else {
+                $bool = false;
+            }
+        } else {
+            $bool = false;
+        }
+    }
+    return $bool;
+}
+
+function crud_add_asistencia($args)
+{
+    $query = function ($link, $args) {
+        $sql = "INSERT INTO asistencia VALUES(NULL,?,?,?)";
+        if ($stmt = mysqli_prepare($link,$sql)) {
+            mysqli_stmt_bind_param($stmt,"sss",$args[0],$args[1],$args[2]);
+            $bool = mysqli_stmt_execute($stmt);
+            mysqli_stmt_close($stmt);
+        } else {
+            $bool = false;
+        }
+        return $bool;
     };
     return execute_query($query, $args);
+}
+
+function crud_get_sesion_fecha_tutoria($args)
+{
+    $query = function ($link,$args) {
+        $sql = "SELECT * FROM sesion WHERE fecha = ? AND tutoria = ?";
+        if ($stmt = mysqli_prepare($link,$sql)) {
+            mysqli_stmt_bind_param($stmt,"ss",$args[0],$args[1]);
+            mysqli_stmt_execute($stmt);
+            mysqli_stmt_bind_result($stmt,$id,$fecha,$lugar,$contenidos,$observaciones,$tutoria);
+            mysqli_stmt_fetch($stmt);
+            if (!is_null($id)) {
+                if ($tutoria = crud_get_tutoria_id(array($tutoria))) {
+                    $sesion = new Session($id,$fecha,$lugar,$contenidos,$observaciones,$tutoria);
+                }
+            } else {
+                $sesion = false;
+            }
+            mysqli_stmt_close($stmt);
+        } else {
+            $sesion = false;
+        }
+        return $sesion;
+    };
+    return execute_query($query,$args);
 }
 
 function crud_get_asistencia_sesion($args)
@@ -370,6 +427,53 @@ function crud_get_asistencia_sesion($args)
         return $list;
     };
     return (new jsonList(execute_query($query,$args)));
+}
+
+function crud_update_sesion($args)
+{
+    $query = function ($link,$args) {
+        $sql = "UPDATE sesion SET lugar = ?, contenidos = ?, observaciones = ? WHERE id = ?";
+        if ($stmt = mysqli_prepare($link,$sql)) {
+            mysqli_stmt_bind_param($stmt,"ssss",$args[1],$args[2],$args[4],$args[0]);
+            $bool = mysqli_stmt_execute($stmt);
+            mysqli_stmt_close($stmt);
+        }
+        else {
+            $bool = false;
+        }
+        return $bool;
+    };
+    if ($bool = execute_query($query,$args)) {
+        if ($args[3] != "") {
+            $estudiantes = split(",", $args[3]);
+        } else {
+            $estudiantes = array();
+        }
+        $query = function ($link,$args) {
+            $sql = "UPDATE asistencia SET presente = ? WHERE sesion = ? AND estudiante = ?";
+            if ($stmt = mysqli_prepare($link,$sql)) {
+                mysqli_stmt_bind_param($stmt,"sss",$args[0],$args[1],$args[2]);
+                $bool = mysqli_stmt_execute($stmt);
+                mysqli_stmt_close($stmt);
+            }
+            else {
+                $bool = false;
+            }
+            return $bool;
+        };
+        for ($i=0; $i < count($estudiantes); $i++) { 
+            $estudiante = split("-", $estudiantes[$i]);
+            if ($estudiante[1] == "true") {
+                $estudiante[1] = '1';
+            } else {
+                $estudiante[1] = '0';
+            }
+            if (!($bool = execute_query($query,array($estudiante[1],$args[0],$estudiante[0])))) {
+                break;
+            }
+        }
+    }
+    return $bool;
 }
 
 ?>

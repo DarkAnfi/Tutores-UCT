@@ -13,7 +13,7 @@ include_once 'asistencia.class.php';
 include_once 'estudiante.class.php';
 
 session_start();
-include_once 'error_handler.php';
+//include_once 'error_handler.php';
 include_once "actions.php";
 
 switch ($_POST["type"]) {
@@ -43,6 +43,9 @@ switch ($_POST["type"]) {
 		break;
 	case 'session_add_id':
 		session_add_id($_POST["id"],$_POST["date"]);
+		break;
+	case 'session_update':
+		session_update($_POST["id"],$_POST["lugar"],$_POST["contenidos"],$_POST["estudiantes"],$_POST["observaciones"]);
 		break;
 	default:
 		default_action();
