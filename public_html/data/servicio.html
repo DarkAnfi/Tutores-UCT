@@ -9,6 +9,31 @@
 			<div class="rect-center rect-content-md">Agregar Sesión</div>
 		</div>
 		<div id="sessions"></div>
+		<div id="add-modal" class="modal fade scrollbar scrollbar-defautl">
+			<div class="modal-dialog">
+				<div class="modal-content" style="color:#778">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+						<h4 class="modal-title">Agregar Sesión</h4>
+					</div>
+					<div class="modal-body">
+						<form class="form-horizontal">
+							<div class="form-group">
+								<label for="add-modal-fecha" class="col-lg-2 control-label">Fecha:</label>
+								<div class="col-lg-10">
+									<input type="date" class="form-control" id="add-modal-fecha">
+								</div>
+							</div>
+						</form>
+						<div id="add-modal-message"></div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+						<button id="add-modal-submit" type="button" class="btn btn-primary">Save changes</button>
+					</div>
+				</div>
+			</div>
+		</div>
 		<div id="reg-modal" class="modal fade scrollbar scrollbar-default">
 			<div class="modal-dialog">
 				<div class="modal-content" style="color:#778">
@@ -49,13 +74,14 @@
 									<table class="table table-striped table-bordered table-hover table-condensed">
 										<thead>
 											<tr>
-												<th class="text-center">#</th>
+												<th></th>
 												<th>Rut</th>
 												<th>Nombre</th>
 											</tr>
 										</thead>
 										<tbody></tbody>
 									</table>
+									<button type="button" class="btn btn-success" id="reg-modal-add" data-toggle="modal" data-target="#ext-modal"><span class="glyphicon glyphicon-plus"></span></button>
 								</div>
 							</div>
 							<div class="form-group">
@@ -74,27 +100,56 @@
 				</div>
 			</div>
 		</div>
-		<div id="add-modal" class="modal fade">
+		<div id="ext-modal" class="modal fade scrollbar scrollbar-default">
 			<div class="modal-dialog">
 				<div class="modal-content" style="color:#778">
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-						<h4 class="modal-title">Agregar Sesión</h4>
+						<h4 class="modal-title">Agregar Estudiante Extra</h4>
 					</div>
 					<div class="modal-body">
-						<form class="form-horizontal">
-							<div class="form-group">
-								<label for="add-modal-fecha" class="col-lg-2 control-label">Fecha:</label>
-								<div class="col-lg-10">
-									<input type="date" class="form-control" id="add-modal-fecha">
-								</div>
+						<form>
+							<input type="hidden" id="ext-modal-hidden-rut" readonly="true">
+							<div style="display:inline-block">
+								<label for="ext-modal-rut" class="control-label">RUT:</label>
+								<input type="number" size="8" class="form-control" id="ext-modal-rut">
+							</div>
+							<div style="display:inline-block">
+								<label for="ext-modal-dv" class="control-label">DV:</label>
+								<input type="text" size="1" class="form-control" id="ext-modal-dv">
+							</div>
+							<div style="display:inline-block">
+								<button id="ext-modal-btn-validate" class="btn btn-primary"><span class="glyphicon glyphicon-search"></span> Buscar</button>
+							</div>
+							<div style="display:inline-block">
+								<label for="ext-modal-nombre" class="control-label">Nombre:</label>
+								<input type="text" size="128" class="form-control" id="ext-modal-nombre" readonly="readonly">
+							</div>
+							<div style="display:inline-block">
+								<label for="ext-modal-cod-carrera" class="control-label">Código de Carrera:</label>
+								<input type="number" size="11" min="0" class="form-control" id="ext-modal-cod-carrera" readonly="readonly">
+							</div>
+							<div style="display:inline-block">
+								<label for="ext-modal-nom-carrera" class="control-label">Nombre de Carrera:</label>
+								<input type="text" size="128" class="form-control" id="ext-modal-nom-carrera" readonly="readonly">
+							</div>
+							<div style="display:inline-block">
+								<label for="ext-modal-cohorte" class="control-label">Cohorte:</label>
+								<input type="number" size="4" min="1900" class="form-control" id="ext-modal-cohorte" readonly="readonly">
+							</div>
+							<div style="display:inline-block">
+								<label for="ext-modal-fono" class="control-label">Teléfono:</label>
+								<input type="number" size="11" min="0" class="form-control" id="ext-modal-fono" readonly="readonly">
+							</div>
+							<div style="display:inline-block">
+								<label for="ext-modal-email" class="control-label">Correo Electrónico:</label>
+								<input type="mail" size="128" class="form-control" id="ext-modal-email" readonly="readonly">
 							</div>
 						</form>
-						<div id="add-modal-message"></div>
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-						<button id="add-modal-submit" type="button" class="btn btn-primary">Save changes</button>
+						<button id="ext-modal-submit" type="button" class="btn btn-primary">Save changes</button>
 					</div>
 				</div>
 			</div>

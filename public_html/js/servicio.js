@@ -87,7 +87,7 @@ function Servicio (c) {
 						.attr("class","text-center")
 						.append($(document.createElement("input"))
 							.attr("type","checkbox")
-							.attr("id",data[i].estudiante.rut)
+							.attr("id",data[i].id)
 							.attr("checked","checked")
 						)
 					)
@@ -104,7 +104,7 @@ function Servicio (c) {
 						.attr("class","text-center")
 						.append($(document.createElement("input"))
 							.attr("type","checkbox")
-							.attr("id",data[i].estudiante.rut)
+							.attr("id",data[i].id)
 						)
 					)
 					.append($(document.createElement("td"))
@@ -178,13 +178,59 @@ function Servicio (c) {
 			var estudiante = $(reg.find("input[type='checkbox']")[i]);
 			estudiantes = estudiantes + estudiante.attr("id")+ "-" + estudiante.is(":checked")
 			if (i) {
-				estudiante = estudiante + ","
+				estudiantes = estudiantes + ","
 			}
 		}
 		self.controller.app.updateSesion(reg.find("#reg-modal-sesion").val(),reg.find("#reg-modal-lugar").val(),reg.find("#reg-modal-contenidos").val(),estudiantes,reg.find("#reg-modal-observaciones").val(),function (i,l,c,o,e,data){
 				self.controller.app.getSessionsById(self.servicio.id,self.setSessionsById)
 				self.content.find("#reg-modal").modal("hide");
 			});
+	}
+
+	self.addExtra = function (event) {
+		var ext = self.content.find("#ext-modal form");
+		var reg = self.content.find("#reg-modal form");
+		var sesion = reg.find("#reg-modal-sesion");
+		var hidden_rut = ext.find("#ext-modal-hidden-rut");
+		var rut = ext.find("#ext-modal-rut");
+		var dv = ext.find("#ext-modal-dv");
+		if (hidden_rut.val() != "" && hidden_rut.val() == rut.val()) {
+			self.controller.app.addAsistenciaBySesion(hidden_rut.val(),sesion.val(),function (r,s,data) {
+				self.controller.app.getAsistenciaBySesion(s,self.setAsistenciaBySesion);
+			});
+			self.content.find("#ext-modal").modal("hide");
+			rut.parent().removeClass("has-error");
+			dv.parent().removeClass("has-error");
+		} else {
+			rut.parent().addClass("has-error");
+			dv.parent().addClass("has-error");
+		}
+	}
+
+	self.validate = function (event) {
+		event.preventDefault();
+		var ext = self.content.find("#ext-modal form");
+		var rut = ext.find("#ext-modal-rut");
+		var dv = ext.find("#ext-modal-dv");
+		if (self.controller.validate(rut.val(),dv.val())) {
+			rut.parent().removeClass("has-error");
+			dv.parent().removeClass("has-error");
+			self.controller.app.getEstudiante(rut.val(),self.setEstudiante);
+		} else {
+			rut.parent().addClass("has-error");
+			dv.parent().addClass("has-error");
+		}
+	}
+
+	self.setEstudiante = function (rut, data) {
+		var ext = self.content.find("#ext-modal form");
+		ext.find("#ext-modal-hidden-rut").val(data.rut);
+		ext.find("#ext-modal-nombre").val(data.nombre);
+		ext.find("#ext-modal-cod-carrera").val(data.cod_carrera);
+		ext.find("#ext-modal-nom-carrera").val(data.nom_carrera);
+		ext.find("#ext-modal-cohorte").val(data.cohorte);
+		ext.find("#ext-modal-fono").val(data.fono);
+		ext.find("#ext-modal-email").val(data.email);
 	}
 
 	self.errorSession = function (data) {
@@ -196,16 +242,59 @@ function Servicio (c) {
 		self.event.onReady();
 	}
 
+	self.onHideAddModal = function (event) {
+		var add = self.content.find("#add-modal form");
+		add.find("#add-modal-fecha").val(dateFormat(new Date, "Y-m-d"));
+	}
+
+	self.onHideRegModal = function (event) {
+		var reg = self.content.find("#reg-modal form");
+		reg.find("#reg-modal-sesion").val("");
+		reg.find("#reg-modal-id").val("");
+		reg.find("#reg-modal-fecha").val("");
+		reg.find("#reg-modal-lugar").val("");
+		reg.find("#reg-modal-contenidos").val("");
+		reg.find("tbody").html("");
+		reg.find("#reg-modal-observaciones").val("");
+	}
+
+	self.onHideExtModal = function (event) {
+		var ext = self.content.find("#ext-modal form");
+		ext.find("#ext-modal-hidden-rut").val("");
+		ext.find("#ext-modal-rut").val("");
+		ext.find("#ext-modal-dv").val("");
+		ext.find("#ext-modal-nombre").val("");
+		ext.find("#ext-modal-cod-carrera").val("");
+		ext.find("#ext-modal-nom-carrera").val("");
+		ext.find("#ext-modal-cohorte").val("");
+		ext.find("#ext-modal-fono").val("");
+		ext.find("#ext-modal-email").val("");
+	}
+
 	self.onUpdate = function () {}
 
 	self.onReady = function () {
 		self.content.find("#add-modal")
 			.find("#add-modal-submit")
 			.click(self.addSessionById);
-		self.content.find("#add-modal").find("#add-modal-fecha").val(dateFormat(new Date, "Y-m-d"));
+		self.content.find("#add-modal")
+			.find("#add-modal-fecha")
+			.val(dateFormat(new Date, "Y-m-d"));
 		self.content.find("#reg-modal")
 			.find("#reg-modal-submit")
 			.click(self.regSessionById);
+		self.content.find("#ext-modal")
+			.find("#ext-modal-submit")
+			.click(self.addExtra);
+		self.content.find("#ext-modal")
+			.find("#ext-modal-btn-validate")
+			.click(self.validate);
+		self.content.find("#add-modal")
+			.on("hide.bs.modal",self.onHideAddModal);
+		self.content.find("#reg-modal")
+			.on("hide.bs.modal",self.onHideRegModal);
+		self.content.find("#ext-modal")
+			.on("hide.bs.modal",self.onHideExtModal);
 	}
 
 	self.onShow = function () {}

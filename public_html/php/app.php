@@ -1,7 +1,7 @@
 <?php
-
+session_start();
 include_once 'conf.php';
-
+include_once 'mysql_connector.php';
 include_once 'response.class.php';
 include_once 'error.class.php';
 include_once 'user.class.php';
@@ -11,8 +11,7 @@ include_once 'session.class.php';
 include_once 'inscrito.class.php';
 include_once 'asistencia.class.php';
 include_once 'estudiante.class.php';
-
-session_start();
+require_once "crud.php";
 //include_once 'error_handler.php';
 include_once "actions.php";
 
@@ -46,6 +45,12 @@ switch ($_POST["type"]) {
 		break;
 	case 'session_update':
 		session_update($_POST["id"],$_POST["lugar"],$_POST["contenidos"],$_POST["estudiantes"],$_POST["observaciones"]);
+		break;
+	case 'estudiante_read_rut':
+		estudiante_read_rut($_POST["rut"]);
+		break;
+	case 'asistencia_add_sesion':
+		asistencia_add_sesion($_POST["rut"],$_POST["sesion"]);
 		break;
 	default:
 		default_action();

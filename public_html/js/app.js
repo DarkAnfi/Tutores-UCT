@@ -166,6 +166,34 @@ function App () {
 		}
 	}
 
+	self.getEstudiante = function (r, callback, error) {
+		if (r != undefined) {
+			self.post("estudiante_read_rut","Estudiante",{'rut':r},function (data) {
+				if (callback != undefined) {
+					callback(r,data);
+				}
+			}, function (data) {
+				if (error != undefined) {
+					error(data);
+				}
+			});
+		}
+	}
+
+	self.addAsistenciaBySesion = function (r,s, callback, error) {
+		if (r != undefined && s != undefined) {
+			self.post("asistencia_add_sesion","bool",{'rut':r,'sesion':s},function (data) {
+				if (callback != undefined) {
+					callback(r,s,data);
+				}
+			}, function (data) {
+				if (error != undefined) {
+					error(data);
+				}
+			});
+		}
+	}
+
 	return self;
 }
 
