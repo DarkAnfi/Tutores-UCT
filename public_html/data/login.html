@@ -1,39 +1,58 @@
-<div class="container">
-    <table style="height: calc(100vh - 50px); width: 100%;">
-        <tbody>
-            <tr>
-                <td class="align-middle">
-                    <div class="col-lg-offset-3 col-md-offset-2 col-sm-offset-1 col-lg-6 col-md-8 col-sm-10">
-                        <div class="panel panel-info">
-                            <div class="panel-heading"><h4>Iniciar Sesion</h4></div>
-                            <div class="panel-body">
-                                <form id="login-form" class="form-horizontal">
-                                    <div class="form-group">
-                                        <label class="control-label col-sm-2" for="user">Usuario:</label>
-                                        <div class="col-sm-10">
-                                            <input type="text" class="form-control" id="login-user" placeholder="Ingrese Usuario">
-                                            <p id="login-user-info" class="text-danger"></p>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="control-label col-sm-2" for="pass">Contraseña:</label>
-                                        <div class="col-sm-10"> 
-                                            <input type="password" class="form-control" id="login-pass" placeholder="Ingrese Contraseña">
-                                            <p id="login-pass-info" class="text-danger"></p>
-                                        </div>
-                                    </div>
-                                    <div class="form-group"> 
-                                        <div class="col-sm-offset-2 col-sm-10">
-                                            <button type="submit" class="btn btn-success rect-success">Entrar</button>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-</div>
+<style type="text/css">
+	#login-container {
+		height: calc(100vh - 54px);
+		width: 100%;
+		display: table-cell;
+		vertical-align: middle;
+	}
 
+	#login-form {
+		margin-left: auto;
+		margin-right: auto;
+		max-width: 500px;
+	}
+</style>
+<div class="container" style="display: table; width: 100%">
+	<div id="login-container">
+		<form id="login-form" class="well form-horizontal">
+			<fieldset>
+				<legend>Login</legend>
+				<div class="form-group">
+					<label for="email" class="col-lg-2 col-md-2 col-sm-2 control-label">Email</label>
+					<div class="col-lg-10 col-md-10 col-sm-10">
+						<input type="email" class="form-control" id="email" placeholder="Email">
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="pass" class="col-lg-2 col-md-2 col-sm-2 control-label">Password</label>
+					<div class="col-lg-10 col-md-10 col-sm-10">
+						<input type="password" class="form-control" id="pass" placeholder="Password">
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-lg-10 col-md-10 col-sm-10 col-lg-offset-2 col-md-offset-2 col-sm-offset-2">
+						<button type="reset" class="btn btn-default">Cancel</button>
+						<button type="submit" class="btn btn-primary">Submit</button>
+					</div>
+				</div>
+			</fieldset>
+		</form>
+	</div>
+</div>
+<script type="text/javascript">
+	$("#login-form").on("submit", function (event) {
+		event.preventDefault();
+		var email = $("#email").val();
+		var pass = $("#pass").val();
+		app.login(email,pass,
+			function (data) {
+				main.user = data;
+				main.view("./data/home.html");
+				main.activate();
+			},
+			function (data) {
+				console.log(data)
+			}
+		);
+	});
+</script>

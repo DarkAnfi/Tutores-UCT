@@ -28,42 +28,46 @@ function crud_update_tutoria()
     $regs = json_decode(file_get_contents(DRIVE.DOCUMENT.constant("MATEMÁTICAS").HEADER),true)['feed']['entry'];
     foreach ($regs as $reg) {
         if ( $reg['gsx$id']['$t'] != '') {
-            if ($tutor = crud_get_user_name(array($reg['gsx$tutorresponsable']['$t']))) {
-                if ($prof = crud_get_user_name(array($reg['gsx$profesionalresponsable']['$t']))) {
-                    $r = array();
-                    array_push($r,$reg['gsx$id']['$t']);
-                    array_push($r,$reg['gsx$nombreasignatura']['$t']);
-                    array_push($r,$reg['gsx$cantidaddeinscritos']['$t']);
-                    array_push($r,$reg['gsx$díasemana']['$t']);
-                    array_push($r,$reg['gsx$horainicio']['$t'].":00");
-                    array_push($r,$reg['gsx$horatérmino']['$t'].":00");
-                    array_push($r,$tutor);
-                    array_push($r,$reg['gsx$lugar']['$t']);
-                    if ($reg['gsx$publicadoenlaweb']['$t'] == "0") {
-                        $publicado = 0;
-                    } else {
-                        $publicado = 1;
+            if ($tutor = User::select_by_name($reg['gsx$tutorresponsable']['$t'])->content) {
+                if ($prof = User::select_by_name($reg['gsx$profesionalresponsable']['$t'])->content) {
+                    $_ = split(' - ', $reg['gsx$semestre']['$t']);
+                    if (count($_) == 2) {
+                        $r = array();
+                        $_ = join('-',array($_[1],$_[0]));
+                        array_push($r,$_.'-'.$reg['gsx$id']['$t']);
+                        array_push($r,$reg['gsx$nombreasignatura']['$t']);
+                        array_push($r,$reg['gsx$cantidaddeinscritos']['$t']);
+                        array_push($r,$reg['gsx$díasemana']['$t']);
+                        array_push($r,$reg['gsx$horainicio']['$t'].":00");
+                        array_push($r,$reg['gsx$horatérmino']['$t'].":00");
+                        array_push($r,$tutor[0]->user);
+                        array_push($r,$reg['gsx$lugar']['$t']);
+                        if ($reg['gsx$publicadoenlaweb']['$t'] == "" or $reg['gsx$publicadoenlaweb']['$t'] == "0") {
+                            $publicado = 0;
+                        } else {
+                            $publicado = 1;
+                        }
+                        if ($reg['gsx$tutoriacerrada']['$t'] == "" or $reg['gsx$tutoriacerrada']['$t'] == "0") {
+                            $cerrado = 0;
+                        } else {
+                            $cerrado = 1;
+                        }
+                        array_push($r,$publicado);
+                        array_push($r,$cerrado);
+                        array_push($r,crud_get_date_format($reg['gsx$fechadecierre']['$t']));
+                        array_push($r,$reg['gsx$tiposervicio']['$t']);
+                        array_push($r,$prof[0]->user);
+                        array_push($r,$reg['gsx$carreradelaasignatura']['$t']);
+                        array_push($r,$reg['gsx$semestre']['$t']);
+                        array_push($r,$reg['gsx$área']['$t']);
+                        array_push($r,$reg['gsx$códigoasignatura']['$t']);
+                        array_push($r,crud_get_date_format($reg['gsx$fechainicioacompañamiento']['$t']));
+                        array_push($r,crud_get_date_format($reg['gsx$fechafinacompañamiento']['$t']));
+                        array_push($r,crud_get_date_format($reg['gsx$fechaplanificada']['$t']));
+                        array_push($r,$reg['gsx$comentario']['$t']);
+                        array_push($r,$reg['gsx$programacion']['$t']);
+                        array_push($a, $r);
                     }
-                    if ($reg['gsx$tutoriacerrada']['$t'] == "") {
-                        $cerrado = 0;
-                    } else {
-                        $cerrado = 1;
-                    }
-                    array_push($r,$publicado);
-                    array_push($r,$cerrado);
-                    array_push($r,crud_get_date_format($reg['gsx$fechadecierre']['$t']));
-                    array_push($r,$reg['gsx$tiposervicio']['$t']);
-                    array_push($r,$prof);
-                    array_push($r,$reg['gsx$carreradelaasignatura']['$t']);
-                    array_push($r,$reg['gsx$semestre']['$t']);
-                    array_push($r,$reg['gsx$área']['$t']);
-                    array_push($r,$reg['gsx$códigoasignatura']['$t']);
-                    array_push($r,crud_get_date_format($reg['gsx$fechainicioacompañamiento']['$t']));
-                    array_push($r,crud_get_date_format($reg['gsx$fechafinacompañamiento']['$t']));
-                    array_push($r,crud_get_date_format($reg['gsx$fechaplanificada']['$t']));
-                    array_push($r,$reg['gsx$comentario']['$t']);
-                    array_push($r,$reg['gsx$programacion']['$t']);
-                    array_push($a, $r);
                 }
             }
         }
@@ -103,7 +107,6 @@ function crud_update_tutoria()
                     $r[9],$r[10],$r[11],$r[12],$r[13],$r[14],$r[15],$r[16],$r[17],$r[18],$r[19],$r[20],$r[21]);
                 mysqli_stmt_execute($stmt);
                 mysqli_stmt_close($stmt);
-                
             }
         }
     };

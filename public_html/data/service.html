@@ -1,0 +1,28 @@
+<div class="container">
+	<div class="panel panel-default">
+		<ul class="panel-heading breadcrumb">
+			<li>Servicios</li>
+		</ul>
+		<div class="panel-body">
+			<div id="service-list" class="row"></div>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+	if (main.user.id != undefined) {
+		app.service_select_by_level_by_user(main.user.id,
+			function (id,data) {
+				var services = $("#service-list").html("");
+				for (var i = 0; i < data.length; i++) {
+					var service = data[i];
+					services.append(main.service(service.name,service.image,service.url));
+				};
+			}
+		);
+	} else {
+		$("li.active").removeClass("active")
+		main.view("./data/login.html");
+		main.disable();
+	}
+</script>

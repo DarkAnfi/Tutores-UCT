@@ -1,6 +1,8 @@
 function App () {
 	var self = this;
 
+	/* ----- Methods ----- */
+
 	self.post = function (type,tag,dict,callback,error) {
 		dict.type = type;
 		$.post("./php/app.php",dict,function (data,status) {
@@ -10,7 +12,6 @@ function App () {
 					callback(data.value);
 				} else if (data.type == "Error") {
 					error(data.value);
-					console.log(data.value)
 				} else {
 					console.log(data);
 				}
@@ -24,18 +25,10 @@ function App () {
 		$.get(url,{"_":$.now()},callback)
 	}
 
-	self.getPage = function (name, callback) {
-		if (name != undefined) {
-			self.get("./data/"+name+".html", function (data) {
-				if (callback != undefined) {
-					callback(name,data);
-				}
-			});
-		}
-	}
+	/* ----- Login ----- */
 
-	self.getSession = function (callback, error) {
-		self.post("session_get","User",{}, function (data) {
+	self.session = function (callback, error) {
+		self.post("session","Login",{}, function (data) {
 			if (callback != undefined) {
 				callback(data);
 			}
@@ -46,9 +39,9 @@ function App () {
 		});
 	}
 
-	self.login = function (user, pass, callback, error) {
-		if (user != undefined && pass != undefined) {
-			self.post("login","User",{"user":user,"pass":pass}, function (data) {
+	self.login = function (e, p, callback, error) {
+		if (e != undefined && p != undefined) {
+			self.post("login","Login",{"email":e,"password":p}, function (data) {
 				if (callback != undefined) {
 					callback(data);
 				}
@@ -72,128 +65,73 @@ function App () {
 		});
 	}
 
-	self.updateTutoria = function (callback, error) {
-		self.post("tutoria_update","bool",{}, function (data) {
+	/* ----- Data -----*/
+
+	self.data_select_by_id = function (i, callback, error) {
+		self.post("data_select_by_id","Data",{"id":i}, function (data) {
 			if (callback != undefined) {
-				callback(data);
+				callback(i,data);
 			}
 		}, function (data) {
 			if (error != undefined) {
-				error(data);
+				error(i,data);
 			}
 		});
 	}
 
-	self.getTutoria = function (callback, error) {
-		self.post("tutoria_read","List(Tutoria)",{}, function (data) {
+	self.data_update = function (i, n, l, p, callback, error) {
+		self.post("data_update","bool",{"id":i,"name":n,"lastname":l,"phone":p}, function (data) {
 			if (callback != undefined) {
-				callback(data);
+				callback(i,n,l,p,data);
 			}
 		}, function (data) {
 			if (error != undefined) {
-				error(data);
+				error(i,n,l,p,data);
 			}
 		});
 	}
 
-	self.getTutoriaById = function (id, callback, error) {
-		if (id != undefined) {
-			self.post("tutoria_read_id","Tutoria",{"id":id}, function (data) {
-				if (callback != undefined) {
-					callback(id, data);
-				}
-			}, function (data) {
-				if (error != undefined) {
-					error(data);
-				}
-			});
-		}
+	/* ----- Service ----- */
+
+	self.service_select_by_level_by_user = function(i, callback, error) {
+		self.post("service_select_by_level_by_user","List(Service)",{"id":i}, function (data) {
+			if (callback != undefined) {
+				callback(i,data);
+			}
+		}, function (data) {
+			if (error != undefined) {
+				error(i,data);
+			}
+		});
 	}
 
-	self.getSessionsById = function (id, callback, error) {
-		if (id != undefined) {
-			self.post("sessions_read_id","List(Session)",{"id":id}, function (data) {
-				if (callback != undefined) {
-					callback(id, data);
-				}
-			}, function (data) {
-				if (error != undefined) {
-					error(data);
-				}
-			});
-		}
+	/* ----- Course ----- */
+
+	self.course_select_by_tutor_by_user_type = function(i,t, callback, error) {
+		self.post("course_select_by_tutor_by_user_type","List(Course)",{"id":i,"course_type":t}, function (data) {
+			if (callback != undefined) {
+				callback(i,t,data);
+			}
+		}, function (data) {
+			if (error != undefined) {
+				error(i,t,data);
+			}
+		});
 	}
 
-	self.getAsistenciaBySesion = function (id, callback, error) {
-		if (id != undefined) {
-			self.post("asistencia_read_sesion","List(Asistencia)",{"id":id}, function (data) {
-				if (callback != undefined) {
-					callback(id, data);
-				}
-			}, function (data) {
-				if (error != undefined) {
-					error(data)
-				}
-			});
-		}
-	}
-
-	self.addSessionById = function (id, date, callback, error) {
-		if (id != undefined && date != undefined) {
-			self.post("session_add_id","bool",{"id":id,"date":date}, function (data) {
-				if (callback != undefined) {
-					callback(id, date, data);
-				}
-			}, function (data) {
-				if (error != undefined) {
-					error(data);
-				}
-			});
-		}
-	}
-
-	self.updateSesion = function (i,l,c,e,o, callback, error) {
-		if (i != undefined && l != undefined && c != undefined && e != undefined && o != undefined) {
-			self.post("session_update","bool",{'id':i,'lugar':l,'contenidos':c,'estudiantes':e,'observaciones':o}, function (data) {
-				if (callback != undefined) {
-					callback(i,l,c,e,o,data);
-				}
-			}, function (data) {
-				if (error != undefined) {
-					error(data);
-				}
-			});
-		}
-	}
-
-	self.getEstudiante = function (r, callback, error) {
-		if (r != undefined) {
-			self.post("estudiante_read_rut","Estudiante",{'rut':r},function (data) {
-				if (callback != undefined) {
-					callback(r,data);
-				}
-			}, function (data) {
-				if (error != undefined) {
-					error(data);
-				}
-			});
-		}
-	}
-
-	self.addAsistenciaBySesion = function (r,s, callback, error) {
-		if (r != undefined && s != undefined) {
-			self.post("asistencia_add_sesion","bool",{'rut':r,'sesion':s},function (data) {
-				if (callback != undefined) {
-					callback(r,s,data);
-				}
-			}, function (data) {
-				if (error != undefined) {
-					error(data);
-				}
-			});
-		}
+	self.course_select_by_id = function (i, callback, error) {
+		self.post("course_select_by_id","Course",{"id":i}, function (data) {
+			if (callback != undefined) {
+				callback(i,data);
+			}
+		}, function (data) {
+			if (error != undefined) {
+				error(i,data);
+			}
+		});
 	}
 
 	return self;
 }
 
+app = new App();

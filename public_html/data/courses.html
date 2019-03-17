@@ -1,0 +1,29 @@
+<div class="container">
+	<div class="panel panel-default">
+		<ul class="panel-heading breadcrumb">
+			<li>Servicios</li>
+			<li>Mis Cursos</li>
+		</ul>
+		<div class="panel-body">
+			<div id="course-list"></div>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+	if (main.user.id != undefined) {
+		app.course_select_by_tutor_by_user_type(main.user.id,1,
+			function (id,type,data) {
+				var courses = $("#course-list").html("");
+				for (var i = 0; i < data.length; i++) {
+					var course = data[i];
+					courses.append(main.course(course.id,course.code,course.name));
+				};
+			}
+		);
+	} else {
+		$("li.active").removeClass("active")
+		main.view("./data/login.html");
+		main.disable();
+	}
+</script>

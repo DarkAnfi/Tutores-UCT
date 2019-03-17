@@ -1,6 +1,14 @@
 function Main () {
-	var self = new Controller();
-	self.main_page = "home";
+	var self = this;
+	self.document = $(document);
+
+	self.user = {};
+	self.course_id = 0;
+
+	self.init = function () {
+		self.page = $("main");
+	}
+
 	self.dates = {
 		"MONDAY":"LUNES",
 		"TUESDAY":"MARTES",
@@ -28,28 +36,89 @@ function Main () {
 		return (k==s)
 	}
 
-	self.setPages = function () {
-		self.components.login = new Login(self);
-		self.components.home  = new Home(self);
-		self.components.servicio = new Servicio(self);
+	self.createAlert = function (element, status, content) {
+		element.html($(document.createElement("div"))
+			.addClass("alert")
+			.addClass("alert-dismissible")
+			.addClass("alert-"+status)
+			.append($(document.createElement("button"))
+				.addClass("close")
+				.attr("type","button")
+				.attr("data-dismiss","alert")
+				.html("&times;")
+			)
+			.append(content)
+		);
 	}
 
-	self.setEvents = function () {
-		$("#logout").click(self.logout);
+	self.closeAlert = function (element) {
+		element.find(".close").alert("close");
 	}
 
-	self.logout = function(event) {
-		self.app.logout(self.onLogout,self.onLogoutException);
+	self.view = function (url) {
+		app.get(url, function (data) {
+			self.page.html(data);
+		});
+		$("#myNavbar").collapse("hide");
 	}
 
-	self.onLogout = function (data) {
-		$("#logout").css("display","none");
-		$("#user-name").text("");
+	self.activate = function () {
+		$(".private").css("display","block");
 	}
 
-	self.onLogoutException = function (data) {
-		$("#logout").css("display","none");
-		$("#user-name").text("");
+	self.disable = function () {
+		$(".private").css("display","none");	
+	}
+
+	self.service = function (name, image, url) {
+		return ($(document.createElement("div"))
+			.attr("class","col-lg-2 col-md-3 col-sm-4 col-xs-6")
+			.html($(document.createElement("div"))
+				.attr("class","thumbnail")
+				.append($(document.createElement("img"))
+					.attr("src",image)
+					.attr("alt",name)
+					.css("border-radius","100%")
+				)
+				.append($(document.createElement("div"))
+					.attr("class","caption")
+					.css("text-align","center")
+					.html($(document.createElement("h4"))
+						.text(name)
+					)
+				)
+				.on("click",
+					function (event) {
+						event.preventDefault();
+						main.view(url);
+					}
+				)
+			)
+		);
+	}
+
+	self.course = function (id, code, name) {
+		return ($(document.createElement("div"))
+			.attr("class","btn-group btn-group-justified")
+			.css("margin-bottom","10px")
+			.append($(document.createElement("a"))
+				.attr("class","btn btn-primary")
+				.css("width","100px")
+				.text(code)
+			)
+			.append($(document.createElement("a"))
+				.attr("class","btn btn-default")
+				.css("width","calc(100% - 100px)")
+				.text(name)
+			)
+			.on("click",
+				function (event) {
+					event.preventDefault();
+					main.course_id = id;
+					main.view("./data/attendance.html");
+				}
+			)
+		);
 	}
 
 	self.document.ready(self.init);
@@ -57,4 +126,3 @@ function Main () {
 }
 
 main = new Main();
-
