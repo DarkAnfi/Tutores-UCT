@@ -48,7 +48,9 @@
 <main class="scrollbar scrollbar-default">
     
 </main>
-
+<!--script type="text/javascript">
+    main.view("./data/maintenance.html");
+</script-->
 <script type="text/javascript" charset="utf-8" src="./js/session.js"></script>
 <script type="text/javascript">
     $("#btn-home").on("click",
@@ -69,6 +71,24 @@
         }
     );
 
+    $("#btn-data").on("click",
+        function (event) {
+            event.preventDefault();
+            $("li.active").removeClass("active");
+            $(event.currentTarget).parent().addClass("active");
+            main.view("./data/data.html");
+        }
+    );
+
+    $("#btn-key").on("click",
+        function (event) {
+            event.preventDefault();
+            $("li.active").removeClass("active");
+            $(event.currentTarget).parent().addClass("active");
+            main.view("./data/key.html");
+        }
+    );
+
     $("#btn-logout").on("click",
         function (event) {
             event.preventDefault();
@@ -80,15 +100,6 @@
                     main.disable();
                 },console.log
             );
-        }
-    );
-
-    $("#btn-data").on("click",
-        function (event) {
-            event.preventDefault();
-            $("li.active").removeClass("active");
-            $(event.currentTarget).parent().addClass("active");
-            main.view("./data/data.html");
         }
     );
 </script>

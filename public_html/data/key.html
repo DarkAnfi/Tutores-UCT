@@ -1,0 +1,60 @@
+<div class="container">
+	<div class="panel panel-default">
+		<div class="panel-heading">Cambiar Clave</div>
+		<div class="panel-body">
+			<form id="data-form">
+				<fieldset>
+					<div class="form-group">
+						<label for="name" class="control-label">Nombre</label>
+						<input type="text" class="form-control" id="name" placeholder="Nombre">
+					</div>
+					<div class="form-group">
+						<label for="lastname" class="control-label">Apellidos</label>
+						<input type="text" class="form-control" id="lastname" placeholder="Apellidos">
+					</div>
+					<div class="form-group">
+						<label for="phone" class="control-label">Teléfono</label>
+						<input type="text" class="form-control" id="phone" placeholder="Teléfono">
+					</div>
+					<div id="message"></div>
+					<div class="form-group">
+						<button type="reset" class="btn btn-default">Cancel</button>
+						<button type="submit" class="btn btn-primary">Submit</button>
+					</div>
+				</fieldset>
+			</form>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+	if (main.user.id != undefined) {
+		app.data_select_by_id(main.user.id,
+			function (id,data) {
+				$("#name").val(data.name);
+				$("#lastname").val(data.lastname);
+				$("#phone").val(data.phone);
+			}
+		);
+
+		$("#data-form").on("submit", function (event) {
+			event.preventDefault();
+			var name = $("#name").val();
+			var lastname = $("#lastname").val();
+			var phone = $("#phone").val();
+			app.data_update(main.user.id,name,lastname,phone,
+				function (id,name,lastname,phone,data) {
+					$("#profile-name").html(name + " " + lastname);
+					main.createAlert($("#message"),"success","Cambios guardados correctamente.");
+				},
+				function (id,name,lastname,phone,data) {
+					main.createAlert($("#message"),"danger","Ha ocurrido un problema. "+data.errstr);
+				}
+			);
+		});
+	} else {
+		$("li.active").removeClass("active")
+		main.view("./data/login.html");
+		main.disable();
+	}
+</script>

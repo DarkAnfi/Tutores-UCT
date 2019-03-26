@@ -8,7 +8,7 @@
 		<div class="panel-body">
 			<div class="form-horizontal">
 				<fieldset>
-					<div class="col-sm-offset-2" style="font-size:20px; margin-bottom:10px"><span class="label label-primary">MAT1105-1</span> <span>Matemática Fundamental</span></div>
+					<div class="col-sm-offset-2" style="font-size:20px; margin-bottom:10px"><span id="code" class="label label-primary"></span> <span id="name"></span></div>
 					<div class="form-group">
 						<label for="tutor" class="col-sm-2 control-label">Tutor</label>
 						<div class="col-sm-10">
@@ -44,9 +44,9 @@
 						</div>
 					</div>
 					<div class="form-group">
-						<label for="session" class="col-sm-2 control-label">Sesión</label>
+						<label for="session-list" class="col-sm-2 control-label">Sesión</label>
 						<div class="col-sm-10">
-							<select class="form-control" id="session"></select>
+							<select class="form-control" id="session-list"></select>
 						</div>
 					</div>
 				</fieldset>
@@ -64,44 +64,69 @@
 							<th></th>
 						</tr>
 					</thead>
-					<tbody>
-						<tr>
-							<td style="width:32px;height:32px;text-align:center;vertical-align:middle;">
-								<span class="glyphicon glyphicon-check"></span>
-							</td>
-							<td style="text-align:center;vertical-align:middle;">19717817-5</td>
-							<td>Flores Iturra Andrés Nicolás</td>
-							<td style="width:32px;height:32px;text-align:center;vertical-align:middle;">
-								<span class="glyphicon glyphicon-info-sign"></span>
-							</td>
-							<td style="width:32px;height:32px;text-align:center;vertical-align:middle;">
-								<span class="glyphicon glyphicon-trash"></span>
-							</td>
-						</tr>
-						<tr>
-							<td style="width:32px;height:32px;text-align:center;vertical-align:middle;">
-								<span class="glyphicon glyphicon-check"></span>
-							</td>
-							<td style="text-align:center;vertical-align:middle;">19592530-5</td>
-							<td>Urra Navarrete Natacha Javiera</td>
-							<td style="width:32px;height:32px;text-align:center;vertical-align:middle;">
-								<span class="glyphicon glyphicon-info-sign"></span>
-							</td>
-							<td style="width:32px;height:32px;text-align:center;vertical-align:middle;">
-								<span class="glyphicon glyphicon-trash"></span>
-							</td>
-						</tr>
-						<tr>
-							<td style="width:32px;height:32px;text-align:center;vertical-align:middle;">
-								<span class="glyphicon glyphicon-plus"></span>
-							</td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-						</tr>
-					</tbody>
+					<tbody id="attendance-list"></tbody>
 				</table>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-10 col-sm-offset-2">
+					<button id="btn-save-attendance" type="button" class="btn btn-primary">Guardar</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div id="ext-modal" class="modal fade scrollbar scrollbar-default">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title">Agregar Estudiante Extra</h4>
+			</div>
+			<div class="modal-body">
+				<div>
+					<input type="hidden" id="ext-modal-hidden-rut" readonly="true">
+					<input type="hidden" id="ext-modal-hidden-dv" readonly="true">
+					<div style="display:inline-block">
+						<label for="ext-modal-rut" class="control-label">RUT:</label>
+						<input type="text" maxlength="8" size="8" class="form-control" id="ext-modal-rut">
+					</div>
+					<div style="display:inline-block">
+						<label for="ext-modal-dv" class="control-label">DV:</label>
+						<input type="text" maxlength="1" size="1" class="form-control" id="ext-modal-dv">
+					</div>
+					<div style="display:inline-block">
+						<button id="ext-modal-btn-validate" class="btn btn-primary"><span class="glyphicon glyphicon-search"></span> Buscar</button>
+					</div>
+					<div style="display:inline-block">
+						<label for="ext-modal-name" class="control-label">Nombre:</label>
+						<input type="text" size="128" class="form-control" id="ext-modal-name" readonly="readonly">
+					</div>
+					<div style="display:inline-block">
+						<label for="ext-modal-career-code" class="control-label">Código de Carrera:</label>
+						<input type="text" size="11" class="form-control" id="ext-modal-career-code" readonly="readonly">
+					</div>
+					<div style="display:inline-block">
+						<label for="ext-modal-cohort" class="control-label">Cohorte:</label>
+						<input type="text" size="4" class="form-control" id="ext-modal-cohort" readonly="readonly">
+					</div>
+					<div style="display:inline-block">
+						<label for="ext-modal-phone" class="control-label">Teléfono:</label>
+						<input type="text" size="11" class="form-control" id="ext-modal-phone" readonly="readonly">
+					</div>
+					<div style="display:inline-block">
+						<label for="ext-modal-career-name" class="control-label">Nombre de Carrera:</label>
+						<input type="text" size="128" class="form-control" id="ext-modal-career-name" readonly="readonly">
+					</div>
+					<div style="display:inline-block">
+						<label for="ext-modal-email" class="control-label">Correo Electrónico:</label>
+						<input type="text" size="128" class="form-control" id="ext-modal-email" readonly="readonly">
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				<button id="ext-modal-submit" type="button" class="btn btn-primary">Save changes</button>
 			</div>
 		</div>
 	</div>
@@ -109,12 +134,239 @@
 
 <script type="text/javascript">
 	if (main.user.id != undefined) {
+		$("#btn-save-attendance").on("click",function (event) {
+			$("span.glyphicon-trash").remove();
+			var ruts = $("td[data-content='rut']");
+			var list = [];
+			for (var i = 0; i < ruts.length; i++) {
+				var rut = $(ruts[i]).text().split("-")[0];
+				if ($(ruts[i]).parent().find(".glyphicon-check, .glyphicon-unchecked").attr("class") == "glyphicon glyphicon-check") {
+					rut += "-1";
+				} else {
+					rut += "-0";
+				}
+				list.push(rut);
+			}
+			list = list.join(",");
+			app.attendance_insert_list(list,$("#session-list").val());
+		});
+		$("th span.glyphicon-unchecked, th span.glyphicon-check").on("click", function (event) {
+			if ($(event.currentTarget).attr("class") == "glyphicon glyphicon-unchecked") {
+				$(event.currentTarget).attr("class","glyphicon glyphicon-check");
+				$("#attendance-list span.glyphicon-unchecked").attr("class","glyphicon glyphicon-check");
+			} else {
+				$(event.currentTarget).attr("class","glyphicon glyphicon-unchecked");
+				$("#attendance-list span.glyphicon-check").attr("class","glyphicon glyphicon-unchecked");
+			}
+		});
+		$("#session-list").on("change",function (event) {
+			$("#attendance-list").html("");
+			app.attendance_select_by_session($("#session-list").val(),
+				function (session,data) {
+					if (data.length > 0) {
+						var attendance = $("#attendance-list");
+						for (var i = 0; i < data.length; i++) {
+							var attend = data[i];
+							attendance.append(main.attendance_student(attend.student,attend.present));
+						}
+						$("#attendance-list").append($(document.createElement("tr"))
+							.attr("id","add-row")
+							.append($(document.createElement("td"))
+								.attr("style","width:32px;height:32px;text-align:center;vertical-align:middle;")
+								.append($(document.createElement("span"))
+									.attr("class","glyphicon glyphicon-plus")
+									.attr("data-toggle","modal")
+									.attr("data-target","#ext-modal")
+								)
+							)
+							.append($(document.createElement("td")))
+							.append($(document.createElement("td")))
+							.append($(document.createElement("td")))
+							.append($(document.createElement("td")))
+						);
+					} else {
+						app.enrolled_select_by_course_session_active(main.course_id,session,
+							function (course,session,data) {
+								var attendance = $("#attendance-list");
+								for (var i = 0; i < data.length; i++) {
+									var enrolled = data[i];
+									attendance.append(main.enrolled_student(enrolled.student));
+								}
+								app.extra_select_by_course_session_active(main.course_id,session,
+									function (course,session,data) {
+										var attendance = $("#attendance-list");
+										for (var i = 0; i < data.length; i++) {
+											var extra = data[i];
+											attendance.append(main.extra_student(extra.student));
+										}
+										$("#attendance-list").append($(document.createElement("tr"))
+											.attr("id","add-row")
+											.append($(document.createElement("td"))
+												.attr("style","width:32px;height:32px;text-align:center;vertical-align:middle;")
+												.append($(document.createElement("span"))
+													.attr("class","glyphicon glyphicon-plus")
+													.attr("data-toggle","modal")
+													.attr("data-target","#ext-modal")
+												)
+											)
+											.append($(document.createElement("td")))
+											.append($(document.createElement("td")))
+											.append($(document.createElement("td")))
+											.append($(document.createElement("td")))
+										);
+									}
+								);
+							}
+						);
+					}
+				}
+			);
+		});
+		$("#ext-modal-btn-validate").on("click",function (event) {
+			var rut = $("#ext-modal-rut");
+			var dv = $("#ext-modal-dv");
+			if (main.validate(rut.val(),dv.val())) {
+				rut.parent().removeClass("has-error");
+				dv.parent().removeClass("has-error");
+				app.student_select_by_rut(rut.val(),
+					function (rut,data) {
+						$("#ext-modal-hidden-rut").val(data.rut);
+						$("#ext-modal-hidden-dv").val(data.dv);
+						$("#ext-modal-name").val(data.name);
+						$("#ext-modal-career-code").val(data.career_code);
+						$("#ext-modal-career-name").val(data.career_name);
+						$("#ext-modal-cohort").val(data.cohort);
+						$("#ext-modal-phone").val(data.phone);
+						$("#ext-modal-email").val(data.email);
+					}
+				);
+			} else {
+				rut.parent().addClass("has-error");
+				dv.parent().addClass("has-error");
+			}
+		});
+		$("#ext-modal-submit").on("click", function () {
+			var flag = true;
+			var ruts = $("td[data-content='rut']");
+			for (var i = 0; i < ruts.length; i++) {
+				var rut = $(ruts[i]).text().split("-")[0];
+				if (rut == $("#ext-modal-hidden-rut").val()) {
+					flag = false;
+				}
+			}
+			if (flag) {
+				if ($("#ext-modal-hidden-rut").val() != "") {
+					$("#add-row").before(main.extra_student({
+						"rut":$("#ext-modal-hidden-rut").val(),
+						"dv":$("#ext-modal-hidden-dv").val(),
+						"name":$("#ext-modal-name").val(),
+					}));
+					$("th span.glyphicon-check").attr("class","glyphicon glyphicon-unchecked");
+					$("#ext-modal").modal("hide");
+				} else {
+					$("#ext-modal-rut").parent().addClass("has-error");
+					$("#ext-modal-dv").parent().addClass("has-error");
+				}
+			} else {
+				$("#ext-modal-rut").parent().addClass("has-error");
+				$("#ext-modal-dv").parent().addClass("has-error");
+			}
+		});
+		$("#ext-modal").on('hide.bs.modal', function(){
+			$("#ext-modal-hidden-rut").val("");
+			$("#ext-modal-hidden-dv").val("");
+			$("#ext-modal-rut").val("").parent().removeClass("has-error");;
+			$("#ext-modal-dv").val("").parent().removeClass("has-error");;
+			$("#ext-modal-name").val("");
+			$("#ext-modal-career-code").val("");
+			$("#ext-modal-career-name").val("");
+			$("#ext-modal-cohort").val("");
+			$("#ext-modal-phone").val("");
+			$("#ext-modal-email").val("");
+		});
 		app.course_select_by_id(main.course_id,
 			function (id,data) {
-				$("#tutor").val(data.tutor.data.name);
-				$("#professional").val(data.tutor.professional.data.name);
+				$("#code").text(data.code);
+				$("#name").text(data.name);
+				$("#tutor").val(data.tutor.data.name + " " + data.tutor.data.lastname);
+				$("#professional").val(data.tutor.professional.data.name + " " + data.tutor.professional.data.lastname);
 				$("#area").val(data.tutor.professional.area.name);
 				$("#course_type").val(data.type.name)
+				app.session_select_by_course(data.id,
+					function (course,data) {
+						var sessions = $("#session-list").html("");
+						for (var i = 0; i < data.length; i++) {
+							var session = data[i];
+							sessions.append($(document.createElement("option"))
+								.val(session.id)
+								.text(session.date + " " + session.start + " - " + session.end)
+							);
+						}
+						$("#attendance-list").html("");
+						if (data.length > 0) {
+							app.attendance_select_by_session($("#session-list").val(),
+								function (session,data) {
+									if (data.length > 0) {
+										var attendance = $("#attendance-list");
+										for (var i = 0; i < data.length; i++) {
+											var attend = data[i];
+											attendance.append(main.attendance_student(attend.student,attend.present));
+										}
+										$("#attendance-list").append($(document.createElement("tr"))
+											.attr("id","add-row")
+											.append($(document.createElement("td"))
+												.attr("style","width:32px;height:32px;text-align:center;vertical-align:middle;")
+												.append($(document.createElement("span"))
+													.attr("class","glyphicon glyphicon-plus")
+													.attr("data-toggle","modal")
+													.attr("data-target","#ext-modal")
+												)
+											)
+											.append($(document.createElement("td")))
+											.append($(document.createElement("td")))
+											.append($(document.createElement("td")))
+											.append($(document.createElement("td")))
+										);
+									} else {
+										app.enrolled_select_by_course_session_active(main.course_id,session,
+											function (course,session,data) {
+												var attendance = $("#attendance-list");
+												for (var i = 0; i < data.length; i++) {
+													var enrolled = data[i];
+													attendance.append(main.enrolled_student(enrolled.student));
+												};
+												app.extra_select_by_course_session_active(main.course_id,session,
+													function (course,session,data) {
+														var attendance = $("#attendance-list");
+														for (var i = 0; i < data.length; i++) {
+															var extra = data[i];
+															attendance.append(main.extra_student(extra.student));
+														};
+														$("#attendance-list").append($(document.createElement("tr"))
+															.attr("id","add-row")
+															.append($(document.createElement("td"))
+																.attr("style","width:32px;height:32px;text-align:center;vertical-align:middle;")
+																.append($(document.createElement("span"))
+																	.attr("class","glyphicon glyphicon-plus")
+																	.attr("data-toggle","modal")
+																	.attr("data-target","#ext-modal")
+																)
+															)
+															.append($(document.createElement("td")))
+															.append($(document.createElement("td")))
+															.append($(document.createElement("td")))
+															.append($(document.createElement("td")))
+														);
+													}
+												);
+											}
+										);
+									}
+								}
+							);
+						}
+					}
+				);
 			}
 		);
 	} else {

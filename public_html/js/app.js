@@ -65,6 +65,20 @@ function App () {
 		});
 	}
 
+	self.change_password = function (l,o,n,callback,error) {
+		if (l != undefined && o != undefined && n != undefined) {
+			self.post("change_password","bool",{"login":l,"old":o,"new":n}, function (data) {
+				if (callback != undefined) {
+					callback(l,o,n,data);
+				}
+			}, function (data) {
+				if (error != undefined) {
+					error(l,o,n,data);
+				}
+			});
+		}
+	}
+
 	/* ----- Data -----*/
 
 	self.data_select_by_id = function (i, callback, error) {
@@ -127,6 +141,100 @@ function App () {
 		}, function (data) {
 			if (error != undefined) {
 				error(i,data);
+			}
+		});
+	}
+
+	/* ----- Session ----- */
+
+	self.session_select_by_course = function (c, callback, error) {
+		self.post("session_select_by_course","List(Session)",{"course":c}, function (data) {
+			if (callback != undefined) {
+				callback(c,data);
+			}
+		}, function (data) {
+			if (error != undefined) {
+				error(c,data);
+			}
+		});
+	}
+
+	/* ----- Enrolled ----- */
+
+	self.enrolled_select_by_course_session_active = function (c,s, callback, error) {
+		self.post("enrolled_select_by_course_session_active","List(Enrolled)",{"course":c,"session":s}, function (data) {
+			if (callback != undefined) {
+				callback(c,s,data);
+			}
+		}, function (data) {
+			if (error != undefined) {
+				error(c,s,data);
+			}
+		});
+	}
+
+	/* ----- Extra ----- */
+
+	self.extra_select_by_course_session_active = function (c,s, callback, error) {
+		self.post("extra_select_by_course_session_active","List(Extra)",{"course":c,"session":s}, function (data) {
+			if (callback != undefined) {
+				callback(c,s,data);
+			}
+		}, function (data) {
+			if (error != undefined) {
+				error(c,s,data);
+			}
+		});
+	}
+
+	self.extra_remove_active_from_course = function (s,c, callback, error) {
+		self.post("extra_remove_active_from_course","bool",{"student":s,"course":c}, function (data) {
+			if (callback != undefined) {
+				callback(s,c,data);
+			}
+		}, function (data) {
+			if (error != undefined) {
+				error(s,c,data);
+			}
+		});
+	}
+
+	/* ----- Attendance ----- */
+
+	self.attendance_select_by_session = function (s, callback, error) {
+		self.post("attendance_select_by_session","List(Attendance)",{"session":s}, function (data) {
+			if (callback != undefined) {
+				callback(s,data);
+			}
+		}, function (data) {
+			if (error != undefined) {
+				error(s,data);
+			}
+		});
+	}
+
+	self.attendance_insert_list = function (l,s, callback, error) {
+		self.post("attendance_insert_list","bool",{"list":l,"session":s}, function (data) {
+			if (callback != undefined) {
+				callback(l,s,data);
+			}
+		}, function (data) {
+			if (error != undefined) {
+				error(l,s,data);
+			}
+		});
+	}
+
+	/* ----- Student ----- */
+
+	self.student_select_by_rut = function (r, callback, error) {
+		self.post("student_select_by_rut","Student",{"rut":r}, function (data) {
+			if (callback != undefined) {
+				callback(r,data);
+			}
+		}, function (data) {
+			if (error != undefined) {
+				error(r,data);
 			}
 		});
 	}

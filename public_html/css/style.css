@@ -62,3 +62,7 @@ body {
 .breadcrumb {
     margin-bottom: 0px;
 }
+
+.glyphicon {
+    cursor: pointer;
+}

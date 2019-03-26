@@ -9,12 +9,20 @@ include_once 'list.class.php';
 include_once 'login.class.php';
 include_once 'data.class.php';
 include_once 'access.class.php';
+include_once 'student.class.php';
 include_once 'service.class.php';
+include_once 'area.class.php';
+include_once 'type.class.php';
+include_once 'professional.class.php';
 include_once 'tutor.class.php';
 include_once 'course.class.php';
+include_once 'session.class.php';
+include_once 'enrolled.class.php';
+include_once 'attendance.class.php';
+include_once 'extra.class.php';
 
 include_once "crud.php";
-include_once 'error_handler.php';
+//include_once 'error_handler.php';
 include_once "actions.php";
 
 switch ($_POST["type"]) {
@@ -41,6 +49,27 @@ switch ($_POST["type"]) {
 		break;
 	case 'course_select_by_id':
 		course_select_by_id($_POST["id"]);
+		break;
+	case 'session_select_by_course':
+		session_select_by_course($_POST["course"]);
+		break;
+	case 'enrolled_select_by_course_session_active':
+		enrolled_select_by_course_session_active($_POST["course"],$_POST["session"],1);
+		break;
+	case 'extra_select_by_course_session_active':
+		extra_select_by_course_session_active($_POST["course"],$_POST["session"],1);
+		break;
+	case 'attendance_select_by_session':
+		attendance_select_by_session($_POST["session"]);
+		break;
+	case 'student_select_by_rut':
+		student_select_by_rut($_POST["rut"]);
+		break;
+	case 'attendance_insert_list':
+		attendance_insert_list($_POST["list"],$_POST["session"]);
+		break;
+	case 'extra_remove_active_from_course':
+		extra_remove_active_from_course($_POST["student"],$_POST["course"]);
 		break;
 	default:
 		default_action();

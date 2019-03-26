@@ -75,6 +75,7 @@ function Main () {
 			.attr("class","col-lg-2 col-md-3 col-sm-4 col-xs-6")
 			.html($(document.createElement("div"))
 				.attr("class","thumbnail")
+				.css("cursor","pointer")
 				.append($(document.createElement("img"))
 					.attr("src",image)
 					.attr("alt",name)
@@ -119,6 +120,157 @@ function Main () {
 				}
 			)
 		);
+	}
+
+	self.enrolled_student = function (student) {
+		return ($(document.createElement("tr"))
+			.append($(document.createElement("td"))
+				.attr("style","width:32px;height:32px;text-align:center;vertical-align:middle;")
+				.append($(document.createElement("span"))
+					.attr("class","glyphicon glyphicon-unchecked")
+					.on("click",function (event) {
+						if ($(event.currentTarget).attr("class") == "glyphicon glyphicon-unchecked") {
+							$(event.currentTarget).attr("class","glyphicon glyphicon-check");
+						} else {
+							$(event.currentTarget).attr("class","glyphicon glyphicon-unchecked");
+							$("th span.glyphicon-check").attr("class","glyphicon glyphicon-unchecked");
+						}
+					})
+				)
+			)
+			.append($(document.createElement("td"))
+				.attr("style","vertical-align:middle;")
+				.text(student.rut+"-"+student.dv)
+				.attr("data-content","rut")
+			)
+			.append($(document.createElement("td"))
+				.text(student.name.capitalize())
+			)
+			.append($(document.createElement("td"))
+				.attr("style","width:32px;height:32px;text-align:center;vertical-align:middle;")
+				.append($(document.createElement("span"))
+					.attr("class","glyphicon glyphicon-info-sign")
+				)
+			)
+			.append($(document.createElement("td"))
+				.attr("style","width:32px;height:32px;text-align:center;vertical-align:middle;")
+			)
+		)
+	}
+
+	self.attendance_student = function (student,present) {
+		if (present) {
+			return ($(document.createElement("tr"))
+				.append($(document.createElement("td"))
+					.attr("style","width:32px;height:32px;text-align:center;vertical-align:middle;")
+					.append($(document.createElement("span"))
+						.attr("class","glyphicon glyphicon-check")
+						.on("click",function (event) {
+							if ($(event.currentTarget).attr("class") == "glyphicon glyphicon-unchecked") {
+								$(event.currentTarget).attr("class","glyphicon glyphicon-check");
+							} else {
+								$(event.currentTarget).attr("class","glyphicon glyphicon-unchecked");
+								$("th span.glyphicon-check").attr("class","glyphicon glyphicon-unchecked");
+							}
+						})
+					)
+				)
+				.append($(document.createElement("td"))
+					.attr("style","vertical-align:middle;")
+					.text(student.rut+"-"+student.dv)
+					.attr("data-content","rut")
+				)
+				.append($(document.createElement("td"))
+					.text(student.name.capitalize())
+				)
+				.append($(document.createElement("td"))
+					.attr("style","width:32px;height:32px;text-align:center;vertical-align:middle;")
+					.append($(document.createElement("span"))
+						.attr("class","glyphicon glyphicon-info-sign")
+					)
+				)
+				.append($(document.createElement("td"))
+					.attr("style","width:32px;height:32px;text-align:center;vertical-align:middle;")
+				)
+			)
+		} else {
+			return ($(document.createElement("tr"))
+				.append($(document.createElement("td"))
+					.attr("style","width:32px;height:32px;text-align:center;vertical-align:middle;")
+					.append($(document.createElement("span"))
+						.attr("class","glyphicon glyphicon-unchecked")
+						.on("click",function (event) {
+							if ($(event.currentTarget).attr("class") == "glyphicon glyphicon-unchecked") {
+								$(event.currentTarget).attr("class","glyphicon glyphicon-check");
+							} else {
+								$(event.currentTarget).attr("class","glyphicon glyphicon-unchecked");
+								$("th span.glyphicon-check").attr("class","glyphicon glyphicon-unchecked");
+							}
+						})
+					)
+				)
+				.append($(document.createElement("td"))
+					.attr("style","vertical-align:middle;")
+					.text(student.rut+"-"+student.dv)
+					.attr("data-content","rut")
+				)
+				.append($(document.createElement("td"))
+					.text(student.name.capitalize())
+				)
+				.append($(document.createElement("td"))
+					.attr("style","width:32px;height:32px;text-align:center;vertical-align:middle;")
+					.append($(document.createElement("span"))
+						.attr("class","glyphicon glyphicon-info-sign")
+					)
+				)
+				.append($(document.createElement("td"))
+					.attr("style","width:32px;height:32px;text-align:center;vertical-align:middle;")
+				)
+			)
+		}
+	}
+
+	self.extra_student = function (student) {
+		return ($(document.createElement("tr"))
+			.append($(document.createElement("td"))
+				.attr("style","width:32px;height:32px;text-align:center;vertical-align:middle;")
+				.append($(document.createElement("span"))
+					.attr("class","glyphicon glyphicon-unchecked")
+					.on("click",function (event) {
+						if ($(event.currentTarget).attr("class") == "glyphicon glyphicon-unchecked") {
+							$(event.currentTarget).attr("class","glyphicon glyphicon-check");
+						} else {
+							$(event.currentTarget).attr("class","glyphicon glyphicon-unchecked");
+							$("th span.glyphicon-check").attr("class","glyphicon glyphicon-unchecked");
+						}
+					})
+				)
+			)
+			.append($(document.createElement("td"))
+				.attr("style","vertical-align:middle;")
+				.text(student.rut+"-"+student.dv)
+				.attr("data-content","rut")
+			)
+			.append($(document.createElement("td"))
+				.text(student.name.capitalize())
+			)
+			.append($(document.createElement("td"))
+				.attr("style","width:32px;height:32px;text-align:center;vertical-align:middle;")
+				.append($(document.createElement("span"))
+					.attr("class","glyphicon glyphicon-info-sign")
+				)
+			)
+			.append($(document.createElement("td"))
+				.attr("style","width:32px;height:32px;text-align:center;vertical-align:middle;")
+				.append($(document.createElement("span"))
+					.attr("class","glyphicon glyphicon-trash")
+					.on("click", function (event) {
+						app.extra_remove_active_from_course($(event.currentTarget).parent().parent().find("td[data-content='rut']").text().split("-")[0],main.course_id,console.log,console.log);
+						$(event.currentTarget).parent().parent().remove();
+					})
+				)
+			)
+		)
 	}
 
 	self.document.ready(self.init);

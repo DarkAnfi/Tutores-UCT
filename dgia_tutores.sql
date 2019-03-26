@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 11-12-2018 a las 19:36:49
+-- Tiempo de generación: 26-03-2019 a las 17:50:32
 -- Versión del servidor: 10.1.25-MariaDB
 -- Versión de PHP: 5.6.31
 
@@ -19,94 +19,197 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de datos: `dgia_tutores`
+-- Base de datos: `tutores`
 --
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `asistencia`
+-- Estructura de tabla para la tabla `access`
 --
 
-CREATE TABLE `asistencia` (
+CREATE TABLE `access` (
   `id` int(11) NOT NULL,
-  `estudiante` int(11) NOT NULL,
-  `presente` tinyint(1) NOT NULL,
-  `sesion` int(11) NOT NULL
+  `level` int(11) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Volcado de datos para la tabla `asistencia`
+-- Volcado de datos para la tabla `access`
 --
-
-INSERT INTO `asistencia` (`id`, `estudiante`, `presente`, `sesion`) VALUES
-(1, 19809423, 1, 1),
-(2, 19810381, 0, 2),
-(3, 19810381, 0, 3),
-(4, 19810381, 0, 4),
-(5, 19717817, 1, 1),
-(7, 19592530, 1, 1),
-(8, 19809423, 1, 6),
-(9, 19717817, 1, 6),
-(10, 19809423, 1, 7),
-(11, 19717817, 1, 7),
-(12, 19592530, 1, 7),
-(13, 19809423, 0, 8),
-(14, 19717817, 1, 8),
-(15, 19592530, 1, 8),
-(16, 19592530, 1, 6),
-(17, 19809423, 0, 9),
-(18, 19717817, 0, 9),
-(19, 19592530, 0, 9),
-(20, 20104197, 1, 10),
-(21, 19481125, 1, 10),
-(22, 20104197, 1, 11),
-(23, 19481125, 1, 11),
-(24, 20104197, 0, 12),
-(25, 19481125, 0, 12),
-(26, 20104197, 1, 13),
-(27, 19481125, 1, 13),
-(28, 20104197, 1, 14),
-(29, 19481125, 1, 14),
-(30, 20104197, 1, 15),
-(31, 19481125, 1, 15),
-(32, 20104197, 1, 16),
-(33, 19481125, 1, 16),
-(34, 19926159, 1, 16),
-(35, 19926159, 1, 15),
-(36, 20104197, 1, 17),
-(37, 19481125, 1, 17),
-(38, 19926159, 0, 17),
-(39, 20104197, 1, 18),
-(40, 19481125, 1, 18),
-(41, 19926159, 0, 18),
-(42, 20104197, 1, 19),
-(43, 19481125, 1, 19),
-(44, 19926159, 1, 19),
-(45, 19624562, 1, 19);
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `estudiante`
+-- Estructura de tabla para la tabla `area`
 --
 
-CREATE TABLE `estudiante` (
+CREATE TABLE `area` (
+  `id` int(11) NOT NULL,
+  `name` varchar(128) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `area`
+--
+
+INSERT INTO `area` (`id`, `name`) VALUES
+(1, 'Matemáticas');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `attendance`
+--
+
+CREATE TABLE `attendance` (
+  `id` int(11) NOT NULL,
+  `student` int(11) NOT NULL,
+  `session` int(11) NOT NULL,
+  `present` tinyint(1) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `course`
+--
+
+CREATE TABLE `course` (
+  `id` int(11) NOT NULL,
+  `code` varchar(32) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
+  `name` varchar(128) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
+  `tutor` int(11) DEFAULT NULL,
+  `type` int(11) NOT NULL,
+  `year` year(4) NOT NULL,
+  `semester` int(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `data`
+--
+
+CREATE TABLE `data` (
+  `id` int(11) NOT NULL,
+  `name` varchar(128) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL DEFAULT '',
+  `lastname` varchar(128) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL DEFAULT '',
+  `phone` varchar(12) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL DEFAULT '+56'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `enrolled`
+--
+
+CREATE TABLE `enrolled` (
+  `id` int(11) NOT NULL,
+  `student` int(11) NOT NULL,
+  `course` int(11) NOT NULL,
+  `date` date NOT NULL,
+  `active` tinyint(1) NOT NULL DEFAULT '1'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `extra`
+--
+
+CREATE TABLE `extra` (
+  `id` int(11) NOT NULL,
+  `student` int(11) NOT NULL,
+  `course` int(11) NOT NULL,
+  `date` date NOT NULL,
+  `active` tinyint(1) NOT NULL DEFAULT '1'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `login`
+--
+
+CREATE TABLE `login` (
+  `id` int(11) NOT NULL,
+  `email` varchar(128) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
+  `password` char(32) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `professional`
+--
+
+CREATE TABLE `professional` (
+  `id` int(11) NOT NULL,
+  `data` int(11) NOT NULL,
+  `area` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `professional`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `service`
+--
+
+CREATE TABLE `service` (
+  `id` int(11) NOT NULL,
+  `name` varchar(32) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL DEFAULT '',
+  `image` varchar(256) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL DEFAULT 'http://placehold.it/512x512',
+  `url` varchar(256) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL DEFAULT '/',
+  `level` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `service`
+--
+
+INSERT INTO `service` (`id`, `name`, `image`, `url`, `level`) VALUES
+(1, 'Mis cursos', './images/attendance.png', './data/courses.html', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `session`
+--
+
+CREATE TABLE `session` (
+  `id` int(11) NOT NULL,
+  `course` int(11) NOT NULL,
+  `date` date NOT NULL,
+  `start` time NOT NULL,
+  `end` time NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `student`
+--
+
+CREATE TABLE `student` (
   `rut` int(11) NOT NULL,
   `dv` char(1) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
-  `nombre` varchar(128) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
-  `cod_carrera` int(11) NOT NULL,
-  `nom_carrera` varchar(128) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
-  `cohorte` year(4) NOT NULL,
-  `fono` int(11) NOT NULL,
+  `name` varchar(128) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
+  `career_code` int(11) NOT NULL,
+  `career_name` varchar(128) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
+  `cohort` year(4) NOT NULL,
+  `phone` int(11) NOT NULL,
   `email` varchar(128) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Volcado de datos para la tabla `estudiante`
+-- Volcado de datos para la tabla `student`
 --
 
-INSERT INTO `estudiante` (`rut`, `dv`, `nombre`, `cod_carrera`, `nom_carrera`, `cohorte`, `fono`, `email`) VALUES
+INSERT INTO `student` (`rut`, `dv`, `name`, `career_code`, `career_name`, `cohort`, `phone`, `email`) VALUES
 (1573430, '0', 'DARRAS D´ALLAUD DE BRISIS ADELE', 11, 'INTERCAMBIO ESTUDIANTIL', 2018, 996144397, 'adarras2018@alu.uct.cl'),
 (1668950, '0', 'DE BOISSIEU DALLEMAGNE MARIE CHRISTINE', 11, 'INTERCAMBIO ESTUDIANTIL', 2018, 0, 'mdeboissieu2018@alu.uct.cl'),
 (1879739, '0', 'DUCOURET DUCOURET LUCILE', 11, 'INTERCAMBIO ESTUDIANTIL', 2018, 956953229, 'lducouret2018@alu.uct.cl'),
@@ -496,7 +599,7 @@ INSERT INTO `estudiante` (`rut`, `dv`, `nombre`, `cod_carrera`, `nom_carrera`, `
 (17263520, '2', 'VASQUEZ SUAZO CLAUDIA MARCIA CANDY', 207, 'INGENIERÍA CIVIL INDUSTRIAL', 2014, 0, 'cvasquezs2014@alu.uct.cl'),
 (17263945, '3', 'ULLOA CEBALLOS FABIAN ANDREE', 224, 'INGENIERÍA COMERCIAL', 2014, 0, 'fulloa2014@alu.uct.cl'),
 (17264049, '4', 'PEREZ MONTECINOS LUIS PATRICIO', 165, 'INGENIERÍA CIVIL AMBIENTAL', 2009, 45, 'lperez2009@alu.uct.cl');
-INSERT INTO `estudiante` (`rut`, `dv`, `nombre`, `cod_carrera`, `nom_carrera`, `cohorte`, `fono`, `email`) VALUES
+INSERT INTO `student` (`rut`, `dv`, `name`, `career_code`, `career_name`, `cohort`, `phone`, `email`) VALUES
 (17264115, '6', 'GUTIERREZ OSSES VICTOR GABRIEL', 304, 'PEDAGOGÍA EN EDUCACIÓN FÍSICA', 2014, 0, 'vgutierrez2014@alu.uct.cl'),
 (17264151, '2', 'MELITA ANTILAO ABEL RODRIGO', 305, 'GEOGRAFÍA', 2013, 7, 'amelita2011@alu.uct.cl'),
 (17287640, '4', 'PAVEZ DIAZ JUAN ALEJANDRO', 61, 'ANTROPOLOGÍA', 2015, 66330424, 'jpavez2015@alu.uct.cl'),
@@ -898,7 +1001,7 @@ INSERT INTO `estudiante` (`rut`, `dv`, `nombre`, `cod_carrera`, `nom_carrera`, `
 (17916865, '0', 'VIDAL CARES RODRIGO EDUARDO', 306, 'INGENIERÍA EN RECURSOS NATURALES RENOVABLES', 2017, 998619918, 'rvidal2017@alu.uct.cl'),
 (17916934, '7', 'SEPULVEDA HUENUPAN JOHANA MACARENA', 71, 'EDUCACIÓN DE PÁRVULOS', 2018, 86331081, 'johana.sepulveda2015@alu.uct.cl'),
 (17916948, '7', 'PACHECO PEREZ EVELYN HAYDEE', 400, 'PSICOLOGÍA', 2013, 0, 'epacheco2013@alu.uct.cl');
-INSERT INTO `estudiante` (`rut`, `dv`, `nombre`, `cod_carrera`, `nom_carrera`, `cohorte`, `fono`, `email`) VALUES
+INSERT INTO `student` (`rut`, `dv`, `name`, `career_code`, `career_name`, `cohort`, `phone`, `email`) VALUES
 (17916991, '6', 'PAINEMAL HUENUQUEO PAULA ELIZABETH', 165, 'INGENIERÍA CIVIL AMBIENTAL', 2010, 0, 'ppainemal2010@alu.uct.cl'),
 (17917062, '0', 'AGUILERA CAMPOS CRISTOPHER ALLAN', 450, 'TECNICO UNIVERSITARIO EN TOPOGRAFIA Y GEOMENSURA', 2018, 59385508, 'caguilera2018@alu.uct.cl'),
 (17917074, '4', 'LOPEZ ALARCON MARIA ISABEL', 401, 'KINESIOLOGÍA', 2015, 0, 'mlopeza2011@alu.uct.cl'),
@@ -1306,9 +1409,9 @@ INSERT INTO `estudiante` (`rut`, `dv`, `nombre`, `cod_carrera`, `nom_carrera`, `
 (18248647, '7', 'JAURE FARFAN LUIS ANTONIO', 418, 'INGENIERIA CIVIL GEOLOGICA', 2014, 0, 'ljaure2014@alu.uct.cl'),
 (18248699, '0', 'FERNANDEZ HERNANDEZ DANAHE DE LOS ANGELES', 400, 'PSICOLOGÍA', 2015, 7621995, 'danahe.fernandez2015@alu.uct.cl'),
 (18250598, '6', 'GAJARDO CEA FRANCO ALBERTO', 137, 'PEDAGOGIA MEDIA EN MATEMATICA', 2017, 999448181, 'fgajardo2017@alu.uct.cl'),
-(18251554, '0', 'GONZÁLEZ QUILALEO PATRICIO ANTONIO', 450, 'TECNICO UNIVERSITARIO EN TOPOGRAFIA Y GEOMENSURA', 2018, 963219995, 'patricio.gonzalez2018@alu.uct.cl');
-INSERT INTO `estudiante` (`rut`, `dv`, `nombre`, `cod_carrera`, `nom_carrera`, `cohorte`, `fono`, `email`) VALUES
-(18251942, '1', 'CONTRERAS REYES FABIAN ANDRES', 405, 'FONOAUDIOLOGÍA', 2012, 0, 'fcontreras2012@alu.uct.cl'),
+(18251554, '0', 'GONZÁLEZ QUILALEO PATRICIO ANTONIO', 450, 'TECNICO UNIVERSITARIO EN TOPOGRAFIA Y GEOMENSURA', 2018, 963219995, 'patricio.gonzalez2018@alu.uct.cl'),
+(18251942, '1', 'CONTRERAS REYES FABIAN ANDRES', 405, 'FONOAUDIOLOGÍA', 2012, 0, 'fcontreras2012@alu.uct.cl');
+INSERT INTO `student` (`rut`, `dv`, `name`, `career_code`, `career_name`, `cohort`, `phone`, `email`) VALUES
 (18252141, '8', 'ALVAREZ QUILODRAN CLAUDIO ARTURO', 305, 'GEOGRAFÍA', 2012, 0, 'calvarezq2012@alu.uct.cl'),
 (18266348, '4', 'SANCHEZ ESCOBAR ALVARO EDUARDO', 106, 'AGRONOMÍA', 2011, 0, 'asanchez2011@alu.uct.cl'),
 (18266391, '3', 'MORA MORA CARLOS GABRIEL', 207, 'INGENIERÍA CIVIL INDUSTRIAL', 2015, 62698455, 'cmora2011@alu.uct.cl'),
@@ -1715,9 +1818,9 @@ INSERT INTO `estudiante` (`rut`, `dv`, `nombre`, `cod_carrera`, `nom_carrera`, `
 (18485241, '1', 'CANCINO HUAIQUIMIL NICOL ANDREA', 453, 'INGENIERIA EN PREVENCION DE RIESGOS Y MEDIO AMBIENTE', 2016, 0, 'ncancino2013@alu.uct.cl'),
 (18485243, '8', 'SILVA BALLESTEROS TANIA DOMINIKE', 207, 'INGENIERÍA CIVIL INDUSTRIAL', 2012, 0, 'tsilva2012@alu.uct.cl'),
 (18485258, '6', 'RIVAS URRA JAVIERA HILDA ELVIRA', 71, 'EDUCACIÓN DE PÁRVULOS', 2015, 67414607, 'javiera.rivas2015@alu.uct.cl'),
-(18485270, '5', 'ERCOLI ERCOLI FERNANDO EUGENIO', 419, 'INGENIERIA CIVIL EN OBRAS CIVILES', 2017, 942200147, 'fercoli2013@alu.uct.cl');
-INSERT INTO `estudiante` (`rut`, `dv`, `nombre`, `cod_carrera`, `nom_carrera`, `cohorte`, `fono`, `email`) VALUES
-(18485294, '2', 'GUTIERREZ CARDENAS JAVIER ANDRES', 623, 'ARQUITECTURA', 2018, 956013852, 'javier.gutierrez2018@alu.uct.cl'),
+(18485270, '5', 'ERCOLI ERCOLI FERNANDO EUGENIO', 419, 'INGENIERIA CIVIL EN OBRAS CIVILES', 2017, 942200147, 'fercoli2013@alu.uct.cl'),
+(18485294, '2', 'GUTIERREZ CARDENAS JAVIER ANDRES', 623, 'ARQUITECTURA', 2018, 956013852, 'javier.gutierrez2018@alu.uct.cl');
+INSERT INTO `student` (`rut`, `dv`, `name`, `career_code`, `career_name`, `cohort`, `phone`, `email`) VALUES
 (18485306, '0', 'GARRIDO REYES SEBASTIAN ANDRES', 224, 'INGENIERÍA COMERCIAL', 2018, 933080127, 'sgarrido2018@alu.uct.cl'),
 (18485319, '1', 'HERNANDEZ FIERRO FELIPE ANDRES', 154, 'INGENIERÍA CIVIL EN INFORMÁTICA', 2013, 0, 'fhernandez2013@alu.uct.cl'),
 (18485339, '6', 'ULLOA GRANDON ROBERTO CARLOS', 306, 'INGENIERÍA EN RECURSOS NATURALES RENOVABLES', 2012, 0, 'rulloa2012@alu.uct.cl'),
@@ -2131,9 +2234,9 @@ INSERT INTO `estudiante` (`rut`, `dv`, `nombre`, `cod_carrera`, `nom_carrera`, `
 (18702262, '2', 'HOFFMANN LEON STEPHAN ALEXSSANDER', 405, 'FONOAUDIOLOGÍA', 2018, 982072076, 'shoffmann2018@alu.uct.cl'),
 (18705245, '9', 'BARRIENTOS BARRIENTOS CLAUDIA VALENTINA', 106, 'AGRONOMÍA', 2013, 0, 'cbarrientosb2013@alu.uct.cl'),
 (18707045, '7', 'CUEVAS CUEVAS CASANDRA NOEMI', 114, 'TRABAJO SOCIAL', 2013, 0, 'ccuevas2013@alu.uct.cl'),
-(18708091, '6', 'BUSTOS CASTILLO CAMILA FRANCISCA', 419, 'INGENIERIA CIVIL EN OBRAS CIVILES', 2017, 1126050, 'cbustos2016@alu.uct.cl');
-INSERT INTO `estudiante` (`rut`, `dv`, `nombre`, `cod_carrera`, `nom_carrera`, `cohorte`, `fono`, `email`) VALUES
-(18708444, '0', 'SALAZAR SALDIAS INGRID CONSTANZA', 404, 'NUTRICIÓN Y DIETÉTICA', 2013, 0, 'isalazar2013@alu.uct.cl'),
+(18708091, '6', 'BUSTOS CASTILLO CAMILA FRANCISCA', 419, 'INGENIERIA CIVIL EN OBRAS CIVILES', 2017, 1126050, 'cbustos2016@alu.uct.cl'),
+(18708444, '0', 'SALAZAR SALDIAS INGRID CONSTANZA', 404, 'NUTRICIÓN Y DIETÉTICA', 2013, 0, 'isalazar2013@alu.uct.cl');
+INSERT INTO `student` (`rut`, `dv`, `name`, `career_code`, `career_name`, `cohort`, `phone`, `email`) VALUES
 (18708878, '0', 'SAN MARTÍN CARRASCO PATRICIA ALEJANDRA', 155, 'PEDAGOGIA EN EDUCACION DIFERENCIAL CON ESP.EN N.E.E.T. Y DEFICIENCIA MENTAL', 2014, 0, 'psanmartinc2013@alu.uct.cl'),
 (18709117, '9', 'AGUILERA LEPIMÁN SEBASTIÁN ANDRÉS', 106, 'AGRONOMÍA', 2015, 7182387, 'saguileral2013@alu.uct.cl'),
 (18711661, '9', 'PIÑALEO CASTILLO VALENTINA FERNANDA', 403, 'TECNOLOGÍA MÉDICA', 2012, 0, 'vpinaleo2012@alu.uct.cl'),
@@ -2542,10 +2645,10 @@ INSERT INTO `estudiante` (`rut`, `dv`, `nombre`, `cod_carrera`, `nom_carrera`, `
 (18806392, '6', 'MUÑOZ SEGUEL MARÍA FERNANDA', 405, 'FONOAUDIOLOGÍA', 2014, 0, 'mar2014@alu.uct.cl'),
 (18807679, '3', 'CASTRO VEJAR KARINA ANDREA', 224, 'INGENIERÍA COMERCIAL', 2014, 0, 'kcastro2014@alu.uct.cl'),
 (18807912, '1', 'OÑATE ESCOBAR MARCO ANDRES', 100, 'DERECHO', 2012, 0, 'monate2012@alu.uct.cl'),
-(18808060, '0', 'HEISE REYES BÁRBARA CAMILA', 155, 'PEDAGOGIA EN EDUCACION DIFERENCIAL CON ESP.EN N.E.E.T. Y DEFICIENCIA MENTAL', 2015, 2474793, 'bheise2013@alu.uct.cl');
-INSERT INTO `estudiante` (`rut`, `dv`, `nombre`, `cod_carrera`, `nom_carrera`, `cohorte`, `fono`, `email`) VALUES
+(18808060, '0', 'HEISE REYES BÁRBARA CAMILA', 155, 'PEDAGOGIA EN EDUCACION DIFERENCIAL CON ESP.EN N.E.E.T. Y DEFICIENCIA MENTAL', 2015, 2474793, 'bheise2013@alu.uct.cl'),
 (18808358, '7', 'SOTO URIBE ÁLVARO ANDRÉS', 100, 'DERECHO', 2014, 0, 'asoto2014@alu.uct.cl'),
-(18810438, '0', 'QUIJÓN MENDOZA CAMILA PAZ', 401, 'KINESIOLOGÍA', 2013, 0, 'cquijon2013@alu.uct.cl'),
+(18810438, '0', 'QUIJÓN MENDOZA CAMILA PAZ', 401, 'KINESIOLOGÍA', 2013, 0, 'cquijon2013@alu.uct.cl');
+INSERT INTO `student` (`rut`, `dv`, `name`, `career_code`, `career_name`, `cohort`, `phone`, `email`) VALUES
 (18810469, '0', 'QUIROZ ROSAS MARÍA PAZ', 103, 'MEDICINA VETERINARIA', 2014, 0, 'mquirozr2014@alu.uct.cl'),
 (18810497, '5', 'NAHUELCURA FLORES CLAUDIA ANDREA', 402, 'TERAPIA OCUPACIONAL', 2013, 0, 'cnahuelcura2013@alu.uct.cl'),
 (18810791, '5', 'VELÁSQUEZ YURIE DIEGO', 418, 'INGENIERIA CIVIL GEOLOGICA', 2013, 0, 'dvelasquez2013@alu.uct.cl'),
@@ -2948,10 +3051,10 @@ INSERT INTO `estudiante` (`rut`, `dv`, `nombre`, `cod_carrera`, `nom_carrera`, `
 (18895428, '6', 'QUINÁN ALVARADO DAVID ANTONIO', 222, 'SOCIOLOGÍA', 2014, 0, 'dquinan2014@alu.uct.cl'),
 (18895535, '5', 'GACITÚA SÁNCHEZ FRANCISCA VALENTINA', 403, 'TECNOLOGÍA MÉDICA', 2014, 0, 'fgacitua2013@alu.uct.cl'),
 (18895563, '0', 'FLORES MONTERO FRANCISCA ANDREA', 302, 'DISEÑO INDUSTRIAL', 2015, 9181737, 'francisca.flores2015@alu.uct.cl'),
-(18895595, '9', 'PAREDES VÁSQUEZ CAMILA JAVIERA', 402, 'TERAPIA OCUPACIONAL', 2014, 0, 'cparedes2014@alu.uct.cl');
-INSERT INTO `estudiante` (`rut`, `dv`, `nombre`, `cod_carrera`, `nom_carrera`, `cohorte`, `fono`, `email`) VALUES
+(18895595, '9', 'PAREDES VÁSQUEZ CAMILA JAVIERA', 402, 'TERAPIA OCUPACIONAL', 2014, 0, 'cparedes2014@alu.uct.cl'),
 (18895634, '3', 'VICENCIO RAINAO EDUARDO IGNACIO', 420, 'GEOLOGIA', 2016, 86333600, 'evicencio2016@alu.uct.cl'),
-(18895674, '2', 'SEPÚLVEDA REINANTE SAÚL ANDRÉS', 207, 'INGENIERÍA CIVIL INDUSTRIAL', 2013, 0, 'ssepulveda2013@alu.uct.cl'),
+(18895674, '2', 'SEPÚLVEDA REINANTE SAÚL ANDRÉS', 207, 'INGENIERÍA CIVIL INDUSTRIAL', 2013, 0, 'ssepulveda2013@alu.uct.cl');
+INSERT INTO `student` (`rut`, `dv`, `name`, `career_code`, `career_name`, `cohort`, `phone`, `email`) VALUES
 (18895775, '7', 'MARTÍNEZ VALENZUELA MATÍAS IGNACIO', 451, 'TECNICO UNIVERSITARIO EN REDES Y TELECOMUNICACIONES', 2018, 975371096, 'mmartinez2018@alu.uct.cl'),
 (18895799, '4', 'PINCHEIRA BART CATALINA ARLETTE', 419, 'INGENIERIA CIVIL EN OBRAS CIVILES', 2015, 0, 'cpincheira2013@alu.uct.cl'),
 (18895802, '8', 'MONSALVE GOMEZ MACARENA DEL CARMEN', 400, 'PSICOLOGÍA', 2016, 85368351, 'mmonsalve2015@alu.uct.cl'),
@@ -3359,10 +3462,10 @@ INSERT INTO `estudiante` (`rut`, `dv`, `nombre`, `cod_carrera`, `nom_carrera`, `
 (19037078, '0', 'VALDEBENITO CORAIL ANA BELÉN MARÍA', 103, 'MEDICINA VETERINARIA', 2017, 975342254, 'avaldebenito2017@alu.uct.cl'),
 (19037656, '7', 'PRADO SAN MARTÍN BELÉN CAMILA', 100, 'DERECHO', 2014, 0, 'bprado2014@alu.uct.cl'),
 (19037934, '5', 'VALENZUELA CONTESSO NICOLE ANDREA', 100, 'DERECHO', 2014, 0, 'nvalenzuelac2014@alu.uct.cl'),
-(19037979, '5', 'SEPÚLVEDA MANRÍQUEZ LUCÍA BELÉN', 401, 'KINESIOLOGÍA', 2015, 123, 'lsepulveda2014@alu.uct.cl');
-INSERT INTO `estudiante` (`rut`, `dv`, `nombre`, `cod_carrera`, `nom_carrera`, `cohorte`, `fono`, `email`) VALUES
+(19037979, '5', 'SEPÚLVEDA MANRÍQUEZ LUCÍA BELÉN', 401, 'KINESIOLOGÍA', 2015, 123, 'lsepulveda2014@alu.uct.cl'),
 (19038739, '9', 'SOTO PÉREZ SERGIO ESAR', 419, 'INGENIERIA CIVIL EN OBRAS CIVILES', 2015, 76696951, 'sergio.soto2015@alu.uct.cl'),
-(19039011, '0', 'VÁSQUEZ BUSTAMANTE CAMILA ANDREA', 401, 'KINESIOLOGÍA', 2014, 0, 'cvasquezb2014@alu.uct.cl'),
+(19039011, '0', 'VÁSQUEZ BUSTAMANTE CAMILA ANDREA', 401, 'KINESIOLOGÍA', 2014, 0, 'cvasquezb2014@alu.uct.cl');
+INSERT INTO `student` (`rut`, `dv`, `name`, `career_code`, `career_name`, `cohort`, `phone`, `email`) VALUES
 (19039490, '5', 'ANCAMIL MILLAPI CAMILA ANDREA', 150, 'PEDAGOGÍA EN INGLÉS', 2016, 73527701, 'cancamil2016@alu.uct.cl'),
 (19042237, '2', 'URRUTIA IBACACHE KARLA IVONN FRANCISCA', 103, 'MEDICINA VETERINARIA', 2015, 1547931, 'kurrutia2015@alu.uct.cl'),
 (19049968, '5', 'SALAZAR JARA DIEGO ALONSO', 207, 'INGENIERÍA CIVIL INDUSTRIAL', 2013, 0, 'dsalazar2013@alu.uct.cl'),
@@ -3769,10 +3872,10 @@ INSERT INTO `estudiante` (`rut`, `dv`, `nombre`, `cod_carrera`, `nom_carrera`, `
 (19132984, '8', 'LLANCA VIVALLO CRISTÓBAL STEFFANO', 223, 'CIENCIA POLITICA', 2014, 0, 'cllanca2014@alu.uct.cl'),
 (19133020, '0', 'MARTÍNEZ FIGUEROA RODRIGO ANTONIO', 420, 'GEOLOGIA', 2015, 92684447, 'rmartinez2015@alu.uct.cl'),
 (19133037, '4', 'ÁLVAREZ CUMIAN CARLOS GERARDO', 100, 'DERECHO', 2015, 4925872, 'calvarez2015@alu.uct.cl'),
-(19133081, '1', 'VILLEGAS NAHUEL PRISCILA EDITT', 155, 'PEDAGOGIA EN EDUCACION DIFERENCIAL CON ESP.EN N.E.E.T. Y DEFICIENCIA MENTAL', 2015, 62458357, 'pvillegas2015@alu.uct.cl');
-INSERT INTO `estudiante` (`rut`, `dv`, `nombre`, `cod_carrera`, `nom_carrera`, `cohorte`, `fono`, `email`) VALUES
+(19133081, '1', 'VILLEGAS NAHUEL PRISCILA EDITT', 155, 'PEDAGOGIA EN EDUCACION DIFERENCIAL CON ESP.EN N.E.E.T. Y DEFICIENCIA MENTAL', 2015, 62458357, 'pvillegas2015@alu.uct.cl'),
 (19134609, '2', 'JIMÉNEZ URREJOLA DANIELA FERNANDA', 165, 'INGENIERÍA CIVIL AMBIENTAL', 2014, 0, 'djimenez2014@alu.uct.cl'),
-(19138213, '7', 'GÓMEZ SIERPE FELIPE IGNACIO', 303, 'PEDAGOGÍA EN HISTORIA GEOGRAFÍA Y CIENCIAS SOCIALES', 2015, 3132577, 'fgomezs2014@alu.uct.cl'),
+(19138213, '7', 'GÓMEZ SIERPE FELIPE IGNACIO', 303, 'PEDAGOGÍA EN HISTORIA GEOGRAFÍA Y CIENCIAS SOCIALES', 2015, 3132577, 'fgomezs2014@alu.uct.cl');
+INSERT INTO `student` (`rut`, `dv`, `name`, `career_code`, `career_name`, `cohort`, `phone`, `email`) VALUES
 (19138260, '9', 'KOPP MUÑOZ FRANCO IGNACIO', 400, 'PSICOLOGÍA', 2014, 0, 'fkopp2014@alu.uct.cl'),
 (19138387, '7', 'VÁSQUEZ CÁRCAMO NELSON IVÁN', 100, 'DERECHO', 2014, 0, 'nvasquezc2014@alu.uct.cl'),
 (19138453, '9', 'PILLAMPEL DÍAZ KARINA VANESA', 137, 'PEDAGOGIA MEDIA EN MATEMATICA', 2014, 0, 'kpillampel2014@alu.uct.cl'),
@@ -4168,10 +4271,10 @@ INSERT INTO `estudiante` (`rut`, `dv`, `nombre`, `cod_carrera`, `nom_carrera`, `
 (19199336, '5', 'VARGAS MUÑOZ RENÉ MATÍAS', 419, 'INGENIERIA CIVIL EN OBRAS CIVILES', 2018, 962293476, 'rvargas2018@alu.uct.cl'),
 (19199343, '8', 'MELI FERNÁNDEZ JAVIER SEBASTIÁN', 165, 'INGENIERÍA CIVIL AMBIENTAL', 2018, 972608285, 'jmeli2015@alu.uct.cl'),
 (19199345, '4', 'SILVA MELLA CLEMIRA RAMONA', 224, 'INGENIERÍA COMERCIAL', 2015, 83820932, 'clemira.silva2015@alu.uct.cl'),
-(19199357, '8', 'HUILCAMÁN ESCOBAR IVÁN ANTONIO', 224, 'INGENIERÍA COMERCIAL', 2015, 58285286, 'ihuilcaman2015@alu.uct.cl');
-INSERT INTO `estudiante` (`rut`, `dv`, `nombre`, `cod_carrera`, `nom_carrera`, `cohorte`, `fono`, `email`) VALUES
+(19199357, '8', 'HUILCAMÁN ESCOBAR IVÁN ANTONIO', 224, 'INGENIERÍA COMERCIAL', 2015, 58285286, 'ihuilcaman2015@alu.uct.cl'),
 (19199371, '3', 'BELMAR CALFUL BÁRBARA NICOL', 224, 'INGENIERÍA COMERCIAL', 2015, 74209310, 'bbelmar2015@alu.uct.cl'),
-(19199373, '0', 'GONZÁLEZ OLIVA MATÍAS ALI', 450, 'TECNICO UNIVERSITARIO EN TOPOGRAFIA Y GEOMENSURA', 2018, 995001249, 'matias.gonzalez2018@alu.uct.cl'),
+(19199373, '0', 'GONZÁLEZ OLIVA MATÍAS ALI', 450, 'TECNICO UNIVERSITARIO EN TOPOGRAFIA Y GEOMENSURA', 2018, 995001249, 'matias.gonzalez2018@alu.uct.cl');
+INSERT INTO `student` (`rut`, `dv`, `name`, `career_code`, `career_name`, `cohort`, `phone`, `email`) VALUES
 (19199375, '6', 'MORA CORNEJO CAMILA INÉS', 306, 'INGENIERÍA EN RECURSOS NATURALES RENOVABLES', 2015, 85652833, 'cmora2015@alu.uct.cl'),
 (19199399, '3', 'HERNÁNDEZ TORRES GONZALO ALEJANDRO', 207, 'INGENIERÍA CIVIL INDUSTRIAL', 2015, 88416878, 'ghernandez2015@alu.uct.cl'),
 (19199411, '6', 'ILLANES FUENTES CONSTANZA VALENTINA', 400, 'PSICOLOGÍA', 2018, 950356453, 'cillanes2017@alu.uct.cl'),
@@ -4572,10 +4675,10 @@ INSERT INTO `estudiante` (`rut`, `dv`, `nombre`, `cod_carrera`, `nom_carrera`, `
 (19304531, '6', 'GUTIÉRREZ CHABOUTY DAVID HERNÁN', 423, 'TECNICO UNIVERSITARIO EN PREPARACION FISICA', 2018, 95136175, 'dgutierrez2014@alu.uct.cl'),
 (19304533, '2', 'PADILLA MONSALVES CRISTIAN ANDRÉS', 106, 'AGRONOMÍA', 2014, 0, 'cpadillam2014@alu.uct.cl'),
 (19304559, '6', 'CANIULAF QUEZADA PABLO IGNACIO', 114, 'TRABAJO SOCIAL', 2016, 65691390, 'pcaniulaf2016@alu.uct.cl'),
-(19304594, '4', 'SEPÚLVEDA SÁNCHEZ PAULINA NOEMÍ', 318, 'INGENIERÍA CIVIL QUÍMICA', 2014, 0, 'psepulvedas2014@alu.uct.cl');
-INSERT INTO `estudiante` (`rut`, `dv`, `nombre`, `cod_carrera`, `nom_carrera`, `cohorte`, `fono`, `email`) VALUES
+(19304594, '4', 'SEPÚLVEDA SÁNCHEZ PAULINA NOEMÍ', 318, 'INGENIERÍA CIVIL QUÍMICA', 2014, 0, 'psepulvedas2014@alu.uct.cl'),
 (19304605, '3', 'QUIROZ CIFUENTES FRANCISCA JAVIERA', 422, 'TECNICO UNIVERSITARIO EN ADMINISTRACION DE EMPRESAS', 2018, 989456705, 'fquiroz2018@alu.uct.cl'),
-(19304646, '0', 'AEDO RIVAS CAMILA FRANCESCA', 103, 'MEDICINA VETERINARIA', 2014, 0, 'caedo2014@alu.uct.cl'),
+(19304646, '0', 'AEDO RIVAS CAMILA FRANCESCA', 103, 'MEDICINA VETERINARIA', 2014, 0, 'caedo2014@alu.uct.cl');
+INSERT INTO `student` (`rut`, `dv`, `name`, `career_code`, `career_name`, `cohort`, `phone`, `email`) VALUES
 (19304651, '7', 'SOTO BIZAMA MARCELA BELÉN', 304, 'PEDAGOGÍA EN EDUCACIÓN FÍSICA', 2016, 59567027, 'msotob2014@alu.uct.cl'),
 (19304673, '8', 'PARADA MARTÍNEZ IGNACIO ANTONIO', 419, 'INGENIERIA CIVIL EN OBRAS CIVILES', 2015, 65500308, 'iparada2015@alu.uct.cl'),
 (19304677, '0', 'PIZARRO VILLEGAS BELÉN ADRIELA', 223, 'CIENCIA POLITICA', 2014, 0, 'bpizarro2014@alu.uct.cl'),
@@ -4971,10 +5074,10 @@ INSERT INTO `estudiante` (`rut`, `dv`, `nombre`, `cod_carrera`, `nom_carrera`, `
 (19380024, '6', 'ORTIZ BAEZA IGNACIO ESTEBAN', 224, 'INGENIERÍA COMERCIAL', 2016, 82973244, 'iortiz2016@alu.uct.cl'),
 (19380034, '3', 'RODRÍGUEZ CIFUENTES KAROLINA YAHARELLY', 165, 'INGENIERÍA CIVIL AMBIENTAL', 2016, 97957086, 'karolina.rodriguez2016@alu.uct.cl'),
 (19380051, '3', 'CARRASCO MEDINA FRANCESCA MARIANELA', 405, 'FONOAUDIOLOGÍA', 2018, 979302507, 'fcarrasco2018@alu.uct.cl'),
-(19380055, '6', 'CARRASCO BUSTOS CAMILA LISETTE', 404, 'NUTRICIÓN Y DIETÉTICA', 2016, 67799094, 'camila.carrasco2016@alu.uct.cl');
-INSERT INTO `estudiante` (`rut`, `dv`, `nombre`, `cod_carrera`, `nom_carrera`, `cohorte`, `fono`, `email`) VALUES
+(19380055, '6', 'CARRASCO BUSTOS CAMILA LISETTE', 404, 'NUTRICIÓN Y DIETÉTICA', 2016, 67799094, 'camila.carrasco2016@alu.uct.cl'),
 (19380063, '7', 'STUARDO RAMOS NATALY EDITH', 316, 'CONTADOR AUDITOR', 2015, 88349093, 'nstuardo2014@alu.uct.cl'),
-(19380081, '5', 'CHANQUEO PROVOSTE DANIELA BELEN', 224, 'INGENIERÍA COMERCIAL', 2015, 92158116, 'dchanqueo2015@alu.uct.cl'),
+(19380081, '5', 'CHANQUEO PROVOSTE DANIELA BELEN', 224, 'INGENIERÍA COMERCIAL', 2015, 92158116, 'dchanqueo2015@alu.uct.cl');
+INSERT INTO `student` (`rut`, `dv`, `name`, `career_code`, `career_name`, `cohort`, `phone`, `email`) VALUES
 (19380082, '3', 'SANDOVAL HERNÁNDEZ KATHERINE ANDREA DEL CARM', 454, 'ADMINISTRACION PUBLICA', 2015, 96161895, 'ksandoval2015@alu.uct.cl'),
 (19380083, '1', 'RODRÍGUEZ SÁEZ MAITE DEL CARMEN', 403, 'TECNOLOGÍA MÉDICA', 2018, 958483432, 'maite.rodriguez2017@alu.uct.cl'),
 (19380140, '4', 'DIAZ CID DANIEL ESTEBAN', 419, 'INGENIERIA CIVIL EN OBRAS CIVILES', 2015, 89167124, 'daniel.diaz2015@alu.uct.cl'),
@@ -5364,10 +5467,10 @@ INSERT INTO `estudiante` (`rut`, `dv`, `nombre`, `cod_carrera`, `nom_carrera`, `
 (19476518, '5', 'TROUPIL NAHUELFIL MARCELA DEL CARMEN', 404, 'NUTRICIÓN Y DIETÉTICA', 2017, 950235287, 'mtroupil2014@alu.uct.cl'),
 (19476522, '3', 'SÁEZ SALINAS YENIFER ALEJANDRA', 71, 'EDUCACIÓN DE PÁRVULOS', 2016, 81264329, 'yenifer.saez2015@alu.uct.cl'),
 (19476642, '4', 'BENAVIDES HERNÁNDEZ INGRID LETICIA', 207, 'INGENIERÍA CIVIL INDUSTRIAL', 2015, 86967437, 'ibenavides2015@alu.uct.cl'),
-(19476647, '5', 'BARRIENTOS BARRÍA CAROLINA DEL CARMEN', 207, 'INGENIERÍA CIVIL INDUSTRIAL', 2015, 88206707, 'cbarrientos2015@alu.uct.cl');
-INSERT INTO `estudiante` (`rut`, `dv`, `nombre`, `cod_carrera`, `nom_carrera`, `cohorte`, `fono`, `email`) VALUES
+(19476647, '5', 'BARRIENTOS BARRÍA CAROLINA DEL CARMEN', 207, 'INGENIERÍA CIVIL INDUSTRIAL', 2015, 88206707, 'cbarrientos2015@alu.uct.cl'),
 (19476648, '3', 'CORREA MATUS NATALIA CONSTANZA', 405, 'FONOAUDIOLOGÍA', 2017, 966639901, 'ncorrea2016@alu.uct.cl'),
-(19476654, '8', 'LÓPEZ LEIVA BENJAMÍN GONZALO ANDRÉS', 316, 'CONTADOR AUDITOR', 2017, 86656909, 'blopez2016@alu.uct.cl'),
+(19476654, '8', 'LÓPEZ LEIVA BENJAMÍN GONZALO ANDRÉS', 316, 'CONTADOR AUDITOR', 2017, 86656909, 'blopez2016@alu.uct.cl');
+INSERT INTO `student` (`rut`, `dv`, `name`, `career_code`, `career_name`, `cohort`, `phone`, `email`) VALUES
 (19476656, '4', 'OSSES LAGOS BASTIÁN ALEJANDRO', 420, 'GEOLOGIA', 2015, 88231934, 'bosses2015@alu.uct.cl'),
 (19476665, '3', 'GONZÁLEZ BAEZA PABLO ANDRÉS', 303, 'PEDAGOGÍA EN HISTORIA GEOGRAFÍA Y CIENCIAS SOCIALES', 2016, 78140379, 'pgonzalez2016@alu.uct.cl'),
 (19476671, '8', 'HUAIQUIMIL MALI DANIELA JEANNETTE', 99, 'PEDAGOGÍA MEDIA EN CIENCIAS NATURALES Y BIOLOGÍA', 2016, 54728623, 'dhuaiquimil2016@alu.uct.cl'),
@@ -5751,10 +5854,10 @@ INSERT INTO `estudiante` (`rut`, `dv`, `nombre`, `cod_carrera`, `nom_carrera`, `
 (19517950, '6', 'SAAVEDRA ECHEVERRÍA JACQUELINE LORETO', 155, 'PEDAGOGIA EN EDUCACION DIFERENCIAL CON ESP.EN N.E.E.T. Y DEFICIENCIA MENTAL', 2015, 57028183, 'jacqueline.saavedra2015@alu.uct.cl'),
 (19517952, '2', 'RINGLER SAAVEDRA IGNACIO ESTEBAN', 154, 'INGENIERÍA CIVIL EN INFORMÁTICA', 2017, 986918540, 'iringler2017@alu.uct.cl'),
 (19517959, '0', 'MONJE CRIADO MARCELA FERNANDA', 224, 'INGENIERÍA COMERCIAL', 2015, 97799927, 'mmonje2015@alu.uct.cl'),
-(19517966, '2', 'SAN MARTIN MAUREIRA SEBASTIAN EMERSON', 419, 'INGENIERIA CIVIL EN OBRAS CIVILES', 2015, 76437288, 'ssanmartin2015@alu.uct.cl');
-INSERT INTO `estudiante` (`rut`, `dv`, `nombre`, `cod_carrera`, `nom_carrera`, `cohorte`, `fono`, `email`) VALUES
+(19517966, '2', 'SAN MARTIN MAUREIRA SEBASTIAN EMERSON', 419, 'INGENIERIA CIVIL EN OBRAS CIVILES', 2015, 76437288, 'ssanmartin2015@alu.uct.cl'),
 (19517973, '5', 'ÁLVAREZ ALLAIRE DANIELA MARCELA', 103, 'MEDICINA VETERINARIA', 2015, 86538797, 'dalvarez2015@alu.uct.cl'),
-(19517997, '2', 'CAYUPI ASENJO CAMILA ANDREA', 165, 'INGENIERÍA CIVIL AMBIENTAL', 2017, 57408464, 'ccayupi2016@alu.uct.cl'),
+(19517997, '2', 'CAYUPI ASENJO CAMILA ANDREA', 165, 'INGENIERÍA CIVIL AMBIENTAL', 2017, 57408464, 'ccayupi2016@alu.uct.cl');
+INSERT INTO `student` (`rut`, `dv`, `name`, `career_code`, `career_name`, `cohort`, `phone`, `email`) VALUES
 (19518019, '9', 'ILLANES HUECHAO YENIFER SOLEDAD', 426, 'TECNICO UNIVERSITARIO EN TURISMO', 2018, 975900968, 'yillanes2017@alu.uct.cl'),
 (19518049, '0', 'SALAZAR PINO JEDSALEM NATALY', 155, 'PEDAGOGIA EN EDUCACION DIFERENCIAL CON ESP.EN N.E.E.T. Y DEFICIENCIA MENTAL', 2015, 67956226, 'jsalazar2015@alu.uct.cl'),
 (19518050, '4', 'BRELLENTHIN SÁEZ KARLA JAVIERA', 100, 'DERECHO', 2015, 99161166, 'kbrellenthin2015@alu.uct.cl'),
@@ -6141,10 +6244,10 @@ INSERT INTO `estudiante` (`rut`, `dv`, `nombre`, `cod_carrera`, `nom_carrera`, `
 (19544544, '3', 'ACUÑA DÍAZ JAVIERA MACARENA', 155, 'PEDAGOGIA EN EDUCACION DIFERENCIAL CON ESP.EN N.E.E.T. Y DEFICIENCIA MENTAL', 2015, 86251564, 'jacuna2015@alu.uct.cl'),
 (19546773, '0', 'CAMPOS JARA LILIANS CONSTANZA', 155, 'PEDAGOGIA EN EDUCACION DIFERENCIAL CON ESP.EN N.E.E.T. Y DEFICIENCIA MENTAL', 2015, 41431936, 'lcampos2015@alu.uct.cl'),
 (19547119, '3', 'REVILLOD INZUNZA JORGE ANDRES', 624, 'TECNICO UNIVERSITARIO EN CONSTRUCCION Y OBRAS CIVILES', 2017, 991770239, 'jrevillod2017@alu.uct.cl'),
-(19547245, '9', 'MARINAO UGALDE NAYARETH CONSTANZA', 422, 'TECNICO UNIVERSITARIO EN ADMINISTRACION DE EMPRESAS', 2016, 58774712, 'nayareth.ugalde2015@alu.uct.cl');
-INSERT INTO `estudiante` (`rut`, `dv`, `nombre`, `cod_carrera`, `nom_carrera`, `cohorte`, `fono`, `email`) VALUES
+(19547245, '9', 'MARINAO UGALDE NAYARETH CONSTANZA', 422, 'TECNICO UNIVERSITARIO EN ADMINISTRACION DE EMPRESAS', 2016, 58774712, 'nayareth.ugalde2015@alu.uct.cl'),
 (19547851, '1', 'FLORES JORQUERA DARLING ANDREA', 422, 'TECNICO UNIVERSITARIO EN ADMINISTRACION DE EMPRESAS', 2018, 75702579, 'dflores2018@alu.uct.cl'),
-(19548261, '6', 'GALLEGOS IZQUIERDO MATIAS FABIAN', 224, 'INGENIERÍA COMERCIAL', 2015, 95288084, 'mgallegos2015@alu.uct.cl'),
+(19548261, '6', 'GALLEGOS IZQUIERDO MATIAS FABIAN', 224, 'INGENIERÍA COMERCIAL', 2015, 95288084, 'mgallegos2015@alu.uct.cl');
+INSERT INTO `student` (`rut`, `dv`, `name`, `career_code`, `career_name`, `cohort`, `phone`, `email`) VALUES
 (19549249, '2', 'FUENTES MENARES NICOL CONSTANZA', 164, 'PED.EN EDUCACIÓN BÁSICA INTERCULTURAL EN CONTEXTO MAPUCHE', 2017, 972409029, 'nfuentes2017@alu.uct.cl'),
 (19549722, '2', 'VELASQUEZ SEGOVIA MARIO ANTONIO', 61, 'ANTROPOLOGÍA', 2017, 965380506, 'mvelasquez2017@alu.uct.cl'),
 (19549753, '2', 'INALEF NIKLITSCHEK MOIRA JAVIERA', 61, 'ANTROPOLOGÍA', 2017, 977466106, 'minalef2017@alu.uct.cl'),
@@ -6536,10 +6639,10 @@ INSERT INTO `estudiante` (`rut`, `dv`, `nombre`, `cod_carrera`, `nom_carrera`, `
 (19672274, '2', 'SAEZ MONTERO MARIA TERESA', 114, 'TRABAJO SOCIAL', 2017, 91302670, 'msaez2016@alu.uct.cl'),
 (19672736, '1', 'BARRIGA CONCHA DANIELA IGNACIA', 150, 'PEDAGOGÍA EN INGLÉS', 2016, 3141987, 'dbarriga2016@alu.uct.cl'),
 (19672872, '4', 'PARADA SOTO VICENTE ALEXIS', 304, 'PEDAGOGÍA EN EDUCACIÓN FÍSICA', 2018, 973537950, 'vparada2017@alu.uct.cl'),
-(19673812, '6', 'REYES ALSINA CLAUDIA FREDESLINDA', 100, 'DERECHO', 2015, 65516994, 'creyes2015@alu.uct.cl');
-INSERT INTO `estudiante` (`rut`, `dv`, `nombre`, `cod_carrera`, `nom_carrera`, `cohorte`, `fono`, `email`) VALUES
+(19673812, '6', 'REYES ALSINA CLAUDIA FREDESLINDA', 100, 'DERECHO', 2015, 65516994, 'creyes2015@alu.uct.cl'),
 (19674422, '3', 'BARRIA RUIZ ALEJANDRA HAYDEE', 403, 'TECNOLOGÍA MÉDICA', 2016, 81615062, 'abarria2016@alu.uct.cl'),
-(19674529, '7', 'CHAVEZ RIVERA CAMILA FERNANDA', 404, 'NUTRICIÓN Y DIETÉTICA', 2015, 88321502, 'cchavez2015@alu.uct.cl'),
+(19674529, '7', 'CHAVEZ RIVERA CAMILA FERNANDA', 404, 'NUTRICIÓN Y DIETÉTICA', 2015, 88321502, 'cchavez2015@alu.uct.cl');
+INSERT INTO `student` (`rut`, `dv`, `name`, `career_code`, `career_name`, `cohort`, `phone`, `email`) VALUES
 (19675179, '3', 'GALLARDO ULLOA MARCOS IGNACIO', 406, 'PEDAGOGÍA EN EDUCACIÓN BÁSICA CON MENCIÓN', 2016, 64851855, 'marcos.gallardo2016@alu.uct.cl'),
 (19675308, '7', 'GARRIDO GAMIN MIRZA SENET', 224, 'INGENIERÍA COMERCIAL', 2016, 85685157, 'mgarrido2016@alu.uct.cl'),
 (19675577, '2', 'VASQUEZ RIOS POLA ALEJANDRA', 400, 'PSICOLOGÍA', 2017, 987013699, 'pola.vasquez2017@alu.uct.cl'),
@@ -6925,10 +7028,10 @@ INSERT INTO `estudiante` (`rut`, `dv`, `nombre`, `cod_carrera`, `nom_carrera`, `
 (19762556, '2', 'RIVERA FIGUEROA VALENTINA XIMENA', 450, 'TECNICO UNIVERSITARIO EN TOPOGRAFIA Y GEOMENSURA', 2018, 54701799, 'vrivera2018@alu.uct.cl'),
 (19762557, '0', 'SUAZO PEÑA MOISES DAVID', 419, 'INGENIERIA CIVIL EN OBRAS CIVILES', 2018, 965307924, 'moises.suazo2018@alu.uct.cl'),
 (19762561, '9', 'SUAZO SANDOVAL FELIPE ANDRES', 624, 'TECNICO UNIVERSITARIO EN CONSTRUCCION Y OBRAS CIVILES', 2018, 30874988, 'fsuazo2016@alu.uct.cl'),
-(19762568, '6', 'MEDINA SOTO KARLA ISIDORA', 403, 'TECNOLOGÍA MÉDICA', 2017, 968495149, 'karla.medina2015@alu.uct.cl');
-INSERT INTO `estudiante` (`rut`, `dv`, `nombre`, `cod_carrera`, `nom_carrera`, `cohorte`, `fono`, `email`) VALUES
+(19762568, '6', 'MEDINA SOTO KARLA ISIDORA', 403, 'TECNOLOGÍA MÉDICA', 2017, 968495149, 'karla.medina2015@alu.uct.cl'),
 (19762569, '4', 'QUINTANA GOMEZ VANESSA ANDREA', 400, 'PSICOLOGÍA', 2018, 972858181, 'vquintana2017@alu.uct.cl'),
-(19762575, '9', 'OSSES ANCAVIL NICOLAS ANTONIO', 106, 'AGRONOMÍA', 2018, 955898570, 'nosses2018@alu.uct.cl'),
+(19762575, '9', 'OSSES ANCAVIL NICOLAS ANTONIO', 106, 'AGRONOMÍA', 2018, 955898570, 'nosses2018@alu.uct.cl');
+INSERT INTO `student` (`rut`, `dv`, `name`, `career_code`, `career_name`, `cohort`, `phone`, `email`) VALUES
 (19762577, '5', 'BARRA BLANCO ELIZABETH ESCARLETTE', 155, 'PEDAGOGIA EN EDUCACION DIFERENCIAL CON ESP.EN N.E.E.T. Y DEFICIENCIA MENTAL', 2017, 979246532, 'ebarra2016@alu.uct.cl'),
 (19762605, '4', 'CATRIFOL SANDOVAL MARIA TERESA', 405, 'FONOAUDIOLOGÍA', 2016, 86869969, 'mcatrifol2016@alu.uct.cl'),
 (19762608, '9', 'HUICHACURA HUICHACURA MARCELA INES', 421, 'BACHILLER EN CIENCIAS Y HUMANIDADES', 2018, 964856108, 'mhuichacura2018@alu.uct.cl'),
@@ -7305,9 +7408,9 @@ INSERT INTO `estudiante` (`rut`, `dv`, `nombre`, `cod_carrera`, `nom_carrera`, `
 (19769396, '7', 'CHEUQUEPAN MORAGA PATRICIA ANDREA', 419, 'INGENIERIA CIVIL EN OBRAS CIVILES', 2016, 94964236, 'pcheuquepan2015@alu.uct.cl'),
 (19769444, '0', 'CAURAPÁN GONZÁLEZ FRANCISCO JOSÉ', 450, 'TECNICO UNIVERSITARIO EN TOPOGRAFIA Y GEOMENSURA', 2018, 975841966, 'fcaurapan2018@alu.uct.cl'),
 (19769465, '3', 'ANGULO ESCOBAR CARLA CATALINA', 402, 'TERAPIA OCUPACIONAL', 2018, 930119738, 'cangulo2018@alu.uct.cl'),
-(19769473, '4', 'EBNER JÉLVEZ SAMUEL ULISES', 150, 'PEDAGOGÍA EN INGLÉS', 2016, 64853760, 'sebner2015@alu.uct.cl');
-INSERT INTO `estudiante` (`rut`, `dv`, `nombre`, `cod_carrera`, `nom_carrera`, `cohorte`, `fono`, `email`) VALUES
-(19769490, '4', 'SANZANA RIVAS MARISOL IGNACIA', 428, 'TECNICO UNIVERSITARIO EN ACUICULTURA', 2017, 93361152, 'marisol.sanzana2016@alu.uct.cl'),
+(19769473, '4', 'EBNER JÉLVEZ SAMUEL ULISES', 150, 'PEDAGOGÍA EN INGLÉS', 2016, 64853760, 'sebner2015@alu.uct.cl'),
+(19769490, '4', 'SANZANA RIVAS MARISOL IGNACIA', 428, 'TECNICO UNIVERSITARIO EN ACUICULTURA', 2017, 93361152, 'marisol.sanzana2016@alu.uct.cl');
+INSERT INTO `student` (`rut`, `dv`, `name`, `career_code`, `career_name`, `cohort`, `phone`, `email`) VALUES
 (19769493, '9', 'HERNANDEZ IBAÑEZ GABRIELA CONSTANZA', 155, 'PEDAGOGIA EN EDUCACION DIFERENCIAL CON ESP.EN N.E.E.T. Y DEFICIENCIA MENTAL', 2017, 997187716, 'ghernandez2016@alu.uct.cl'),
 (19769501, '3', 'HERNÁNDEZ ÑANCULEF DANIELA PAZ', 400, 'PSICOLOGÍA', 2017, 959642705, 'dhernandez2017@alu.uct.cl'),
 (19769509, '9', 'HUILIPAN ÑANCO ABRAHAM JOSUÉ', 624, 'TECNICO UNIVERSITARIO EN CONSTRUCCION Y OBRAS CIVILES', 2017, 981295575, 'abraham.nanco2016@alu.uct.cl'),
@@ -7693,9 +7796,9 @@ INSERT INTO `estudiante` (`rut`, `dv`, `nombre`, `cod_carrera`, `nom_carrera`, `
 (19810369, '1', 'LÓPEZ OVALLE JORGE EDUARDO', 403, 'TECNOLOGÍA MÉDICA', 2016, 84885806, 'jorge.lopez2015@alu.uct.cl'),
 (19810370, '5', 'MUÑOZ DÍAZ MATÍAS LEANDRO', 422, 'TECNICO UNIVERSITARIO EN ADMINISTRACION DE EMPRESAS', 2016, 85889809, 'matias.munoz2016@alu.uct.cl'),
 (19810381, '0', 'MARTÍNEZ NEIRA ALEX RODRIGO ANDRÉS', 154, 'INGENIERÍA CIVIL EN INFORMÁTICA', 2017, 569532508, 'alex.martinez2017@alu.uct.cl'),
-(19810390, '0', 'TORO ALCAÍNO RAÚL ALEJANDRO', 418, 'INGENIERIA CIVIL GEOLOGICA', 2016, 79318108, 'rtoro2016@alu.uct.cl');
-INSERT INTO `estudiante` (`rut`, `dv`, `nombre`, `cod_carrera`, `nom_carrera`, `cohorte`, `fono`, `email`) VALUES
-(19810399, '3', 'ANDRADE GAÍNZA ISIDORA ALEJANDRINA', 103, 'MEDICINA VETERINARIA', 2016, 84452806, 'iandrade2016@alu.uct.cl'),
+(19810390, '0', 'TORO ALCAÍNO RAÚL ALEJANDRO', 418, 'INGENIERIA CIVIL GEOLOGICA', 2016, 79318108, 'rtoro2016@alu.uct.cl'),
+(19810399, '3', 'ANDRADE GAÍNZA ISIDORA ALEJANDRINA', 103, 'MEDICINA VETERINARIA', 2016, 84452806, 'iandrade2016@alu.uct.cl');
+INSERT INTO `student` (`rut`, `dv`, `name`, `career_code`, `career_name`, `cohort`, `phone`, `email`) VALUES
 (19810401, '9', 'ACHIGURE SOLAR CAMILA YVONNE', 421, 'BACHILLER EN CIENCIAS Y HUMANIDADES', 2018, 949954425, 'cachigure2018@alu.uct.cl'),
 (19810425, '6', 'PÉREZ BOBADILLA VICTORIA NICOLE', 224, 'INGENIERÍA COMERCIAL', 2018, 978601903, 'vperez2018@alu.uct.cl'),
 (19810426, '4', 'TRALMA EPUL PAOLA VALERIA', 114, 'TRABAJO SOCIAL', 2017, 958693625, 'ptralma2016@alu.uct.cl'),
@@ -8079,9 +8182,9 @@ INSERT INTO `estudiante` (`rut`, `dv`, `nombre`, `cod_carrera`, `nom_carrera`, `
 (19904914, '3', 'ARIAS FREZ NICOLE CAROLINA', 100, 'DERECHO', 2017, 961133829, 'narias2017@alu.uct.cl'),
 (19905056, '7', 'MALHA HUENUMÁN YAMELITH LESLIE', 207, 'INGENIERÍA CIVIL INDUSTRIAL', 2017, 973172994, 'ymalha2017@alu.uct.cl'),
 (19905493, '7', 'CURIPE COLÍN MATÍAS EDUARDO', 419, 'INGENIERIA CIVIL EN OBRAS CIVILES', 2017, 987243052, 'mcuripe2017@alu.uct.cl'),
-(19905547, '0', 'CALDERÓN JOHN ALAN BRANDON', 304, 'PEDAGOGÍA EN EDUCACIÓN FÍSICA', 2018, 944994367, 'acalderon2018@alu.uct.cl');
-INSERT INTO `estudiante` (`rut`, `dv`, `nombre`, `cod_carrera`, `nom_carrera`, `cohorte`, `fono`, `email`) VALUES
-(19905583, '6', 'CONTRERAS URRUTIA MARÍA MARTA', 423, 'TECNICO UNIVERSITARIO EN PREPARACION FISICA', 2017, 976424021, 'maria.contrerasurrutia2017@alu.uct.cl'),
+(19905547, '0', 'CALDERÓN JOHN ALAN BRANDON', 304, 'PEDAGOGÍA EN EDUCACIÓN FÍSICA', 2018, 944994367, 'acalderon2018@alu.uct.cl'),
+(19905583, '6', 'CONTRERAS URRUTIA MARÍA MARTA', 423, 'TECNICO UNIVERSITARIO EN PREPARACION FISICA', 2017, 976424021, 'maria.contrerasurrutia2017@alu.uct.cl');
+INSERT INTO `student` (`rut`, `dv`, `name`, `career_code`, `career_name`, `cohort`, `phone`, `email`) VALUES
 (19905950, '5', 'ROJAS GAUNA BAYRON ALEXANDER', 451, 'TECNICO UNIVERSITARIO EN REDES Y TELECOMUNICACIONES', 2017, 949867733, 'brojas2017@alu.uct.cl'),
 (19906407, 'k', 'SANTIBÁÑEZ REBOLLEDO NEFTALÍ DANIEL', 428, 'TECNICO UNIVERSITARIO EN ACUICULTURA', 2016, 67190729, 'nsantibanez2016@alu.uct.cl'),
 (19906440, '1', 'REYES REYES LAURA DINELY', 100, 'DERECHO', 2016, 53455667, 'lreyes2016@alu.uct.cl'),
@@ -8477,9 +8580,9 @@ INSERT INTO `estudiante` (`rut`, `dv`, `nombre`, `cod_carrera`, `nom_carrera`, `
 (19989895, '7', 'LEIVA MONZÓN TAMARA ANTONIA', 207, 'INGENIERÍA CIVIL INDUSTRIAL', 2017, 945252993, 'tleiva2017@alu.uct.cl'),
 (19989897, '3', 'LEMUNAO CARRASCO BÁRBARA ELIZABETH', 171, 'LICENCIATURA EN ARTES VISUALES', 2018, 963221747, 'blemunao2018@alu.uct.cl'),
 (19989902, '3', 'LEAL SÁNCHEZ WALESCA KATERINA', 100, 'DERECHO', 2017, 961180200, 'wleal2016@alu.uct.cl'),
-(19989908, '2', 'PARRA GARRIDO NICOL GABRIELA', 114, 'TRABAJO SOCIAL', 2017, 998518935, 'nparra2017@alu.uct.cl');
-INSERT INTO `estudiante` (`rut`, `dv`, `nombre`, `cod_carrera`, `nom_carrera`, `cohorte`, `fono`, `email`) VALUES
-(19989912, '0', 'SEGUEL MIERES MAURICIO ESTEBAN', 304, 'PEDAGOGÍA EN EDUCACIÓN FÍSICA', 2017, 942896440, 'mauricio.seguel2017@alu.uct.cl'),
+(19989908, '2', 'PARRA GARRIDO NICOL GABRIELA', 114, 'TRABAJO SOCIAL', 2017, 998518935, 'nparra2017@alu.uct.cl'),
+(19989912, '0', 'SEGUEL MIERES MAURICIO ESTEBAN', 304, 'PEDAGOGÍA EN EDUCACIÓN FÍSICA', 2017, 942896440, 'mauricio.seguel2017@alu.uct.cl');
+INSERT INTO `student` (`rut`, `dv`, `name`, `career_code`, `career_name`, `cohort`, `phone`, `email`) VALUES
 (19989915, '5', 'BETANCOURT ARRIAGADA NATALY LORENA', 100, 'DERECHO', 2017, 949608185, 'nbetancourt2016@alu.uct.cl'),
 (19989918, '0', 'ISLA RIQUELME BENJAMÍN MATÍAS NICOLÁS', 155, 'PEDAGOGIA EN EDUCACION DIFERENCIAL CON ESP.EN N.E.E.T. Y DEFICIENCIA MENTAL', 2018, 954832605, 'bisla2018@alu.uct.cl'),
 (19989950, '3', 'DEL RÍO ARROYO FERNANDA IVETTE', 100, 'DERECHO', 2017, 983986336, 'fdelrio2017@alu.uct.cl'),
@@ -8865,9 +8968,9 @@ INSERT INTO `estudiante` (`rut`, `dv`, `nombre`, `cod_carrera`, `nom_carrera`, `
 (20079605, '5', 'RATHGEB LEONELLI JORGE ALESSANDRO', 100, 'DERECHO', 2017, 956132305, 'jrathgeb2017@alu.uct.cl'),
 (20079615, '2', 'RODRÍGUEZ TERÁN NOELIA OLIMPIA', 404, 'NUTRICIÓN Y DIETÉTICA', 2017, 973297704, 'nrodriguez2017@alu.uct.cl'),
 (20079618, '7', 'JARA BOVET JOAQUÍN ESTEBAN', 100, 'DERECHO', 2017, 965597313, 'joaquin.jara2017@alu.uct.cl'),
-(20079637, '3', 'SORIANO SANHUEZA MATÍAS IVÁN ALEJANDRO', 423, 'TECNICO UNIVERSITARIO EN PREPARACION FISICA', 2018, 95079639, 'msoriano2018@alu.uct.cl');
-INSERT INTO `estudiante` (`rut`, `dv`, `nombre`, `cod_carrera`, `nom_carrera`, `cohorte`, `fono`, `email`) VALUES
-(20079639, '0', 'JARA VILLALOBOS VALENTINA ELIZABETH', 402, 'TERAPIA OCUPACIONAL', 2018, 950474797, 'valentina.jara2017@alu.uct.cl'),
+(20079637, '3', 'SORIANO SANHUEZA MATÍAS IVÁN ALEJANDRO', 423, 'TECNICO UNIVERSITARIO EN PREPARACION FISICA', 2018, 95079639, 'msoriano2018@alu.uct.cl'),
+(20079639, '0', 'JARA VILLALOBOS VALENTINA ELIZABETH', 402, 'TERAPIA OCUPACIONAL', 2018, 950474797, 'valentina.jara2017@alu.uct.cl');
+INSERT INTO `student` (`rut`, `dv`, `name`, `career_code`, `career_name`, `cohort`, `phone`, `email`) VALUES
 (20079644, '6', 'RUIZ VARGAS PAULA ISIDORA', 155, 'PEDAGOGIA EN EDUCACION DIFERENCIAL CON ESP.EN N.E.E.T. Y DEFICIENCIA MENTAL', 2018, 963529797, 'pruiz2018@alu.uct.cl'),
 (20079650, '0', 'MOLINA VELÁSQUEZ JAVIERA MONSERRATT', 421, 'BACHILLER EN CIENCIAS Y HUMANIDADES', 2018, 977626933, 'jmolina2018@alu.uct.cl'),
 (20079689, '6', 'HARO ALTAMIRANO DIEGO JAVIER', 304, 'PEDAGOGÍA EN EDUCACIÓN FÍSICA', 2017, 975844053, 'dharo2017@alu.uct.cl'),
@@ -9251,9 +9354,9 @@ INSERT INTO `estudiante` (`rut`, `dv`, `nombre`, `cod_carrera`, `nom_carrera`, `
 (20103388, '8', 'VASQUEZ VALLEJOS MATIAS FELIPE', 427, 'TECNICO UNIVERSITARIO EN PRODUCCION AGROPECUARIA', 2018, 96292491, 'matias.vasquez2018@alu.uct.cl'),
 (20103413, '2', 'WEITZEL PEÑA CATALINA ALEJANDRA', 103, 'MEDICINA VETERINARIA', 2017, 954307791, 'cweitzel2017@alu.uct.cl'),
 (20103430, '2', 'RIVERA ÁLVAREZ RODRIGO ISAAC', 224, 'INGENIERÍA COMERCIAL', 2017, 995578379, 'rrivera2017@alu.uct.cl'),
-(20103457, '4', 'DEL VALLE MEDINA CARLA DANIELA', 406, 'PEDAGOGÍA EN EDUCACIÓN BÁSICA CON MENCIÓN', 2017, 957319138, 'cdelvalle2017@alu.uct.cl');
-INSERT INTO `estudiante` (`rut`, `dv`, `nombre`, `cod_carrera`, `nom_carrera`, `cohorte`, `fono`, `email`) VALUES
-(20103475, '2', 'ANTINAO ASTETE CAROLINA CAMILA', 623, 'ARQUITECTURA', 2018, 955270426, 'cantinao2018@alu.uct.cl'),
+(20103457, '4', 'DEL VALLE MEDINA CARLA DANIELA', 406, 'PEDAGOGÍA EN EDUCACIÓN BÁSICA CON MENCIÓN', 2017, 957319138, 'cdelvalle2017@alu.uct.cl'),
+(20103475, '2', 'ANTINAO ASTETE CAROLINA CAMILA', 623, 'ARQUITECTURA', 2018, 955270426, 'cantinao2018@alu.uct.cl');
+INSERT INTO `student` (`rut`, `dv`, `name`, `career_code`, `career_name`, `cohort`, `phone`, `email`) VALUES
 (20103502, '3', 'PINTO JARA MATÍAS JUAN ALEJANDRO', 303, 'PEDAGOGÍA EN HISTORIA GEOGRAFÍA Y CIENCIAS SOCIALES', 2017, 983069229, 'mpinto2017@alu.uct.cl'),
 (20103532, '5', 'FERREIRA FUENTES LUIS CAMILO', 154, 'INGENIERÍA CIVIL EN INFORMÁTICA', 2017, 996228444, 'lferreira2017@alu.uct.cl'),
 (20103550, '3', 'ESPINOZA FIGUEROA HARELLY DANITZA', 221, 'PEDAGOGÍA EN LENGUA CASTELLANA Y COMUNICACIÓN', 2018, 978056901, 'hespinoza2018@alu.uct.cl'),
@@ -9637,7 +9740,7 @@ INSERT INTO `estudiante` (`rut`, `dv`, `nombre`, `cod_carrera`, `nom_carrera`, `
 (20157223, '1', 'JUANICO TRECAMÁN NICOLE ALEXANDRA', 423, 'TECNICO UNIVERSITARIO EN PREPARACION FISICA', 2018, 96453191, 'njuanico2018@alu.uct.cl'),
 (20157232, '0', 'AYENAO LIENLAF ÁLVARO ANDRÉS', 306, 'INGENIERÍA EN RECURSOS NATURALES RENOVABLES', 2018, 958325088, 'aayenao2017@alu.uct.cl'),
 (20157261, '4', 'RIQUELME CARRILLO ANITA BELEN', 421, 'BACHILLER EN CIENCIAS Y HUMANIDADES', 2018, 979126096, 'ariquelme2018@alu.uct.cl');
-INSERT INTO `estudiante` (`rut`, `dv`, `nombre`, `cod_carrera`, `nom_carrera`, `cohorte`, `fono`, `email`) VALUES
+INSERT INTO `student` (`rut`, `dv`, `name`, `career_code`, `career_name`, `cohort`, `phone`, `email`) VALUES
 (20157263, '0', 'VIVANCO BALBOA TAMARA FERNANDA', 155, 'PEDAGOGIA EN EDUCACION DIFERENCIAL CON ESP.EN N.E.E.T. Y DEFICIENCIA MENTAL', 2017, 957521811, 'tvivanco2017@alu.uct.cl'),
 (20157266, '5', 'CONA VILLALOBOS VALENTINA JAVIERA', 403, 'TECNOLOGÍA MÉDICA', 2017, 986527834, 'vcona2017@alu.uct.cl'),
 (20157268, '1', 'CIFUENTES AEDO DIANA ANGÉLICA', 114, 'TRABAJO SOCIAL', 2017, 988425213, 'dcifuentes2017@alu.uct.cl'),
@@ -10020,7 +10123,7 @@ INSERT INTO `estudiante` (`rut`, `dv`, `nombre`, `cod_carrera`, `nom_carrera`, `
 (20253314, '0', 'MUÑOZ CABEZAS ALEJANDRA JAVIERA', 421, 'BACHILLER EN CIENCIAS Y HUMANIDADES', 2018, 987810506, 'alejandra.munoz2018@alu.uct.cl'),
 (20253338, '8', 'CASTILLO VASQUEZ ROBERTO LEONEL', 304, 'PEDAGOGÍA EN EDUCACIÓN FÍSICA', 2018, 995673013, 'rcastillo2018@alu.uct.cl'),
 (20253357, '4', 'CASTILLO SANCHEZ FRANCISCA BELEN', 421, 'BACHILLER EN CIENCIAS Y HUMANIDADES', 2018, 989898552, 'fcastillo2018@alu.uct.cl');
-INSERT INTO `estudiante` (`rut`, `dv`, `nombre`, `cod_carrera`, `nom_carrera`, `cohorte`, `fono`, `email`) VALUES
+INSERT INTO `student` (`rut`, `dv`, `name`, `career_code`, `career_name`, `cohort`, `phone`, `email`) VALUES
 (20253584, '4', 'PEÑA RAMÍREZ MILENA ISIDORA', 137, 'PEDAGOGIA MEDIA EN MATEMATICA', 2018, 987187458, 'mpena2018@alu.uct.cl'),
 (20254093, '7', 'SANDOVAL VILLEGAS MARTÍN ANDRÉS', 105, 'TRADUCCION INGLÉS-ESPANOL', 2018, 992483598, 'martin.sandoval2018@alu.uct.cl'),
 (20254230, '1', 'CATRILEF MONTIEL LAURA OLGA', 150, 'PEDAGOGÍA EN INGLÉS', 2018, 955879415, 'lcatrilef2018@alu.uct.cl'),
@@ -10408,7 +10511,7 @@ INSERT INTO `estudiante` (`rut`, `dv`, `nombre`, `cod_carrera`, `nom_carrera`, `
 (20355980, '1', 'GAVILÁN SANHUEZA SABKA NAYADETH', 419, 'INGENIERIA CIVIL EN OBRAS CIVILES', 2018, 948405010, 'sgavilan2018@alu.uct.cl'),
 (20356030, '3', 'CID VEJAR ESCARLET ANDREA', 623, 'ARQUITECTURA', 2018, 953407634, 'ecid2018@alu.uct.cl'),
 (20356507, '0', 'LORCA SÁEZ FRANCISCA BELÉN', 155, 'PEDAGOGIA EN EDUCACION DIFERENCIAL CON ESP.EN N.E.E.T. Y DEFICIENCIA MENTAL', 2016, 42848253, 'florca2016@alu.uct.cl');
-INSERT INTO `estudiante` (`rut`, `dv`, `nombre`, `cod_carrera`, `nom_carrera`, `cohorte`, `fono`, `email`) VALUES
+INSERT INTO `student` (`rut`, `dv`, `name`, `career_code`, `career_name`, `cohort`, `phone`, `email`) VALUES
 (20357225, '5', 'CALFIQUEO MANQUILEF ANDREA NATALIA', 406, 'PEDAGOGÍA EN EDUCACIÓN BÁSICA CON MENCIÓN', 2017, 75994377, 'acalfiqueo2016@alu.uct.cl'),
 (20358395, '8', 'DÍAZ NIÑO MARCELO JOAO', 103, 'MEDICINA VETERINARIA', 2018, 985313464, 'mdiaz2018@alu.uct.cl'),
 (20359292, '2', 'CUETO COLLAO FRANCISCA VALENTINA', 420, 'GEOLOGIA', 2018, 952137981, 'fcueto2018@alu.uct.cl'),
@@ -10793,7 +10896,7 @@ INSERT INTO `estudiante` (`rut`, `dv`, `nombre`, `cod_carrera`, `nom_carrera`, `
 (20588808, '0', 'GONZALEZ BOPP ROMINA ALI', 100, 'DERECHO', 2017, 52062070, 'romina.gonzalez2017@alu.uct.cl'),
 (20610359, '0', 'GONZALEZ PEREZ TAMARA TRINIDAD', 401, 'KINESIOLOGÍA', 2014, 0, 'tgonzalez2014@alu.uct.cl'),
 (20611071, '6', 'SALAS MORA CAMILA BELEN', 221, 'PEDAGOGÍA EN LENGUA CASTELLANA Y COMUNICACIÓN', 2018, 985637313, 'csalas2018@alu.uct.cl');
-INSERT INTO `estudiante` (`rut`, `dv`, `nombre`, `cod_carrera`, `nom_carrera`, `cohorte`, `fono`, `email`) VALUES
+INSERT INTO `student` (`rut`, `dv`, `name`, `career_code`, `career_name`, `cohort`, `phone`, `email`) VALUES
 (20616736, '0', 'TORRIJOS BRANDAGO KATHERINE IVONNE', 100, 'DERECHO', 2018, 985682426, 'ktorrijos2018@alu.uct.cl'),
 (20643986, '6', 'TOLOZA SAN MARTÍN VALERIA CONSTANZA', 105, 'TRADUCCION INGLÉS-ESPANOL', 2018, 934859060, 'vtoloza2018@alu.uct.cl'),
 (20644715, 'k', 'HUAIQUIÑIR QUILAQUEO LUIS JOAQUIN', 624, 'TECNICO UNIVERSITARIO EN CONSTRUCCION Y OBRAS CIVILES', 2018, 990651305, 'lhuaiquinir2018@alu.uct.cl'),
@@ -10910,242 +11013,119 @@ INSERT INTO `estudiante` (`rut`, `dv`, `nombre`, `cod_carrera`, `nom_carrera`, `
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `inscrito`
+-- Estructura de tabla para la tabla `tutor`
 --
 
-CREATE TABLE `inscrito` (
+CREATE TABLE `tutor` (
   `id` int(11) NOT NULL,
-  `estudiante` int(11) NOT NULL,
-  `tutoria` varchar(32) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL
+  `data` int(11) NOT NULL,
+  `professional` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
---
--- Volcado de datos para la tabla `inscrito`
---
-
-INSERT INTO `inscrito` (`id`, `estudiante`, `tutoria`) VALUES
-(1, 19809423, 'BACH1107-1'),
-(2, 19810381, 'MAT1184-1'),
-(3, 19717817, 'BACH1107-1'),
-(4, 19592530, 'BACH1107-1'),
-(5, 20104197, 'MAT1185-1'),
-(6, 19481125, 'MAT1185-1'),
-(7, 19926159, 'MAT1185-1'),
-(8, 19624562, 'MAT1185-1');
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `sesion`
+-- Estructura de tabla para la tabla `type`
 --
 
-CREATE TABLE `sesion` (
+CREATE TABLE `type` (
   `id` int(11) NOT NULL,
-  `fecha` date NOT NULL,
-  `lugar` varchar(128) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL DEFAULT '',
-  `contenidos` varchar(1024) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL DEFAULT '',
-  `observaciones` varchar(1024) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL DEFAULT '',
-  `tutoria` varchar(32) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL
+  `name` varchar(128) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
--- Volcado de datos para la tabla `sesion`
+-- Volcado de datos para la tabla `type`
 --
 
-INSERT INTO `sesion` (`id`, `fecha`, `lugar`, `contenidos`, `observaciones`, `tutoria`) VALUES
-(1, '2018-10-09', 'Cubículo 3', 'Sumatorias, Factoriales, Teorema del binomio de Newton', 'El estudiante Natacha Urra es muy buen estudiante.', 'BACH1107-1'),
-(2, '2018-11-08', '', '', '', 'MAT1184-1'),
-(3, '2018-11-15', '', '', '', 'MAT1184-1'),
-(4, '2018-11-22', '', '', '', 'MAT1184-1'),
-(5, '2018-12-03', '', '', '', 'BACH1107-T5'),
-(6, '2018-10-16', '', '', '', 'BACH1107-1'),
-(7, '2018-10-23', '', '', '', 'BACH1107-1'),
-(8, '2018-10-30', '', '', '', 'BACH1107-1'),
-(9, '2018-11-06', '', '', '', 'BACH1107-1'),
-(10, '2018-10-08', 'Cubículo 3', '', '', 'MAT1185-1'),
-(11, '2018-10-15', 'Cubículo 3', '', '', 'MAT1185-1'),
-(12, '2018-10-22', 'Cubículo 3', '', 'Estudiantes no asisten a tutoría. Se trabaja en administración.', 'MAT1185-1'),
-(13, '2018-10-29', 'Cubículo 3', '', '', 'MAT1185-1'),
-(14, '2018-11-05', 'Cubículo 3', '', '', 'MAT1185-1'),
-(15, '2018-11-19', 'Cubículo 5', 'Revisión prueba 1, Introducción a funciones.', '', 'MAT1185-1'),
-(16, '2018-11-12', 'Cubículo 3', '', '', 'MAT1185-1'),
-(17, '2018-11-26', '', '', '', 'MAT1185-1'),
-(18, '2018-12-03', 'Cubículo 5', 'Funciones racionales.', 'El tutorado Lucas obtuvo una nota roja en la prueba anterior debido a equivocaciones mínimas sobre contenido básico. Se le recomienda hacer uso de las horas autónomas para estudiar y practicar.', 'MAT1185-1'),
-(19, '2018-12-10', 'Cubículo 5', '', '', 'MAT1185-1');
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `tutoria`
---
-
-CREATE TABLE `tutoria` (
-  `id` varchar(32) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
-  `nombre` varchar(128) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
-  `inscritos` int(11) NOT NULL,
-  `dia` enum('LUNES','MARTES','MIÉRCOLES','JUEVES','VIERNES','SÁBADO','DOMINGO') CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
-  `hora_inicio` time NOT NULL,
-  `hora_termino` time NOT NULL,
-  `tutor` varchar(32) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
-  `lugar` varchar(128) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
-  `publicado` tinyint(1) NOT NULL DEFAULT '0',
-  `cerrado` tinyint(1) NOT NULL DEFAULT '0',
-  `fecha_cierre` date DEFAULT NULL,
-  `servicio` varchar(32) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
-  `profesional` varchar(32) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
-  `carrera` varchar(128) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
-  `semestre` varchar(8) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
-  `area` enum('MATEMÁTICAS','FÍSICAS','') CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
-  `codigo` varchar(32) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
-  `fecha_inicio` date DEFAULT NULL,
-  `fecha_termino` date DEFAULT NULL,
-  `fecha_planificado` date DEFAULT NULL,
-  `comentario` varchar(256) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
-  `programacion` varchar(32) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
---
--- Volcado de datos para la tabla `tutoria`
---
-
-INSERT INTO `tutoria` (`id`, `nombre`, `inscritos`, `dia`, `hora_inicio`, `hora_termino`, `tutor`, `lugar`, `publicado`, `cerrado`, `fecha_cierre`, `servicio`, `profesional`, `carrera`, `semestre`, `area`, `codigo`, `fecha_inicio`, `fecha_termino`, `fecha_planificado`, `comentario`, `programacion`) VALUES
-('BACH1107-1', 'BACH1107 - MATEMÁTICA FUNDAMENTAL II', 7, 'MARTES', '12:40:00', '14:40:00', 'dperalta', 'CUBÍCULO 4 PORTAL DEL ESTUDIANTE - CAMPUS SAN JUAN PABLO II', 0, 0, NULL, 'TUTORÍA', 'wcampos', 'bachiller', '2 - 2018', 'MATEMÁTICAS', 'BACH1107', '2018-09-10', '2018-12-14', NULL, '', ''),
-('BACH1107-10', 'BACH1107 - MATEMÁTICA FUNDAMENTAL II', 7, 'VIERNES', '12:40:00', '14:40:00', 'friquelme', 'CUBÍCULO 3 PORTAL DEL ESTUDIANTE - CAMPUS SAN JUAN PABLO II', 0, 0, NULL, 'TUTORÍA', 'wcampos', 'bachiller', '2 - 2018', 'MATEMÁTICAS', 'BACH1107', '2018-09-10', '2018-12-14', NULL, '', ''),
-('BACH1107-2', 'BACH1107 - MATEMÁTICA FUNDAMENTAL II', 6, 'MIÉRCOLES', '09:00:00', '11:00:00', 'dperalta', 'CUBÍCULO 3 PORTAL DEL ESTUDIANTE - CAMPUS SAN JUAN PABLO II', 0, 0, NULL, 'TUTORÍA', 'wcampos', 'bachiller', '2 - 2018', 'MATEMÁTICAS', 'BACH1107', '2018-09-10', '2018-12-14', NULL, '', ''),
-('BACH1107-3', 'BACH1107 - MATEMÁTICA FUNDAMENTAL II', 6, 'JUEVES', '09:20:00', '11:20:00', 'dperalta', 'SALA TEVU - EDIFICIO A - CAMPUS SAN FRANCISCO', 0, 0, NULL, 'TUTORÍA', 'wcampos', 'bachiller', '2 - 2018', 'MATEMÁTICAS', 'BACH1107', '2018-09-10', '2018-12-14', NULL, '', ''),
-('BACH1107-4', 'BACH1107 - MATEMÁTICA FUNDAMENTAL II', 6, 'VIERNES', '12:00:00', '14:00:00', 'ftorres', 'CUBÍCULO 4 PORTAL DEL ESTUDIANTE - CAMPUS SAN JUAN PABLO II', 1, 0, NULL, 'TUTORÍA', 'wcampos', 'bachiller', '2 - 2018', 'MATEMÁTICAS', 'BACH1107', '2018-09-10', '2018-12-14', NULL, '', ''),
-('BACH1107-5', 'BACH1107 - MATEMÁTICA FUNDAMENTAL II', 6, 'LUNES', '11:40:00', '13:40:00', 'ftorres', 'CUBÍCULO 5 PORTAL DEL ESTUDIANTE - CAMPUS SAN JUAN PABLO II', 0, 0, NULL, 'TUTORÍA', 'wcampos', 'bachiller', '2 - 2018', 'MATEMÁTICAS', 'BACH1107', '2018-09-10', '2018-12-14', NULL, '', ''),
-('BACH1107-6', 'BACH1107 - MATEMÁTICA FUNDAMENTAL II', 6, 'MARTES', '10:30:00', '12:30:00', 'ftorres', 'CUBÍCULO 5 PORTAL DEL ESTUDIANTE - CAMPUS SAN JUAN PABLO II', 1, 0, NULL, 'TUTORÍA', 'wcampos', 'bachiller', '2 - 2018', 'MATEMÁTICAS', 'BACH1107', '2018-09-10', '2018-12-14', NULL, '', ''),
-('BACH1107-7', 'BACH1107 - MATEMÁTICA FUNDAMENTAL II', 6, 'MIÉRCOLES', '09:00:00', '11:00:00', 'ftorres', 'CUBÍCULO 4 PORTAL DEL ESTUDIANTE - CAMPUS SAN JUAN PABLO II', 1, 0, NULL, 'TUTORÍA', 'wcampos', 'bachiller', '2 - 2018', 'MATEMÁTICAS', 'BACH1107', '2018-09-10', '2018-12-14', NULL, '', ''),
-('BACH1107-8', 'BACH1107 - MATEMÁTICA FUNDAMENTAL II', 5, 'MARTES', '12:30:00', '14:30:00', 'friquelme', 'CUBÍCULO 5 PORTAL DEL ESTUDIANTE - CAMPUS SAN JUAN PABLO II', 1, 0, NULL, 'TUTORÍA', 'wcampos', 'bachiller', '2 - 2018', 'MATEMÁTICAS', 'BACH1107', '2018-09-10', '2018-12-14', NULL, '', ''),
-('BACH1107-9', 'BACH1107 - MATEMÁTICA FUNDAMENTAL II', 3, 'MARTES', '15:00:00', '17:00:00', 'friquelme', 'CUBÍCULO 5 PORTAL DEL ESTUDIANTE - CAMPUS SAN JUAN PABLO II', 0, 1, '2018-09-28', 'TUTORÍA', 'wcampos', 'bachiller', '2 - 2018', 'MATEMÁTICAS', 'BACH1107', '2018-09-10', '2018-12-14', NULL, '', ''),
-('BACH1107-T1', 'BACH1107 - MATEMÁTICA FUNDAMENTAL II -T1', 5, 'MIÉRCOLES', '15:00:00', '16:30:00', 'wcampos', 'SALA CT 450 - EDIFICIO CT - CAMPUS SAN JUAN PABLO II', 0, 0, NULL, 'TALLER', 'wcampos', 'bachiller', '2 - 2018', 'MATEMÁTICAS', 'BACH1107', NULL, NULL, '2018-09-26', '', ''),
-('BACH1107-T2', 'BACH1107 - MATEMÁTICA FUNDAMENTAL II -T1', 3, 'JUEVES', '15:00:00', '16:30:00', 'wcampos', 'SALA A -103B EDIFICIO A - CAMPUS SAN FRANCISCO', 0, 0, NULL, 'TALLER', 'wcampos', 'bachiller', '2 - 2018', 'MATEMÁTICAS', 'BACH1107', NULL, NULL, '2018-09-27', '', ''),
-('BACH1107-T3', 'BACH1107 - MATEMÁTICA FUNDAMENTAL II -T1_', 2, 'JUEVES', '15:00:00', '16:30:00', 'jbustos', 'SALA CT 450 - EDIFICIO CT - CAMPUS SAN JUAN PABLO II', 0, 0, NULL, 'TALLER', 'wcampos', 'bachiller', '2 - 2018', 'MATEMÁTICAS', 'BACH1107', NULL, NULL, '2018-09-27', '', ''),
-('BACH1107-T4', 'BACH1107 - MATEMÁTICA FUNDAMENTAL II -T1', 13, 'VIERNES', '15:00:00', '16:30:00', 'wcampos', 'SALA CT 450 - EDIFICIO CT - CAMPUS SAN JUAN PABLO II', 0, 0, NULL, 'TALLER', 'wcampos', 'bachiller', '2 - 2018', 'MATEMÁTICAS', 'BACH1107', NULL, NULL, '2018-09-28', '', ''),
-('BACH1107-T5', 'BACH1107 - MATEMÁTICA FUNDAMENTAL II -T1', 1, 'LUNES', '11:30:00', '13:00:00', 'jbustos', 'SALA CT 450 - EDIFICIO CT - CAMPUS SAN JUAN PABLO II', 0, 0, NULL, 'TALLER', 'wcampos', 'bachiller', '2 - 2018', 'MATEMÁTICAS', 'BACH1107', NULL, NULL, '2018-10-01', '', ''),
-('BACH1107-T6', 'BACH1107 - MATEMÁTICA FUNDAMENTAL II -T1_', 10, 'LUNES', '15:00:00', '16:30:00', 'wcampos', 'SALA A -103B EDIFICIO A - CAMPUS SAN FRANCISCO', 0, 0, NULL, 'TALLER', 'wcampos', 'bachiller', '2 - 2018', 'MATEMÁTICAS', 'BACH1107', NULL, NULL, '2018-10-01', '', ''),
-('BACH1107-T7', 'BACH1107 - MATEMÁTICA FUNDAMENTAL II -T1', 3, 'MARTES', '14:00:00', '15:30:00', 'wcampos', 'SALA CT 450 - EDIFICIO CT - CAMPUS SAN JUAN PABLO II', 0, 0, NULL, 'TALLER', 'wcampos', 'bachiller', '2 - 2018', 'MATEMÁTICAS', 'BACH1107', NULL, NULL, '2018-10-02', '', ''),
-('BACH1107-T8', 'BACH1107 - MATEMÁTICA FUNDAMENTAL II -T1_', 20, 'MARTES', '12:00:00', '13:30:00', 'wcampos', 'SALA CT 450 - EDIFICIO CT - CAMPUS SAN JUAN PABLO II', 0, 0, NULL, 'TALLER', 'wcampos', 'bachiller', '2 - 2018', 'MATEMÁTICAS', 'BACH1107', NULL, NULL, '2018-10-02', '', ''),
-('CCB1105-1', 'CCB1105 - BIOFÍSICA', 3, 'MIÉRCOLES', '12:40:00', '14:40:00', 'mramirez', 'SALA TEVU - EDIFICIO A - CAMPUS SAN FRANCISCO', 0, 0, NULL, 'TUTORÍA', 'ajimenez', 'Kinesiología', '2 - 2018', 'FÍSICAS', 'CCB1105', '2018-10-08', '2018-12-14', NULL, '', ''),
-('CCB1105-2', 'CCB1105 - BIOFÍSICA', 3, 'MARTES', '12:40:00', '14:40:00', 'mramirez', 'SALA TEVU - EDIFICIO A - CAMPUS SAN FRANCISCO', 1, 0, NULL, 'TUTORÍA', 'ajimenez', 'Kinesiología', '2 - 2018', 'FÍSICAS', 'CCB1105', '2018-10-08', '2018-12-14', NULL, '', ''),
-('FIS1105-1', 'FIS1105 - FISICA', 1, 'JUEVES', '10:00:00', '12:00:00', 'dcatrillanca', 'CUBÍCULO 5 PORTAL DEL ESTUDIANTE - CAMPUS SAN JUAN PABLO II', 1, 0, NULL, 'TUTORÍA', 'ajimenez', 'Ingenierías Civiles', '2 - 2018', 'FÍSICAS', 'FIS1105', '2018-10-08', '2018-12-14', NULL, '', ''),
-('FIS1106-4', 'FIS1106 - FÍSICA I', 4, 'MARTES', '12:40:00', '14:40:00', 'dcatrillanca', 'SALA CT 450 - EDIFICIO CT - CAMPUS SAN JUAN PABLO II', 1, 0, NULL, 'TUTORÍA', 'ajimenez', 'Ingenierías Civiles', '2 - 2018', 'FÍSICAS', 'FIS1106', '2018-10-08', '2018-12-14', NULL, '', ''),
-('FIS1106-5', 'FIS1106 - FÍSICA I', 6, 'JUEVES', '17:30:00', '19:30:00', 'prodriguez', 'CUBÍCULO 10 PORTAL DEL ESTUDIANTE - CAMPUS SAN JUAN PABLO II', 0, 0, NULL, 'TUTORÍA', 'ajimenez', 'Ingenierías Civiles', '2 - 2018', 'FÍSICAS', 'FIS1106', '2018-10-08', '2018-12-14', NULL, '', ''),
-('FIS1106-T1', 'FIS1106 - FÍSICA I TALLER 1', 3, 'JUEVES', '13:00:00', '15:00:00', 'ajimenez', 'SALA CT 450 - EDIFICIO CT - CAMPUS SAN JUAN PABLO II', 0, 0, NULL, 'TALLER', 'ajimenez', 'Ingenierías Civiles', '2 - 2018', 'FÍSICAS', 'FIS1106', NULL, NULL, '2018-10-25', '', ''),
-('FIS1106-T10', 'FIS1106 - FÍSICA I TALLER 2', 0, 'VIERNES', '13:00:00', '15:00:00', 'ajimenez', 'SALA CT 450 - EDIFICIO CT - CAMPUS SAN JUAN PABLO II', 1, 0, NULL, 'TALLER', 'ajimenez', 'Ingenierías Civiles', '2 - 2018', 'FÍSICAS', 'FIS1106', NULL, NULL, '2018-11-09', '', ''),
-('FIS1106-T2', 'FIS1106 - FÍSICA I TALLER 1', 2, 'JUEVES', '15:00:00', '17:00:00', 'ajimenez', 'SALA CT 450 - EDIFICIO CT - CAMPUS SAN JUAN PABLO II', 0, 0, NULL, 'TALLER', 'ajimenez', 'Ingenierías Civiles', '2 - 2018', 'FÍSICAS', 'FIS1106', NULL, NULL, '2018-10-26', '', ''),
-('FIS1106-T3', 'FIS1106 - FÍSICA I TALLER 1', 10, 'VIERNES', '13:00:00', '15:00:00', 'ajimenez', 'SALA CT 450 - EDIFICIO CT - CAMPUS SAN JUAN PABLO II', 0, 0, NULL, 'TALLER', 'ajimenez', 'Ingenierías Civiles', '2 - 2018', 'FÍSICAS', 'FIS1106', NULL, NULL, '2018-10-26', '', ''),
-('FIS1106-T4', 'FIS1106 - FÍSICA I TALLER 2', 0, 'LUNES', '16:30:00', '18:30:00', 'ajimenez', 'SALA CT 450 - EDIFICIO CT - CAMPUS SAN JUAN PABLO II', 0, 0, NULL, 'TALLER', 'ajimenez', 'Ingenierías Civiles', '2 - 2018', 'FÍSICAS', 'FIS1106', NULL, NULL, '2018-10-29', '', ''),
-('FIS1106-T5', 'FIS1106 - FÍSICA I TALLER 2', 1, 'MARTES', '12:40:00', '14:40:00', 'ajimenez', 'SALA CT 450 - EDIFICIO CT - CAMPUS SAN JUAN PABLO II', 0, 0, NULL, 'TALLER', 'ajimenez', 'Ingenierías Civiles', '2 - 2018', 'FÍSICAS', 'FIS1106', NULL, NULL, '2018-10-30', '', ''),
-('FIS1106-T6', 'FIS1106 - FÍSICA I TALLER 2', 9, 'MIÉRCOLES', '12:40:00', '14:40:00', 'ajimenez', 'SALA CT 450 - EDIFICIO CT - CAMPUS SAN JUAN PABLO II', 0, 0, NULL, 'TALLER', 'ajimenez', 'Ingenierías Civiles', '2 - 2018', 'FÍSICAS', 'FIS1106', NULL, NULL, '2018-10-31', '', ''),
-('FIS1106-T7', 'FIS1106 - FÍSICA I TALLER 1', 0, 'LUNES', '16:30:00', '18:30:00', 'ajimenez', 'SALA CT 450 - EDIFICIO CT - CAMPUS SAN JUAN PABLO II', 1, 0, NULL, 'TALLER', 'ajimenez', 'Ingenierías Civiles', '2 - 2018', 'FÍSICAS', 'FIS1106', NULL, NULL, '2018-11-05', '', ''),
-('FIS1106-T8', 'FIS1106 - FÍSICA I TALLER 1', 3, 'MIÉRCOLES', '12:40:00', '14:40:00', 'ajimenez', 'SALA CT 450 - EDIFICIO CT - CAMPUS SAN JUAN PABLO II', 1, 0, NULL, 'TALLER', 'ajimenez', 'Ingenierías Civiles', '2 - 2018', 'FÍSICAS', 'FIS1106', NULL, NULL, '2018-11-07', '', ''),
-('FIS1106-T9', 'FIS1106 - FÍSICA I TALLER 2', 5, 'JUEVES', '13:00:00', '15:00:00', 'ajimenez', 'SALA CT 450 - EDIFICIO CT - CAMPUS SAN JUAN PABLO II', 1, 0, NULL, 'TALLER', 'ajimenez', 'Ingenierías Civiles', '2 - 2018', 'FÍSICAS', 'FIS1106', NULL, NULL, '2018-11-08', '', ''),
-('FIS1110-1', 'FIS1110 - FÍSICA', 0, 'MIÉRCOLES', '13:30:00', '15:00:00', 'ajimenez', 'SALA A-222 CAMPUS SAN FRANCISCO', 1, 0, NULL, 'TUTORÍA ACADÉMICA', 'ajimenez', 'Técnico Universitario en Redes y Telecomunicaciones', '2 - 2018', 'FÍSICAS', 'TPA1107', '2018-10-08', '2018-12-14', NULL, '', ''),
-('FIS1112-1', 'FIS1112 - MECÁNICA PARA GEOLOGÍA', 3, 'VIERNES', '15:00:00', '17:00:00', 'egonzalez', 'CUBÍCULO 3 PORTAL DEL ESTUDIANTE - CAMPUS SAN JUAN PABLO II', 1, 0, NULL, 'TUTORÍA', 'ajimenez', 'Geología', '2 - 2018', 'FÍSICAS', 'FIS1112', '2018-10-08', '2018-12-14', NULL, '', ''),
-('FIS1112-2', 'FIS1112 - MECÁNICA PARA GEOLOGÍA', 2, 'MARTES', '17:20:00', '19:20:00', 'egonzalez', 'CUBÍCULO 3 PORTAL DEL ESTUDIANTE - CAMPUS SAN JUAN PABLO II', 1, 0, NULL, 'TUTORÍA', 'ajimenez', 'Geología', '2 - 2018', 'FÍSICAS', 'FIS1112', '2018-10-08', '2018-12-14', NULL, '', ''),
-('GEO1188-1', 'GEO1188 - TERMODINÁMICA', 0, 'LUNES', '11:00:00', '13:00:00', 'vmendoza', 'CUBÍCULO 5 PORTAL DEL ESTUDIANTE - CAMPUS SAN JUAN PABLO II', 1, 0, NULL, 'TUTORÍA', 'ajimenez', 'Geología', '2 - 2018', 'FÍSICAS', 'GEO1188', '2018-10-08', '2018-12-14', NULL, '', ''),
-('GEO1188-2', 'GEO1188 - TERMODINÁMICA', 7, 'JUEVES', '17:20:00', '19:20:00', 'vmendoza', 'CUBÍCULO 5 PORTAL DEL ESTUDIANTE - CAMPUS SAN JUAN PABLO II', 0, 0, NULL, 'TUTORÍA', 'ajimenez', 'Geología', '2 - 2018', 'FÍSICAS', 'GEO1188', '2018-10-08', '2018-12-14', NULL, '', ''),
-('GEO1188-4', 'GEO1188 - TERMODINÁMICA', 7, 'VIERNES', '12:40:00', '14:40:00', 'prodriguez', 'CUBÍCULO 9 PORTAL DEL ESTUDIANTE - CAMPUS SAN JUAN PABLO II', 0, 0, NULL, 'TUTORÍA', 'ajimenez', 'Geología', '2 - 2018', 'FÍSICAS', 'GEO1188', '2018-10-08', '2018-12-14', NULL, '', ''),
-('MAT1109-1', 'MAT1109 - INTRODUCCIÓN AL CÁLCULO', 0, 'MARTES', '16:10:00', '18:10:00', 'jalmendras', 'CUBÍCULO 6 PORTAL DEL ESTUDIANTE - CAMPUS SAN JUAN PABLO II', 0, 0, NULL, 'TUTORÍA', 'ajimenez', 'Recursos Naturales', '2 - 2018', 'FÍSICAS', 'MAT1109', '2018-10-08', '2018-12-14', NULL, '', ''),
-('MAT1109-2', 'MAT1109 - INTRODUCCIÓN AL CÁLCULO', 0, 'JUEVES', '14:00:00', '16:00:00', 'ajimenez', '', 0, 0, NULL, 'TUTORÍA', 'ajimenez', 'Recursos Naturales', '2 - 2018', 'MATEMÁTICAS', 'MAT1109', NULL, NULL, NULL, '', ''),
-('MAT1109-T1', 'MAT1109 - INTRODUCCIÓN AL CÁLCULO ', 0, 'LUNES', '15:00:00', '16:30:00', 'ajimenez', 'SALA CT 450 - EDIFICIO CT - CAMPUS SAN JUAN PABLO II', 0, 0, NULL, 'TALLER', 'ajimenez', 'Ingenierías Civiles', '', 'MATEMÁTICAS', 'MAT1109', NULL, NULL, '2018-11-05', '', ''),
-('MAT1109-T2', 'MAT1109 - INTRODUCCIÓN AL CÁLCULO ', 0, 'MARTES', '09:00:00', '10:30:00', 'ajimenez', 'SALA CT 450 - EDIFICIO CT - CAMPUS SAN JUAN PABLO II', 0, 0, NULL, 'TALLER', 'ajimenez', 'Ingenierías Civiles', '', 'MATEMÁTICAS', 'MAT1109', NULL, NULL, '2018-11-06', '', ''),
-('MAT1109-T3', 'MAT1109 - INTRODUCCIÓN AL CÁLCULO ', 0, 'MIÉRCOLES', '15:00:00', '16:30:00', 'ajimenez', 'SALA CT 450 - EDIFICIO CT - CAMPUS SAN JUAN PABLO II', 0, 0, NULL, 'TALLER', 'ajimenez', 'Ingenierías Civiles', '', 'MATEMÁTICAS', 'MAT1109', NULL, NULL, '2018-11-07', '', ''),
-('MAT1115-1', 'MAT1115 - ÁLGEBRA EN CONTEXTO', 5, 'MARTES', '13:00:00', '15:00:00', 'jrubilar', 'CUBÍCULO 9 PORTAL DEL ESTUDIANTE - CAMPUS SAN JUAN PABLO II', 0, 0, NULL, 'TUTORÍA', 'jbustos', 'Ing. Civiles', '2 - 2018', 'MATEMÁTICAS', 'MAT1115', '2018-10-01', '2018-12-14', NULL, '', ''),
-('MAT1115-2', 'MAT1115 - ÁLGEBRA EN CONTEXTO', 7, 'MIÉRCOLES', '10:20:00', '12:20:00', 'jrubilar', 'CUBÍCULO 9 PORTAL DEL ESTUDIANTE - CAMPUS SAN JUAN PABLO II', 0, 0, NULL, 'TUTORÍA', 'jbustos', 'Ing. Civiles', '2 - 2018', 'MATEMÁTICAS', 'MAT1115', '2018-10-01', '2018-12-14', NULL, '', ''),
-('MAT1115-3', 'MAT1115 - ÁLGEBRA EN CONTEXTO', 4, 'JUEVES', '16:00:00', '18:00:00', 'jrubilar', 'CUBÍCULO 9 PORTAL DEL ESTUDIANTE - CAMPUS SAN JUAN PABLO II', 1, 0, NULL, 'TUTORÍA', 'jbustos', 'Ing. Civiles', '2 - 2018', 'MATEMÁTICAS', 'MAT1115', '2018-10-01', '2018-12-14', NULL, '', ''),
-('MAT1115-4', 'MAT1115 - ÁLGEBRA EN CONTEXTO', 5, 'MIÉRCOLES', '10:30:00', '12:30:00', 'vmartinez', 'CUBÍCULO 3 PORTAL DEL ESTUDIANTE - CAMPUS SAN JUAN PABLO II', 0, 0, NULL, 'TUTORÍA', 'jbustos', 'Ing. Civiles', '2 - 2018', '', 'MAT1115', '2018-10-01', '2018-12-14', NULL, '', ''),
-('MAT1117-1', 'MAT1117 - CÁLCULO I', 6, 'MARTES', '15:00:00', '17:00:00', 'nvega', 'CUBÍCULO 8 PORTAL DEL ESTUDIANTE - CAMPUS SAN JUAN PABLO II', 0, 0, NULL, 'TUTORÍA', 'jbustos', 'Ing. Civiles', '2 - 2018', 'MATEMÁTICAS', 'MAT1117', '2018-10-01', '2018-12-14', NULL, '', ''),
-('MAT1117-2', 'MAT1117 - CÁLCULO I', 5, 'JUEVES', '11:30:00', '13:30:00', 'nvega', 'CUBÍCULO 8 PORTAL DEL ESTUDIANTE - CAMPUS SAN JUAN PABLO II', 1, 0, NULL, 'TUTORÍA', 'jbustos', 'Ing. Civiles', '2 - 2018', 'MATEMÁTICAS', 'MAT1117', '2018-10-01', '2018-12-14', NULL, '', ''),
-('MAT1128-1', 'MAT1128 - ÁLGEBRA LINEAL', 2, 'MIÉRCOLES', '16:00:00', '18:00:00', 'vmartinez', 'CUBÍCULO 5 PORTAL DEL ESTUDIANTE - CAMPUS SAN JUAN PABLO II', 0, 0, NULL, 'TUTORÍA', 'jbustos', 'Ing. Civiles', '2 - 2018', 'MATEMÁTICAS', 'MAT1128', '2018-10-01', '2018-12-14', NULL, '', ''),
-('MAT1128-2', 'MAT1128 - ÁLGEBRA LINEAL', 7, 'JUEVES', '16:00:00', '18:00:00', 'vmartinez', 'CUBÍCULO 6 PORTAL DEL ESTUDIANTE - CAMPUS SAN JUAN PABLO II', 0, 0, NULL, 'TUTORÍA', 'jbustos', 'Ing. Civiles', '2 - 2018', 'MATEMÁTICAS', 'MAT1128', '2018-10-01', '2018-12-14', NULL, '', ''),
-('MAT1128-3', 'MAT1128 - ÁLGEBRA LINEAL', 4, 'MARTES', '08:00:00', '10:00:00', 'vmartinez', 'CUBÍCULO 5 PORTAL DEL ESTUDIANTE - CAMPUS SAN JUAN PABLO II', 1, 0, NULL, 'TUTORÍA', 'jbustos', 'Ing. Civiles', '2 - 2018', '', 'MAT1128', '2018-10-01', '2018-12-14', NULL, '', ''),
-('MAT1139-1', 'MAT1139 - MATEMÁTICA APLICADA', 5, 'MARTES', '15:30:00', '17:00:00', 'floyola', 'CUBÍCULO 7 PORTAL DEL ESTUDIANTE - CAMPUS SAN JUAN PABLO II', 0, 0, NULL, 'TUTORÍA', 'jbustos', 'Contador Auditor', '2 - 2018', 'MATEMÁTICAS', 'MAT1139', '2018-09-04', '2018-12-14', NULL, '', ''),
-('MAT1139-2', 'MAT1139 - MATEMÁTICA APLICADA', 7, 'MARTES', '14:00:00', '15:30:00', 'floyola', 'CUBÍCULO 7 PORTAL DEL ESTUDIANTE - CAMPUS SAN JUAN PABLO II', 0, 0, NULL, 'TUTORÍA', 'jbustos', 'Contador Auditor', '2 - 2018', 'MATEMÁTICAS', 'MAT1139', '2018-09-04', '2018-12-14', NULL, '', ''),
-('MAT1149-1', 'MAT1149 - ESTADÍSTICA DESCRIPTIVA', 8, 'MIÉRCOLES', '10:00:00', '12:00:00', 'jalmendras', 'SALA TEVU - EDIFICIO A - CAMPUS SAN FRANCISCO', 1, 0, NULL, 'TUTORÍA', 'ajimenez', 'Técnico Universitario en Acuicultura', '2 - 2018', 'MATEMÁTICAS', 'MAT1149', '2018-10-08', '2018-12-14', NULL, '', ''),
-('MAT1160-1', 'MAT1160 - CÁLCULO II', 6, 'MIÉRCOLES', '11:30:00', '13:30:00', 'nvega', 'CUBÍCULO 4 PORTAL DEL ESTUDIANTE - CAMPUS SAN JUAN PABLO II', 0, 0, NULL, 'TUTORÍA', 'jbustos', 'Arquitectura', '2 - 2018', 'MATEMÁTICAS', 'MAT1160', '2018-09-05', '2018-12-14', NULL, '', ''),
-('MAT1184-1', 'MAT1184 - TÓPICOS MATEMÁTICA PARA PROGRAMACIÓN', 1, 'JUEVES', '13:00:00', '15:00:00', 'aflores', 'CUBÍCULO 3 PORTAL DEL ESTUDIANTE - CAMPUS SAN JUAN PABLO II', 1, 0, NULL, 'TUTORÍA', 'jbustos', 'Ing. Informática', '2 - 2018', 'MATEMÁTICAS', 'MAT1184', '2018-10-15', '2018-12-14', NULL, '', ''),
-('MAT1185-1', 'MAT1185 - Álgebra para Computación', 5, 'LUNES', '15:00:00', '17:00:00', 'aflores', 'CUBÍCULO 5 PORTAL DEL ESTUDIANTE - CAMPUS SAN JUAN PABLO II', 1, 0, NULL, 'TUTORÍA', 'jbustos', 'Ing. Informática', '2 - 2018', 'MATEMÁTICAS', 'MAT1185', '2018-10-15', '2018-12-14', NULL, '', ''),
-('MAT1191-1', 'MAT1191 - ÁLGEBRA', 6, 'VIERNES', '12:30:00', '14:30:00', 'floyola', 'CUBÍCULO 7 PORTAL DEL ESTUDIANTE - CAMPUS SAN JUAN PABLO II', 0, 0, NULL, 'TUTORÍA', 'jbustos', 'Ing.Comercial', '2 - 2018', 'MATEMÁTICAS', 'MAT1191', '2018-10-01', '2018-12-14', NULL, '', ''),
-('MAT1191-2', 'MAT1191 - ÁLGEBRA', 0, 'MARTES', '08:00:00', '10:00:00', 'blevipil', 'CUBÍCULO 3 PORTAL DEL ESTUDIANTE - CAMPUS SAN JUAN PABLO II', 1, 0, NULL, 'TUTORÍA', 'jbustos', 'Ing.Comercial', '2 - 2018', 'MATEMÁTICAS', 'MAT1191', '2018-10-01', '2018-12-14', NULL, '', ''),
-('MAT1192-1', 'MAT1192 - CÁLCULO I', 2, 'VIERNES', '10:30:00', '12:30:00', 'friquelme', 'CUBÍCULO 3 PORTAL DEL ESTUDIANTE - CAMPUS SAN JUAN PABLO II', 1, 0, NULL, 'TUTORÍA', 'jbustos', 'Ing.Comercial', '2 - 2018', 'MATEMÁTICAS', 'MAT1192', '2018-10-01', '2018-12-14', NULL, '', ''),
-('MAT1192-2', 'MAT1192 - CÁLCULO I', 3, 'JUEVES', '10:30:00', '12:30:00', 'blevipil', 'CUBÍCULO 9 PORTAL DEL ESTUDIANTE - CAMPUS SAN JUAN PABLO II', 1, 0, NULL, 'TUTORÍA', 'jbustos', 'Ing.Comercial', '2 - 2018', 'MATEMÁTICAS', 'MAT1192', '2018-10-01', '2018-12-14', NULL, '', ''),
-('MAT1192-3', 'MAT1192 - CÁLCULO I', 1, 'MARTES', '08:00:00', '10:00:00', 'blevipil', 'CUBÍCULO 3 PORTAL DEL ESTUDIANTE - CAMPUS SAN JUAN PABLO II', 1, 0, NULL, 'TUTORÍA', 'jbustos', 'Ing.Comercial', '2 - 2018', '', 'MAT1192', '2018-10-01', '2018-12-14', NULL, '', ''),
-('MAT1192-4', 'MAT1192 - CÁLCULO I', 2, 'VIERNES', '12:30:00', '14:30:00', 'blevipil', 'SALA CT 450 - EDIFICIO CT - CAMPUS SAN JUAN PABLO II', 1, 0, NULL, 'TUTORÍA', 'jbustos', 'Ing.Comercial', '2 - 2018', '', 'MAT1192', '2018-10-01', '2018-12-14', NULL, '', ''),
-('TCOC1108-1', 'TCOC1108 - FÍSICA Y RESISTENCIA DE MATERIALES', 0, 'MIÉRCOLES', '08:30:00', '10:00:00', 'ajimenez', 'SALA A-431 CAMPUS SAN FRANCISCO', 1, 0, NULL, 'TUTORÍA ACADÉMICA', 'ajimenez', 'Técnico Universitario en Construcción y Obras Civiles', '2 - 2018', 'FÍSICAS', 'TCOC1108', '2018-10-08', '2018-12-14', NULL, '', ''),
-('TPA1107-1', 'TPA1107 - FÍSICA APLICADA', 0, 'MIÉRCOLES', '10:30:00', '12:00:00', 'ajimenez', 'SALA TEVU - EDIFICIO A - CAMPUS SAN FRANCISCO', 1, 0, NULL, 'TUTORÍA ACADÉMICA', 'ajimenez', 'Técnico Universitario en Producción Agropecuaria', '2 - 2018', 'FÍSICAS', 'FIS1110', '2018-10-08', '2018-12-14', NULL, '', '');
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `usuario`
---
-
-CREATE TABLE `usuario` (
-  `user` varchar(32) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
-  `pass` char(32) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
-  `name` varchar(128) CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
-  `level` tinyint(4) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
---
--- Volcado de datos para la tabla `usuario`
---
-
-INSERT INTO `usuario` (`user`, `pass`, `name`, `level`) VALUES
-('dperalta', '827ccb0eea8a706c4c34a16891f84e7b', 'David Peralta', 1),
-('ftorres', '827ccb0eea8a706c4c34a16891f84e7b', 'Fernanda Torres', 1),
-('friquelme', '827ccb0eea8a706c4c34a16891f84e7b', 'Fernando Riquelme', 1),
-('floyola', '827ccb0eea8a706c4c34a16891f84e7b', 'Felipe Loyola', 1),
-('nvega', '827ccb0eea8a706c4c34a16891f84e7b', 'Nicolas Vega', 1),
-('blevipil', '827ccb0eea8a706c4c34a16891f84e7b', 'Belén Levipil', 1),
-('jrubilar', '827ccb0eea8a706c4c34a16891f84e7b', 'Javier Rubilar', 1),
-('vmartinez', '827ccb0eea8a706c4c34a16891f84e7b', 'valeska Martinez', 1),
-('vmendoza', '827ccb0eea8a706c4c34a16891f84e7b', 'Valentina Mendoza', 1),
-('egonzalez', '827ccb0eea8a706c4c34a16891f84e7b', 'Esteban González', 1),
-('dcatrillanca', '827ccb0eea8a706c4c34a16891f84e7b', 'Daniela Catrillanca', 1),
-('prodriguez', '827ccb0eea8a706c4c34a16891f84e7b', 'Pedro Rodríguez', 1),
-('mramirez', '827ccb0eea8a706c4c34a16891f84e7b', 'Monserrat Ramírez', 1),
-('jalmendras', '827ccb0eea8a706c4c34a16891f84e7b', 'Josefa Almendras', 1),
-('ajimenez', '827ccb0eea8a706c4c34a16891f84e7b', 'Álvaro Jiménez', 3),
-('aflores', '827ccb0eea8a706c4c34a16891f84e7b', 'Andrés Flores', 5),
-('wcampos', '827ccb0eea8a706c4c34a16891f84e7b', 'Waleska Campos', 3),
-('jbustos', '827ccb0eea8a706c4c34a16891f84e7b', 'Javier Bustos', 3);
+INSERT INTO `type` (`id`, `name`) VALUES
+(1, 'Tutoría Par');
 
 --
 -- Índices para tablas volcadas
 --
 
 --
--- Indices de la tabla `asistencia`
+-- Indices de la tabla `access`
 --
-ALTER TABLE `asistencia`
+ALTER TABLE `access`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indices de la tabla `estudiante`
+-- Indices de la tabla `area`
 --
-ALTER TABLE `estudiante`
+ALTER TABLE `area`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `attendance`
+--
+ALTER TABLE `attendance`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `course`
+--
+ALTER TABLE `course`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `data`
+--
+ALTER TABLE `data`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `enrolled`
+--
+ALTER TABLE `enrolled`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `extra`
+--
+ALTER TABLE `extra`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `login`
+--
+ALTER TABLE `login`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `professional`
+--
+ALTER TABLE `professional`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `service`
+--
+ALTER TABLE `service`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `session`
+--
+ALTER TABLE `session`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `student`
+--
+ALTER TABLE `student`
   ADD PRIMARY KEY (`rut`);
 
 --
--- Indices de la tabla `inscrito`
+-- Indices de la tabla `tutor`
 --
-ALTER TABLE `inscrito`
+ALTER TABLE `tutor`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indices de la tabla `sesion`
+-- Indices de la tabla `type`
 --
-ALTER TABLE `sesion`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indices de la tabla `tutoria`
---
-ALTER TABLE `tutoria`
+ALTER TABLE `type`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -11153,20 +11133,62 @@ ALTER TABLE `tutoria`
 --
 
 --
--- AUTO_INCREMENT de la tabla `asistencia`
+-- AUTO_INCREMENT de la tabla `area`
 --
-ALTER TABLE `asistencia`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
+ALTER TABLE `area`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
--- AUTO_INCREMENT de la tabla `inscrito`
+-- AUTO_INCREMENT de la tabla `attendance`
 --
-ALTER TABLE `inscrito`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+ALTER TABLE `attendance`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
--- AUTO_INCREMENT de la tabla `sesion`
+-- AUTO_INCREMENT de la tabla `course`
 --
-ALTER TABLE `sesion`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;COMMIT;
+ALTER TABLE `course`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT de la tabla `enrolled`
+--
+ALTER TABLE `enrolled`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT de la tabla `extra`
+--
+ALTER TABLE `extra`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT de la tabla `login`
+--
+ALTER TABLE `login`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT de la tabla `professional`
+--
+ALTER TABLE `professional`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT de la tabla `service`
+--
+ALTER TABLE `service`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+--
+-- AUTO_INCREMENT de la tabla `session`
+--
+ALTER TABLE `session`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT de la tabla `tutor`
+--
+ALTER TABLE `tutor`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT de la tabla `type`
+--
+ALTER TABLE `type`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
