@@ -262,6 +262,27 @@ function extra_remove_active_from_course($s,$c)
 	}
 }
 
+function change_password($l,$o,$n)
+{
+	if (isset($_SESSION["login"])) {
+		$login = Login::fromJSON($_SESSION["login"]);
+		if ($login->id == $l) {
+			if ($login::select_by_email_password($login->email,$o)) {
+				$bool = Login::update($login->id,$login->email,$n);
+				die(new Response("bool",$bool));
+			} else {
+				die(new Response("Error",Error::getInstance(3)));
+			}
+		} else {
+			die(new Response("Error",Error::getInstance(4)));
+		}
+		
+	} else {
+		die(new Response("Error",Error::getInstance(2)));
+	}
+	
+}
+
 function default_action()
 {
 	die(new Response("Error",Error::getInstance(5)));

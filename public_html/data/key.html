@@ -2,19 +2,19 @@
 	<div class="panel panel-default">
 		<div class="panel-heading">Cambiar Clave</div>
 		<div class="panel-body">
-			<form id="data-form">
+			<form id="key-form">
 				<fieldset>
 					<div class="form-group">
-						<label for="name" class="control-label">Nombre</label>
-						<input type="text" class="form-control" id="name" placeholder="Nombre">
+						<label for="old" class="control-label">Clave antigua</label>
+						<input type="password" class="form-control" id="old" placeholder="Clave antigua">
 					</div>
 					<div class="form-group">
-						<label for="lastname" class="control-label">Apellidos</label>
-						<input type="text" class="form-control" id="lastname" placeholder="Apellidos">
+						<label for="new1" class="control-label">Nueva clave</label>
+						<input type="password" class="form-control" id="new1" placeholder="Nueva clave">
 					</div>
 					<div class="form-group">
-						<label for="phone" class="control-label">Teléfono</label>
-						<input type="text" class="form-control" id="phone" placeholder="Teléfono">
+						<label for="new2" class="control-label">Repetir Clave</label>
+						<input type="password" class="form-control" id="new2" placeholder="Repetir Clave">
 					</div>
 					<div id="message"></div>
 					<div class="form-group">
@@ -29,28 +29,28 @@
 
 <script type="text/javascript">
 	if (main.user.id != undefined) {
-		app.data_select_by_id(main.user.id,
-			function (id,data) {
-				$("#name").val(data.name);
-				$("#lastname").val(data.lastname);
-				$("#phone").val(data.phone);
-			}
-		);
-
-		$("#data-form").on("submit", function (event) {
+		$("#key-form").on("submit", function (event) {
 			event.preventDefault();
-			var name = $("#name").val();
-			var lastname = $("#lastname").val();
-			var phone = $("#phone").val();
-			app.data_update(main.user.id,name,lastname,phone,
-				function (id,name,lastname,phone,data) {
-					$("#profile-name").html(name + " " + lastname);
-					main.createAlert($("#message"),"success","Cambios guardados correctamente.");
-				},
-				function (id,name,lastname,phone,data) {
-					main.createAlert($("#message"),"danger","Ha ocurrido un problema. "+data.errstr);
+			var old = $("#old").val();
+			var new1 = $("#new1").val();
+			var new2 = $("#new2").val();
+
+			if (old != new1) {
+				if (new1 == new2) {
+					app.change_password(main.user.id,old,new1,
+						function (id,old,new1,data) {
+							main.createAlert($("#message"),"success","Cambios guardados correctamente.");
+						},
+						function (id,old,new1,data) {
+							main.createAlert($("#message"),"danger","Ha ocurrido un problema. "+data.errstr);
+						}
+					);
+				} else {
+					main.createAlert($("#message"),"warning","La nueva clave se debe de repetir en el campo siguiente.");
 				}
-			);
+			} else {
+				main.createAlert($("#message"),"warning","La nueva clave no debe de ser igual a la antigua.");
+			}
 		});
 	} else {
 		$("li.active").removeClass("active")

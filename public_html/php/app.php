@@ -71,6 +71,9 @@ switch ($_POST["type"]) {
 	case 'extra_remove_active_from_course':
 		extra_remove_active_from_course($_POST["student"],$_POST["course"]);
 		break;
+	case 'change_password':
+		change_password($_POST["login"],$_POST["old"],$_POST["new"]);
+		break;
 	default:
 		default_action();
 		break;
